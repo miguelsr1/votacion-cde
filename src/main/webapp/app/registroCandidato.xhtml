@@ -1,0 +1,69 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/template/template.xhtml">
+
+    <ui:define name="title">Gestión Educativa - Votación CDE</ui:define>
+
+    <ui:param name="viewname" value="FORM LAYOUT" />
+
+    <ui:define name="content">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <div class="card">
+                    <h5>Registro de candidatos</h5>
+
+                    <div class="ui-fluid p-formgrid p-grid">
+
+                        <div class="p-col-12  p-xl-2" style="text-align: center;">
+                            <p:graphicImage library="demo" 
+                                            value="/DynamicImageServlet?file=#{bundle['path_images']}0101-080464-101-6.png"/>
+                            <br/>
+                            <p:commandButton value="Tomar o subir" style="width: 150px !important"/>
+                            <p:spacer height="10"/>
+                        </div>
+                        <div class="p-col-12 p-xl-10">
+                            <div class="p-field p-grid">
+                                <p:outputLabel for="txtNombre" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre</p:outputLabel>
+                                <div class="p-col-12 p-md-4">
+                                    <p:inputText id="txtNombre" />
+                                </div>
+                                <p:outputLabel for="txtApellido" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Apellido</p:outputLabel>
+                                <div class="p-col-12 p-md-4">
+                                    <p:inputText id="txtApellido" />
+                                </div>
+                            </div>
+                            <div class="p-field p-grid">
+                                <p:outputLabel for="txtDui" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">DUI</p:outputLabel>
+                                <div class="p-col-12 p-md-4">
+                                    <p:inputMask id="txtDui" mask="99999999-9"/>
+                                </div>
+                                <p:outputLabel for="txtTelefono" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Teléfono</p:outputLabel>
+                                <div class="p-col-12 p-md-4">
+                                    <p:inputText id="txtTelefono" />
+                                </div>
+                            </div>
+                            <div class="p-field p-grid">
+                                <p:outputLabel for="cboCargo" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Cargo al cual se postula</p:outputLabel>
+                                <div class="p-col-12 p-md-10">
+                                    <p:selectOneMenu id="cboCargo">
+                                        <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="p-field p-grid" style="text-align: center;">
+                                <div class="p-col-12">
+                                    <p:commandButton value="Guardar" icon="pi pi-check" style=" width: 150px" />
+                                    <p:spacer width="15"/>
+                                    <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 150px"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

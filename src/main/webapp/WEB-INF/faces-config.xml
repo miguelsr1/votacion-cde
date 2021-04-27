@@ -5,6 +5,13 @@
     
     <name>primefaces_paradise</name>
     
+    <application>
+        <resource-bundle>
+            <base-name>/Bundle</base-name>
+            <var>bundle</var>
+        </resource-bundle>
+    </application>
+    
     <component>
         <component-type>org.primefaces.component.ParadiseMenu</component-type>
         <component-class>org.primefaces.paradise.component.ParadiseMenu</component-class>
