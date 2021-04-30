@@ -6,11 +6,15 @@
 package sv.gob.mined.app.facade;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.ParameterExpression;
+import javax.persistence.criteria.Root;
 import sv.gob.mined.app.model.Cargo;
 import sv.gob.mined.app.model.ParametroVotacion;
 
@@ -40,5 +44,21 @@ public class ParametrosFacade {
 
             em.persist(pv);
         }
+    }
+
+    public List<ParametroVotacion> findParametrosByCodigoEntAndAnho(String codigoEntidad, Integer idAnho) {
+        CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<ParametroVotacion> q = cb.createQuery(ParametroVotacion.class);
+        Root<ParametroVotacion> c = q.from(ParametroVotacion.class);
+        ParameterExpression<String> pCodigoEntidad = cb.parameter(String.class);
+        ParameterExpression<Integer> pAnho = cb.parameter(Integer.class);
+
+        q.select(c).where(cb.equal(c.get("codigoEntidad"), c));
+
+        TypedQuery<ParametroVotacion> query = em.createQuery(q);
+        query.setParameter(pCodigoEntidad, codigoEntidad);
+        query.setParameter(pAnho, idAnho);
+        
+        return query.getResultList();
     }
 }
