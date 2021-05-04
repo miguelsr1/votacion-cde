@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.ParametrosFacade;
 import sv.gob.mined.app.model.Cargo;
+import sv.gob.mined.app.model.ParametroVotacion;
 
 /**
  *
@@ -34,6 +36,12 @@ public class ParametroVotacionView implements Serializable {
     private CatalogoFacade catalogoFacade;
     @Inject
     private ParametrosFacade parametrosFacade;
+
+    @PostConstruct
+    public void init() {
+        List<ParametroVotacion> lstParam = parametrosFacade.findParametrosByCodigoEntAndAnho("10001", 1);
+        
+    }
 
     public List<Cargo> getCargos() {
         return catalogoFacade.findAllCargos();
@@ -78,8 +86,8 @@ public class ParametroVotacionView implements Serializable {
     public void setCargoSuplentePadre(Integer[] cargoSuplentePadre) {
         this.cargoSuplentePadre = cargoSuplentePadre;
     }
-    
-    public void guardar(){
-        parametrosFacade.guardarParametroVotacionCe("10001", BigInteger.ONE, cargoPropietarioDocente, cargoSuplenteDocente, cargoPropietarioPadre, cargoSuplentePadre);        
+
+    public void guardar() {
+        parametrosFacade.guardarParametroVotacionCe("10001", BigInteger.ONE, cargoPropietarioDocente, cargoSuplenteDocente, cargoPropietarioPadre, cargoSuplentePadre);
     }
 }
