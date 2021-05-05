@@ -27,6 +27,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "PROCESO_VOTACION")
 public class ProcesoVotacion implements Serializable {
 
+    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
+    private List<ParametroVotacion> parametroVotacionList;
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -104,6 +107,14 @@ public class ProcesoVotacion implements Serializable {
     @Override
     public String toString() {
         return "sv.gob.mined.app.model.ProcesoVotacion[ idProcesoVotacion=" + idProcesoVotacion + " ]";
+    }
+
+    public List<ParametroVotacion> getParametroVotacionList() {
+        return parametroVotacionList;
+    }
+
+    public void setParametroVotacionList(List<ParametroVotacion> parametroVotacionList) {
+        this.parametroVotacionList = parametroVotacionList;
     }
 
 }

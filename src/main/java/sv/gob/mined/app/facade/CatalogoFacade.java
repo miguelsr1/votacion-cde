@@ -12,10 +12,12 @@ import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import sv.gob.mined.app.model.Candidato;
 import sv.gob.mined.app.model.Cargo;
 
 /**
@@ -55,5 +57,14 @@ public class CatalogoFacade {
             items.add(new SelectItem(cargo.getIdCargo(), cargo.getDescripcionCargo()));
         });
         return items;
+    }
+
+    public List<Candidato> findCandidatosByAnhoAndCodigoEntidadAndCargo(Integer idAnho, String codigoEntidad, Integer idCargo) {
+        Query q = em.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad and c.idCargo=:pIdCargo", Candidato.class);
+        q.setParameter("pIdAnho", idAnho);
+        q.setParameter("pCodigoEntidad", codigoEntidad);
+        q.setParameter("pIdCargo", idCargo);
+
+        return q.getResultList();
     }
 }

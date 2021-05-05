@@ -6,7 +6,7 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
-import java.math.BigInteger;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -27,6 +27,8 @@ import sv.gob.mined.app.model.ParametroVotacion;
 @ViewScoped
 public class ParametroVotacionView implements Serializable {
 
+    private Boolean deshabilitar = false;
+
     private Integer[] cargoPropietarioDocente;
     private Integer[] cargoPropietarioPadre;
     private Integer[] cargoSuplenteDocente;
@@ -40,7 +42,48 @@ public class ParametroVotacionView implements Serializable {
     @PostConstruct
     public void init() {
         List<ParametroVotacion> lstParam = parametrosFacade.findParametrosByCodigoEntAndAnho("10001", 1);
-        
+        String cpd = "";
+        String csd = "";
+        String cpp = "";
+        String csp = "";
+
+        for (ParametroVotacion param : lstParam) {
+            deshabilitar = true;
+            switch (param.getIdCargo().getIdCargo()) {
+                case 1:
+                case 2:
+                    if (param.getTipoNombramiento().equals("P")) {
+                        cpd += (cpd.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                    } else {
+                        csd += (csd.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                    }
+                    break;
+                case 3:
+                case 4:
+                case 5:
+                case 6:
+                case 7:
+                    if (param.getTipoNombramiento().equals("P")) {
+                        cpp += (cpp.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                    } else {
+                        csp += (csp.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                    }
+                    break;
+            }
+        }
+
+        cargoPropietarioDocente = cargarParametros(cpd.split(","));
+        cargoSuplenteDocente = cargarParametros(csd.split(","));
+        cargoPropietarioPadre = cargarParametros(cpp.split(","));
+        cargoSuplentePadre = cargarParametros(csp.split(","));
+    }
+
+    private Integer[] cargarParametros(String[] valores) {
+        Integer[] cargo = new Integer[valores.length];
+        for (int i = 0; i < valores.length; i++) {
+            cargo[i] = Integer.parseInt(valores[i]);
+        }
+        return cargo;
     }
 
     public List<Cargo> getCargos() {
@@ -88,6 +131,10 @@ public class ParametroVotacionView implements Serializable {
     }
 
     public void guardar() {
-        parametrosFacade.guardarParametroVotacionCe("10001", BigInteger.ONE, cargoPropietarioDocente, cargoSuplenteDocente, cargoPropietarioPadre, cargoSuplentePadre);
+        parametrosFacade.guardarParametroVotacionCe("10001", BigDecimal.ONE, cargoPropietarioDocente, cargoSuplenteDocente, cargoPropietarioPadre, cargoSuplentePadre);
+    }
+
+    public Boolean getDeshabilitar() {
+        return deshabilitar;
     }
 }

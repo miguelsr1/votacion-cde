@@ -7,7 +7,6 @@ package sv.gob.mined.app.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -28,6 +27,10 @@ import javax.persistence.Table;
 @Table(name = "PARAMETRO_VOTACION")
 public class ParametroVotacion implements Serializable {
 
+    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProcesoVotacion idProcesoVotacion;
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -36,8 +39,6 @@ public class ParametroVotacion implements Serializable {
     @GeneratedValue(generator = "SEQ_PARAMETRO_VO", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "SEQ_PARAMETRO_VO", sequenceName = "SEQ_PARAMETRO_VO", allocationSize = 1, initialValue = 1)
     private BigDecimal idParametro;
-    @Column(name = "ID_PROCESO_VOTACION")
-    private BigInteger idProcesoVotacion;
     @Column(name = "TIPO_NOMBRAMIENTO")
     private String tipoNombramiento;
     @JoinColumn(name = "ID_CARGO", referencedColumnName = "ID_CARGO")
@@ -57,14 +58,6 @@ public class ParametroVotacion implements Serializable {
 
     public void setIdParametro(BigDecimal idParametro) {
         this.idParametro = idParametro;
-    }
-
-    public BigInteger getIdProcesoVotacion() {
-        return idProcesoVotacion;
-    }
-
-    public void setIdProcesoVotacion(BigInteger idProcesoVotacion) {
-        this.idProcesoVotacion = idProcesoVotacion;
     }
 
     public String getTipoNombramiento() {
@@ -106,6 +99,14 @@ public class ParametroVotacion implements Serializable {
     @Override
     public String toString() {
         return "sv.gob.mined.app.model.ParametroVotacion[ idParametro=" + idParametro + " ]";
+    }
+
+    public ProcesoVotacion getIdProcesoVotacion() {
+        return idProcesoVotacion;
+    }
+
+    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
+        this.idProcesoVotacion = idProcesoVotacion;
     }
 
 }

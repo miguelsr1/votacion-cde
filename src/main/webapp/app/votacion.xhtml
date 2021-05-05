@@ -14,23 +14,17 @@
             <div class="p-col-12">
                 <div class="card">
                     <h5>Listado de candidatos a miembros del CDE</h5>
-
+                    <br/>
                     <div class="p-grid dashboard">
-                        <div class="p-col-12 p-md-3">
-                            <h:panelGrid columns="1">
-                                <p:commandButton value="op"/>
-                                <p:commandButton value="op"/>
-                            </h:panelGrid>
-                        </div>
-                        <div class="p-col-12 p-md-3">
-                            <p:outputLabel value="prueba 2"/>
-                        </div>
-                        <div class="p-col-12 p-md-3">
-                            <p:outputLabel value="prueba 1"/>
-                        </div>
-                        <div class="p-col-12 p-md-3">
-                            <p:outputLabel value="prueba 2"/>
-                        </div>
+                        <ui:repeat var="candidato" varStatus="status" value="#{votacionView.lstCandidatos}">
+                            <div class="p-col-12 p-md-3">
+                                <h:panelGrid columns="1" style="width: 80%; margin: auto; text-align: center; border: 1px solid #D3D5D6; padding: 20px 0px 20px 0px;">
+                                    <p:graphicImage value="/DynamicImageServlet?file=#{bundle['path_images']}#{candidato.pathImagen}" width="100px"/> 
+                                    <br/>
+                                    <p:commandButton value="Votar" iconPos="right" icon="pi pi-thumbs-up" />
+                                </h:panelGrid>
+                            </div>
+                        </ui:repeat>
                     </div>
                 </div>
             </div>
