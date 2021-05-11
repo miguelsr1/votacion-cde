@@ -6,6 +6,7 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -22,6 +23,8 @@ import sv.gob.mined.app.model.Candidato;
 @ManagedBean
 @ViewScoped
 public class VotacionView implements Serializable {
+
+    private BigDecimal idCandidato;
 
     @Inject
     private CatalogoFacade catalogoFacade;
@@ -41,4 +44,16 @@ public class VotacionView implements Serializable {
         this.lstCandidatos = lstCandidatos;
     }
 
+    public BigDecimal getIdCandidato() {
+        return idCandidato;
+    }
+
+    public void setIdCandidato(BigDecimal idCandidato) {
+        this.idCandidato = idCandidato;
+    }
+
+    
+    public void registrarVoto(){
+        
+    }
 }
