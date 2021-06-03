@@ -12,8 +12,9 @@
             <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
             <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
             <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link href="#{request.contextPath}/resources/images/favicon.png" rel="shortcut icon"/>
         </f:facet>
-        <title><ui:insert name="title">PrimeFaces Paradise</ui:insert></title>
+        <title><ui:insert name="title">Elección de CDE</ui:insert></title>
         <h:outputScript name="js/nanoscroller.js" library="paradise-layout" />
         <h:outputScript name="js/layout.js" library="paradise-layout" />
         <ui:insert name="head"/>
@@ -58,12 +59,11 @@
         </style>
     </h:head>
 
-    <h:body styleClass="#{guestPreferences.inputStyleClass}">
-        <div class="layout-wrapper #{guestPreferences.menuMode} ">
+    <h:body styleClass="#{guestPreferences.inputStyleClass}" style="max-width: 1200px; margin: 0 auto; ">
+        <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
             <ui:include src="./topbar.xhtml" />
 
             <div class="layout-main">
-                <ui:include src="./menu.xhtml" />
 
                 <div class="layout-content">
                     <h:form id="frmPrincipal" prependId="false" >
@@ -85,6 +85,7 @@
             </f:facet>
         </p:ajaxStatus>
         <div class="layout-mask modal-in"></div>
+        <h:outputStylesheet name="main.css" library="css"/>
         <h:outputStylesheet name="css/primeicons.css" library="paradise-layout" />
         <h:outputStylesheet name="css/primeflex.min.css" library="paradise-layout" />
         <h:outputStylesheet name="css/demo.css" library="demo" />

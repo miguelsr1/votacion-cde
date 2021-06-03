@@ -1,0 +1,38 @@
+#ajax_gif{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right:0;
+    margin: auto;
+    width:60px;
+    height: 60px;
+    z-index:1000; text-align: center; background: white;
+}
+
+#ajax_gif2{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left:0;
+    right:0;
+    margin: auto;
+    width:500px;
+    height: 150px;
+    z-index:1000; text-align: center; background: white;
+}
+
+#divCaptcha > div {
+    width: 100% !important;
+}
+
+.header-top {
+    width: 960px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
+    border-top: 0;
+    background-color: white !important;
+}

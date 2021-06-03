@@ -24,6 +24,7 @@ import sv.gob.mined.app.model.Candidato;
 @ViewScoped
 public class VotacionView implements Serializable {
 
+    private Boolean showCargo = true;
     private BigDecimal idCandidato;
 
     @Inject
@@ -34,6 +35,14 @@ public class VotacionView implements Serializable {
     @PostConstruct
     public void init() {
         lstCandidatos = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(1, "10001", 1);
+    }
+
+    public Boolean getShowCargo() {
+        return showCargo;
+    }
+
+    public void setShowCargo(Boolean showCargo) {
+        this.showCargo = showCargo;
     }
 
     public List<Candidato> getLstCandidatos() {
@@ -52,8 +61,7 @@ public class VotacionView implements Serializable {
         this.idCandidato = idCandidato;
     }
 
-    
-    public void registrarVoto(){
-        
+    public void registrarVoto() {
+
     }
 }

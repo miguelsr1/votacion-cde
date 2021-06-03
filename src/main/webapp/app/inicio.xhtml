@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link href="#{request.contextPath}/resources/images/favicon.png" rel="shortcut icon"/>
+        </f:facet>
+        <title>Elección de CDE</title>
+        <h:outputScript name="js/layout.js" library="paradise-layout"/>
+        <h:outputScript name="js/prism.js" library="paradise-layout"/>
+
+        <style>
+            .layout-wrapper.layout-menu-static .layout-content {
+                margin-left: 0px;
+            }
+
+            .card {
+                background: var(--surface-e);
+                padding: 2rem;
+                box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
+                border-radius: 4px;
+                margin-bottom: 2rem;
+            }
+            .pageColumnMid{
+                float : left;
+                vertical-align: middle !important;
+                clear : none;
+                height: 82px;
+                padding-left: 60px;
+            }
+            .p-ai-center {
+                align-items: center;
+            }
+
+            .vertical-container {
+                margin: 0;
+                border-radius: 4px;
+            }
+        </style>
+    </h:head>
+
+    <h:body styleClass="#{guestPreferences.inputStyleClass}" style="max-width: 1200px; margin: 0 auto; ">
+        <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
+
+            <ui:include src="../resources/template/topbar.xhtml"/>
+
+            <div class="layout-main">
+                <div class="layout-content ">
+                    <div class="p-grid  p-ai-center vertical-container">
+                        <div class="p-col">
+                            <p:commandLink action="parametroVotacion.mined">
+                                <div class="card overview-box" style="text-align: center !important">
+                                    <h5>Parametros de cargos</h5>
+                                    <br/>
+                                    <p:graphicImage name="config.png" library="images"  width="80"/>
+                                </div>
+                            </p:commandLink>
+                        </div>
+                        <div class="p-col">
+                            <p:commandLink action="registroCandidato.mined">
+                                <div class="card overview-box"  style="text-align: center !important">
+                                    <h5>Agregar candidato</h5>
+                                    <br/>
+                                    <p:graphicImage name="add-user.png" library="images"  width="80"/>
+                                </div>
+                            </p:commandLink>
+                        </div>
+                        <div class="p-col">
+                            <p:commandLink action="votacion.mined">
+                                <div class="card overview-box"  style="text-align: center !important">
+                                    <h5>Emitir voto</h5>
+                                    <br/>
+                                    <p:graphicImage name="vote.png" library="images" width="80"/>
+                                </div>
+                            </p:commandLink>
+                        </div>
+                        <div class="p-col">
+                            <p:commandLink action="votacion.mined">
+                                <div class="card overview-box" style="text-align: center !important">
+                                    <h5>Resultados</h5>
+                                    <br/>
+                                    <p:graphicImage name="presentation.png" library="images" width="80"/>
+                                </div>
+                            </p:commandLink>
+                        </div>
+                    </div>
+                </div>
+                
+                <ui:include src="../resources/template/footer.xhtml" />
+            </div>
+        </div>
+        <h:outputStylesheet name="css/primeicons.css" library="paradise-layout"/>
+        <h:outputStylesheet name="css/primeflex.min.css" library="paradise-layout"/>
+        <h:outputStylesheet name="css/demo.css" library="demo"/>
+        <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="paradise-layout"/>
+    </h:body>
+
+</html>

@@ -4,13 +4,13 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui">
-    
+
     <div class="layout-footer">
-        <p:graphicImage name="images/logo-gray.png" library="paradise-layout" />
+        <p:graphicImage name="escudo_rpt.png" library="images" style="width: 24px !important;"/>
         <div class="layout-footer-right">
-            <a href="https://github.com/primefaces"><i class="pi pi-github"></i></a>
-            <a href="https://www.facebook.com/groups/primefaces"><i class="pi pi-facebook"></i></a>
-            <a href="http://twitter.com/primefaces"><i class="pi pi-twitter"></i></a>
+            <p:outputLabel value="version #{versionView.version}" />
+            <p:spacer width="10"/>
+            <p:outputLabel value="Ambiente #{versionView.ambiente}" />
         </div>
     </div>
 </ui:composition>
