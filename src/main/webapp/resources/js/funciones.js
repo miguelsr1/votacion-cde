@@ -100,7 +100,7 @@ function queryEntidad(value) {
 function queryEmpresa(value) {
     if (value.length == 5) {
         findEmpresa();
-    }else if(value.length == 0){
+    } else if (value.length == 0) {
         findEmpresaReiniciar();
     }
 }
@@ -108,7 +108,7 @@ function queryEmpresa(value) {
 function queryEmpresaOtros(value) {
     if (value.length == 5) {
         findEmpresaOtros();
-    }else if(value.length == 0){
+    } else if (value.length == 0) {
         findEmpresaReiniciar();
     }
 }

@@ -1214,7 +1214,7 @@ p:last-child {
   }
 }
 .login-body {
-  background: url("#{resource['paradise-layout:images/login/bg-login.png']}");
+  background-color: #1d1d4c;
   background-size: cover;
   height: auto;
   min-height: 100vh;

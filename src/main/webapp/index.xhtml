@@ -75,7 +75,7 @@
                             <div class="p-grid">
                                 <div class="p-col-6">
                                     <p:commandButton id="btnValidar" widgetVar="btnValidar" value="Validar" style="width: 110px;" 
-                                                     action="#{loginView.validarCrendecialesDelCorreo()}" 
+                                                     action="app/inicio?faces-redirect=true" process="@this"
                                                      onclick="PF('btnValidar').disable();" 
                                                      oncomplete="PF('btnValidar').enable();" update="outPrincipal"/> 
                                 </div>

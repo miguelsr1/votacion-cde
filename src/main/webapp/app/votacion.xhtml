@@ -8,23 +8,12 @@
 
     <ui:define name="head">
         <script type="text/javascript">
-            var tog = document.getElementById("link1");
-            var thing = document.getElementById("div1");
-            var thing2 = document.getElementById("div2");
-
-            tog.addEventListener("click", function () {
-                console.log('ok');
-                thing.classList.toggle("m-fadeOut");
-                thing2.classList.toggle("m-fadeIn");
-
-            });
         </script>
         <style>
             .candidato {
                 box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
                 margin: 2rem 0;
             }    
-
             .card {
                 background: var(--surface-e);
                 padding: 2rem;
@@ -35,22 +24,9 @@
             .p-ai-center {
                 align-items: center;
             }
-
             .vertical-container {
                 margin: 0;
                 border-radius: 4px;
-            }
-
-            .m-fadeOut {
-                visibility: hidden;
-                opacity: 0;
-                transition: visibility 0s linear 300ms, opacity 300ms;
-            }
-
-            .m-fadeIn {
-                visibility: visible;
-                opacity: 1;
-                transition: visibility 0s linear 0s, opacity 300ms;
             }
         </style>
     </ui:define>
@@ -60,10 +36,10 @@
     <ui:param name="viewname" value="FORM LAYOUT" />
 
     <ui:define name="content">
-        <div jsf:id="dvPrincipal">
-            <div jsf:id="div1" class="p-grid p-ai-center vertical-container" style="display:#{(votacionView.showCargo)?'flex':'none'}">
+        <div jsf:id="dvPrincipal" class="wrapper">
+            <div jsf:id="div1" class="p-grid p-ai-center vertical-container" >
                 <div class="p-col">
-                    <p:commandLink id="link1" action="#" update="dvPrincipal">
+                    <p:commandLink action="detalleVotacion">
                         <div class="card overview-box" style="text-align: center !important">
                             <h5>Secretario</h5>
                             <br/>
@@ -73,7 +49,7 @@
                     </p:commandLink>
                 </div>
                 <div class="p-col">
-                    <p:commandLink action="#" update="dvPrincipal">
+                    <p:commandLink action="detalleVotacion">
                         <div class="card overview-box"  style="text-align: center !important">
                             <h5>Consejal</h5>
                             <br/>
@@ -83,7 +59,7 @@
                     </p:commandLink>
                 </div>
                 <div class="p-col">
-                    <p:commandLink action="#" update="dvPrincipal">
+                    <p:commandLink action="detalleVotacion">
                         <div class="card overview-box"  style="text-align: center !important">
                             <h5>Tesorero</h5>
                             <br/>
@@ -93,7 +69,7 @@
                     </p:commandLink>
                 </div>
                 <div class="p-col">
-                    <p:commandLink action="#" update="dvPrincipal">
+                    <p:commandLink action="detalleVotacion">
                         <div class="card overview-box" style="text-align: center !important">
                             <h5>Consejal 1</h5>
                             <br/>
@@ -102,36 +78,6 @@
                         <f:setPropertyActionListener target="#{votacionView.showCargo}" value="false" />
                     </p:commandLink>
                 </div>
-            </div>
-
-
-            <!--div class="p-grid" style="display: {votacionView.showCargo?'none':'flex'}}"-->
-            <div jsf:id="div2" class="p-grid" style="display:#{(votacionView.showCargo)?'none':'flex'}">
-                <ui:repeat var="candidato" varStatus="status" value="#{votacionView.lstCandidatos}">
-                    <div class="p-col-12 p-md-3">
-                        <div class="card overview-box blue">
-                            <h:panelGrid columns="2" style="width: 80%; margin: auto; text-align: center;">
-                                <p:graphicImage value="/DynamicImageServlet?file=#{bundle['path_images']}#{candidato.pathImagen}" width="100px" styleClass="candidato"/> 
-                                <p:commandButton value="Votar" iconPos="right" icon="pi pi-thumbs-up" action="#{votacionView.registrarVoto()}" 
-                                                 styleClass="primary-button outlined-button"
-                                                 update="pnlVoto" onsuccess="PF('dlgVoto').show();">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{votacionView.idCandidato}" />
-                                </p:commandButton>
-                            </h:panelGrid>
-                        </div>
-                    </div>
-                </ui:repeat>
-
-                <p:dialog id="dlgVoto" widgetVar="dlgVoto" header="Información" modal="true" closable="true" resizable="false">
-                    <p:outputPanel id="pnlVoto">
-                        <i class="pi pi-info-circle" style="font-size: 18px; color: #006cd9;"></i>
-                        <p:spacer width="15"/>
-                        <p:outputLabel value="Su voto ha sido procesado" />
-                    </p:outputPanel>
-                    <f:facet name="footer">
-                        <p:commandButton value="Aceptar" action="inicio"/>
-                    </f:facet>
-                </p:dialog>
             </div>
         </div>
     </ui:define>

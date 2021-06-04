@@ -1,0 +1,95 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:jsf="http://xmlns.jcp.org/jsf"
+                template="/resources/template/template.xhtml">
+
+    <ui:define name="head">
+        <script type="text/javascript">
+
+
+
+            function ocultar() {
+                let box1 = document.getElementById('div1');
+                let box2 = document.getElementById('div2');
+
+                if (box1.classList.contains('hidden')) {
+                    box1.classList.remove('hidden');
+                    setTimeout(function () {
+                        box1.classList.remove('visuallyhidden');
+                    }, 20);
+                    
+                    box2.classList.add('visuallyhidden');
+                    box2.addEventListener('transitionend', function (e) {
+                        box2.classList.add('hidden');
+                    }, {
+                        capture: false,
+                        once: true,
+                        passive: false
+                    });
+                } else {
+                    box2.classList.remove('hidden');
+                    setTimeout(function () {
+                        box2.classList.remove('visuallyhidden');
+                    }, 20);
+                    
+                    box1.classList.add('visuallyhidden');
+                    box1.addEventListener('transitionend', function (e) {
+                        box1.classList.add('hidden');
+                    }, {
+                        capture: false,
+                        once: true,
+                        passive: false
+                    });
+                }
+            }
+        </script>
+        <style>
+            h2 {
+                text-align: center;
+            }
+
+            .box {
+                background: goldenrod;
+                width: 300px;
+                height: 300px;
+                margin: 30px auto;
+                transition: all 1s linear;
+                display: block;
+            }
+
+            .hidden {
+                display: none;
+            }
+
+            .visuallyhidden {
+                opacity: 0;
+            }
+
+
+        </style>
+    </ui:define>
+
+    <ui:define name="title">Gestión Educativa - Votación CDE</ui:define>
+
+    <ui:param name="viewname" value="FORM LAYOUT" />
+
+    <ui:define name="content">
+        <div jsf:id="dvPrincipal">
+            <div jsf:id="div1" class="box" onclick="ocultar();">
+                <p:outputLabel value="panel 1"/>
+            </div>
+
+
+
+
+            <br/><br/>
+
+            <div jsf:id="div2" class="p-grid hidden " >
+                <p:outputLabel value="panel 2"/>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>
