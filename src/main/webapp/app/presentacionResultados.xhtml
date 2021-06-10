@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/template/template.xhtml">
+
+    <ui:define name="title">Gestión Educativa - Votación CDE</ui:define>
+
+    <ui:define name="head">
+        <style>
+            .invoice-to {
+                margin-top: 1.5rem;
+                padding-top: 1rem;
+                border-top: 1px solid #dee4e9;
+            }
+        </style>
+    </ui:define>
+
+    <ui:define name="content">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <h5>Resultados de votación</h5>
+                <div class="card">
+                    <div class="p-field p-grid">
+                        <p:outputLabel for="txtUsuario" styleClass="p-col-12 p-mb-3 p-md-3 p-mb-md-0">Cantidad de usuario</p:outputLabel>
+                        <div class="p-col-12 p-md-9">
+                            <p:inputText id="txtUsuario" size="5" style="text-align: right;"/>
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <p:outputLabel for="txtUsuarioVoto" styleClass="p-col-12 p-mb-3 p-md-3 p-mb-md-0">Cantidad de usuarios que votarón</p:outputLabel>
+                        <div class="p-col-12 p-md-9">
+                            <p:inputText id="txtUsuarioVoto" size="5" style="text-align: right;"/>
+                        </div>
+                    </div>
+                    <br/>
+                    <h6>Distribución de votos entre candidatos</h6>
+                    <p:dataTable>
+                        <p:column headerText="Nombre candidato">
+                            
+                        </p:column>
+                        <p:column headerText="Cargo">
+                            
+                        </p:column>
+                        <p:column headerText="# votos">
+                            
+                        </p:column>
+                    </p:dataTable>
+                    <br/>
+                    <h6>Candidatos electos por cargo</h6>
+                    <p:dataTable>
+                        <p:column headerText="Cargo">
+                            
+                        </p:column>
+                        <p:column headerText="Nombre candidato">
+                            
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

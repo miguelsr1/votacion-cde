@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sv.gob.mined.app.model;
 
 import java.io.Serializable;
@@ -16,10 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author misanchez
- */
 @Entity
 @Table(name = "CARGO")
 public class Cargo implements Serializable {
@@ -35,6 +26,8 @@ public class Cargo implements Serializable {
     private Short activo;
     @OneToMany(mappedBy = "idCargo", fetch = FetchType.LAZY)
     private List<ParametroVotacion> parametroVotacionList;
+    @OneToMany(mappedBy = "idCargo", fetch = FetchType.LAZY)
+    private List<Candidato> candidatoList;
 
     public Cargo() {
     }
@@ -90,10 +83,15 @@ public class Cargo implements Serializable {
             return false;
         }
         Cargo other = (Cargo) object;
-        if ((this.idCargo == null && other.idCargo != null) || (this.idCargo != null && !this.idCargo.equals(other.idCargo))) {
-            return false;
-        }
-        return true;
+        return !((this.idCargo == null && other.idCargo != null) || (this.idCargo != null && !this.idCargo.equals(other.idCargo)));
+    }
+
+    public List<Candidato> getCandidatoList() {
+        return candidatoList;
+    }
+
+    public void setCandidatoList(List<Candidato> candidatoList) {
+        this.candidatoList = candidatoList;
     }
 
     @Override

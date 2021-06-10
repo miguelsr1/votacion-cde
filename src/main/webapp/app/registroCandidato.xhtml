@@ -12,8 +12,16 @@
     <ui:define name="content">
         <div class="p-grid">
             <div class="p-col-12">
+                <h5>Registro de candidatos</h5>
                 <div class="card">
-                    <h5>Registro de candidatos</h5>
+                    <div class="card-header">
+                        <h5>Datos generales</h5>
+                        <p:outputPanel>
+                            <p:commandButton value="Nuevo" icon="pi pi-plus" style=" width: 100px" />
+                            <p:spacer width="10"/>
+                            <p:commandButton value="Importar de SIGES" icon="pi pi-cloud-download" style=" width: 150px" />
+                        </p:outputPanel>
+                    </div>
                     <br/>
                     <div class="ui-fluid p-formgrid p-grid">
                         <div class="p-col-12  p-xl-2" style="text-align: center;">
@@ -52,15 +60,14 @@
                                     </p:selectOneMenu>
                                 </div>
                             </div>
-                            <div class="p-field p-grid" style="text-align: center;">
-                                <div class="p-col-12">
-                                    <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" />
-                                    <p:spacer width="10"/>
-                                    <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="inicio"/>
-                                </div>
-                            </div>
                         </div>
                     </div>
+                    <br/><br/>
+                    <p class="card-subtitle">
+                        <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" />
+                        <p:spacer width="10"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="inicio"/>
+                    </p>
                 </div>
             </div>
         </div>

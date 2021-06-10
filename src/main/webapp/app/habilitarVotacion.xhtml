@@ -1,0 +1,57 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/template/template.xhtml">
+
+    <ui:define name="title">Gestión Educativa - Votación CDE</ui:define>
+
+    <ui:define name="content">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <h5>Ejecución de asamblea eleccionaria</h5>
+                <div class="card">
+                    <div class="p-grid ui-fluid">
+                        <div class="p-col-8">
+                            <h5>Quorom</h5>
+
+                            <p:dataTable>
+                                <p:column headerText="Nombre">
+
+                                </p:column>
+                                <p:column headerText="Apellidos">
+
+                                </p:column>
+                            </p:dataTable>
+                            <br/>
+                            <p class="card-subtitle">
+                                <p:outputLabel value="Cantidad o Quorum" style="font-weight: bold;"/>
+                            </p>
+                        </div>
+                        <div class="p-col-4">
+                            <h5>Habilitar</h5>
+                            <div class="p-col-12">
+                                <p:selectBooleanCheckbox itemLabel="Interfaz de votación"/>
+                            </div>
+                            <div class="p-col-12">
+                                <p:selectBooleanCheckbox itemLabel="Resultados de votación"/>
+                            </div>
+
+                            <p class="card-subtitle">
+                                <h5>Impresión de informes</h5>
+
+                                <div class="p-col-12">
+                                    <p:commandButton value="Listado de asistentes"/>
+                                </div>
+                                <div class="p-col-12">
+                                    <p:commandButton value="Resultados de votación"/>
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ui:define>
+</ui:composition>

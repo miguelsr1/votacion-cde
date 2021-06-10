@@ -24,6 +24,10 @@
             <div class="topbar-right">
                 <div id="user-display" style="padding-top: 1px; text-align: right;">
                     <h:form>
+                        <p:commandLink action="inicio?faces-redirect=true">
+                            <i class="pi pi pi-fw pi-home" style="font-size: 18px; color: #006cd9; font-weight: bold" />
+                        </p:commandLink>
+                        <p:spacer width="10"/>
                         <p:commandLink action="#{guestPreferences.logout()}">
                             <i class="pi pi pi-fw pi-power-off" style="font-size: 18px; color: red; font-weight: bold" />
                         </p:commandLink>

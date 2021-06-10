@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sv.gob.mined.app.model;
 
 import java.io.Serializable;
@@ -20,10 +15,6 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-/**
- *
- * @author misanchez
- */
 @Entity
 @Table(name = "CANDIDATO")
 public class Candidato implements Serializable {
@@ -43,13 +34,23 @@ public class Candidato implements Serializable {
     private Date fechaInsercion;
     @Column(name = "USUARIO_INSERCION")
     private Integer usuarioInsercion;
-    @Column(name = "ID_CARGO")
-    private Integer idCargo;
+    @JoinColumn(name = "ID_CARGO", referencedColumnName = "ID_CARGO")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Cargo idCargo;
     @Column(name = "TIPO_NOMBRAMIENTO")
     private String tipoNombramiento;
     @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
     @ManyToOne(fetch = FetchType.LAZY)
     private ProcesoVotacion idProcesoVotacion;
+    
+    @Column(name = "NOMBRES")
+    private String nombres;
+    @Column(name = "APELLIDOS")
+    private String apellidos;
+    @Column(name = "DUI")
+    private String dui;
+    @Column(name = "TELEFONO")
+    private String telefono;
 
     public Candidato() {
     }
@@ -98,11 +99,11 @@ public class Candidato implements Serializable {
         this.usuarioInsercion = usuarioInsercion;
     }
 
-    public Integer getIdCargo() {
+    public Cargo getIdCargo() {
         return idCargo;
     }
 
-    public void setIdCargo(Integer idCargo) {
+    public void setIdCargo(Cargo idCargo) {
         this.idCargo = idCargo;
     }
 
@@ -136,15 +137,44 @@ public class Candidato implements Serializable {
             return false;
         }
         Candidato other = (Candidato) object;
-        if ((this.idCandidato == null && other.idCandidato != null) || (this.idCandidato != null && !this.idCandidato.equals(other.idCandidato))) {
-            return false;
-        }
-        return true;
+        return !((this.idCandidato == null && other.idCandidato != null) || (this.idCandidato != null && !this.idCandidato.equals(other.idCandidato)));
     }
 
     @Override
     public String toString() {
         return "sv.gob.mined.app.model.Candidato[ idCandidato=" + idCandidato + " ]";
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
+    public String getDui() {
+        return dui;
+    }
+
+    public void setDui(String dui) {
+        this.dui = dui;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 
 }
