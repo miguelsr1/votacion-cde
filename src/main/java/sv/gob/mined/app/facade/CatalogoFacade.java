@@ -6,7 +6,6 @@
 package sv.gob.mined.app.facade;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;

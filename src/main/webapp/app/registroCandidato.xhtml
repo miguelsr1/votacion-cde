@@ -3,7 +3,8 @@
                 xmlns:f="http://java.sun.com/jsf/core"
                 xmlns:ui="http://java.sun.com/jsf/facelets"
                 xmlns:p="http://primefaces.org/ui"
-                template="/resources/template/template.xhtml">
+                template="/resources/template/template.xhtml"
+                xmlns:jsf="http://xmlns.jcp.org/jsf">
 
     <ui:define name="title">Gestión Educativa - Votación CDE</ui:define>
 
@@ -17,16 +18,15 @@
                     <div class="card-header">
                         <h5>Datos generales</h5>
                         <p:outputPanel>
-                            <p:commandButton value="Nuevo" icon="pi pi-plus" style=" width: 100px" />
+                            <p:commandButton value="Nuevo" action="#{candidatoView.nuevo()}" icon="pi pi-plus" style=" width: 100px" update="pnlDatos" process="@this"/>
                             <p:spacer width="10"/>
                             <p:commandButton value="Importar de SIGES" icon="pi pi-cloud-download" style=" width: 150px" />
                         </p:outputPanel>
                     </div>
                     <br/>
-                    <div class="ui-fluid p-formgrid p-grid">
+                    <div jsf:id="pnlDatos" class="ui-fluid p-formgrid p-grid">
                         <div class="p-col-12  p-xl-2" style="text-align: center;">
-                            <p:graphicImage library="demo" 
-                                            value="/DynamicImageServlet?file=#{bundle['path_images']}0101-080464-101-6.png"/>
+                            <p:graphicImage style="width: 120px" value="/DynamicImageServlet?file=#{candidatoView.candidato.pathImagen}.png"/>
                             <br/>
                             <p:commandButton icon="pi pi-camera" style="width: 50px !important"/>
                             <p:spacer height="10"/>
@@ -35,39 +35,43 @@
                             <div class="p-field p-grid">
                                 <p:outputLabel for="txtNombre" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre</p:outputLabel>
                                 <div class="p-col-12 p-md-4">
-                                    <p:inputText id="txtNombre" />
+                                    <p:inputText id="txtNombre" value="#{candidatoView.candidato.nombres}"/>
                                 </div>
                                 <p:outputLabel for="txtApellido" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Apellido</p:outputLabel>
                                 <div class="p-col-12 p-md-4">
-                                    <p:inputText id="txtApellido" />
+                                    <p:inputText id="txtApellido" value="#{candidatoView.candidato.apellidos}"/>
                                 </div>
                             </div>
                             <div class="p-field p-grid">
                                 <p:outputLabel for="txtDui" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">DUI</p:outputLabel>
                                 <div class="p-col-12 p-md-4">
-                                    <p:inputMask id="txtDui" mask="99999999-9"/>
+                                    <p:inputMask id="txtDui" mask="99999999-9" value="#{candidatoView.candidato.dui}"/>
                                 </div>
                                 <p:outputLabel for="txtTelefono" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Teléfono</p:outputLabel>
                                 <div class="p-col-12 p-md-4">
-                                    <p:inputText id="txtTelefono" />
+                                    <p:inputMask id="txtTelefono" mask="9999-9999" value="#{candidatoView.candidato.telefono}"/>
                                 </div>
                             </div>
                             <div class="p-field p-grid">
                                 <p:outputLabel for="cboCargo" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Cargo al cual se postula</p:outputLabel>
                                 <div class="p-col-12 p-md-10">
-                                    <p:selectOneMenu id="cboCargo">
+                                    <p:selectOneMenu id="cboCargo" value="#{candidatoView.idCargo}" >
                                         <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                        <f:selectItems value="#{candidatoView.lstCargo}" var="car" itemValue="#{car.idCargo}" itemLabel="#{car.descripcionCargo}"/>
                                     </p:selectOneMenu>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <br/><br/>
-                    <p class="card-subtitle">
-                        <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" />
-                        <p:spacer width="10"/>
-                        <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="inicio"/>
-                    </p>
+                    <div class="card-header">
+                        <p:outputLabel value=""/>
+                        <p:outputPanel>
+                            <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" action="#{candidatoView.guardar()}"/>
+                            <p:spacer width="10"/>
+                            <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="inicio"/>
+                        </p:outputPanel>
+                    </div>
                 </div>
             </div>
         </div>
