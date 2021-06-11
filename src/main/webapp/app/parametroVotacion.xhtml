@@ -22,55 +22,87 @@
             <div class="p-col-12">
                 <h5>Cargos a cubrir</h5>
 
-                <div class="card">
-                    <h5>
-                        <i class="fa fa-address-card" aria-hidden="true" style="font-size: 16px;"/>
-                        <p:spacer width="10"/>
-                        <p:outputLabel value="Sector docente"/>
-                    </h5>
-                    <div class="p-grid ui-fluid invoice-to">
-                        <div class="p-col-12 p-md-6">
-                            <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
-                            <p:spacer width="10"/>
-                            <p:outputLabel value="Propietarios" />
-                            <br/><br/>
-                            <p:selectManyCheckbox id="cboDocentePro" layout="responsive" columns="1" value="#{parametroVotacionView.cargoPropietarioDocente}">
-                                <f:selectItems value="#{parametroVotacionView.getCargo('1,2')}"/>
-                            </p:selectManyCheckbox>
+                <div class="p-grid ui-fluid invoice-to">
+                    <div class="p-col-12 p-md-6">
+                        <div class="card">
+                            <h5>
+                                <i class="fa fa-address-card" aria-hidden="true" style="font-size: 16px;"/>
+                                <p:spacer width="10"/>
+                                <p:outputLabel value="Sector docente"/>
+                            </h5>
+                            <div class="p-grid ui-fluid invoice-to">
+                                <div class="p-col-12 p-md-6">
+                                    <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
+                                    <p:spacer width="10"/>
+                                    <p:outputLabel value="Propietarios" />
+                                    <br/><br/>
+                                    <p:selectManyCheckbox id="cboDocentePro" layout="responsive" columns="1" value="#{parametroVotacionView.cargoPropietarioDocente}">
+                                        <f:selectItems value="#{parametroVotacionView.getCargo('1,2')}"/>
+                                    </p:selectManyCheckbox>
+                                </div>
+                                <div class="p-col-12 p-md-6">
+                                    <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
+                                    <p:spacer width="10"/>
+                                    <p:outputLabel value="Suplentes" />
+                                    <br/><br/>
+                                    <p:selectManyCheckbox id="cboDocenteSup" layout="responsive" columns="1" value="#{parametroVotacionView.cargoSuplenteDocente}">
+                                        <f:selectItems value="#{parametroVotacionView.getCargo('1,2')}"/>
+                                    </p:selectManyCheckbox>
+                                </div>
+                            </div>
                         </div>
-                        <div class="p-col-12 p-md-6">
-                            <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
-                            <p:spacer width="10"/>
-                            <p:outputLabel value="Suplentes" />
-                            <br/><br/>
-                            <p:selectManyCheckbox id="cboDocenteSup" layout="responsive" columns="1" value="#{parametroVotacionView.cargoSuplenteDocente}">
-                                <f:selectItems value="#{parametroVotacionView.getCargo('1,2')}"/>
-                            </p:selectManyCheckbox>
+                    </div>
+                    <div class="p-col-12 p-md-6">
+                        <div class="card">
+                            <h5>
+                                <i class="fa fa-address-card" aria-hidden="true" style="font-size: 16px;"/>
+                                <p:spacer width="10"/>
+                                <p:outputLabel value="Sector Padre de familia"/>
+                            </h5>
+
+                            <div class="p-grid ui-fluid invoice-to">
+                                <div class="p-col-12 p-md-6">
+                                    <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
+                                    <p:spacer width="10"/>
+                                    <p:outputLabel value="Propietarios" />
+                                    <p:selectManyCheckbox id="cboPadrePro" layout="responsive" columns="1" value="#{parametroVotacionView.cargoPropietarioPadre}">
+                                        <f:selectItems value="#{parametroVotacionView.getCargo('3,4,5')}"/>
+                                    </p:selectManyCheckbox>
+                                </div>
+                                <div class="p-col-12 p-md-6">
+                                    <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
+                                    <p:spacer width="10"/>
+                                    <p:outputLabel value="Suplentes" />
+                                    <p:selectManyCheckbox id="cboPadreSup" layout="responsive" columns="1" value="#{parametroVotacionView.cargoSuplentePadre}">
+                                        <f:selectItems value="#{parametroVotacionView.getCargo('3,4,5')}"/>
+                                    </p:selectManyCheckbox>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="card">
                     <h5>
                         <i class="pi pi-home" style="font-size: 16px;"/>
                         <p:spacer width="10"/>
-                        <p:outputLabel value="Sector Padre de familia o responsable de estudiante"/>
+                        <p:outputLabel value=" o responsable de estudiante"/>
                     </h5>
                     <div class="p-grid ui-fluid invoice-to">
                         <div class="p-col-12 p-md-6">
                             <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
                             <p:spacer width="10"/>
                             <p:outputLabel value="Propietarios" />
-                            <p:selectManyCheckbox id="cboPadrePro" layout="responsive" columns="1" value="#{parametroVotacionView.cargoPropietarioPadre}">
-                                <f:selectItems value="#{parametroVotacionView.getCargo('3,4,5,6,7')}"/>
+                            <p:selectManyCheckbox id="cboEstPro" layout="responsive" columns="1" value="#{parametroVotacionView.cargoPropietarioPadre}">
+                                <f:selectItems value="#{parametroVotacionView.getCargo('6,7')}"/>
                             </p:selectManyCheckbox>
                         </div>
                         <div class="p-col-12 p-md-6">
                             <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
                             <p:spacer width="10"/>
                             <p:outputLabel value="Suplentes" />
-                            <p:selectManyCheckbox id="cboPadreSup" layout="responsive" columns="1" value="#{parametroVotacionView.cargoSuplentePadre}">
-                                <f:selectItems value="#{parametroVotacionView.getCargo('3,4,5,6,7')}"/>
+                            <p:selectManyCheckbox id="cboEstSup" layout="responsive" columns="1" value="#{parametroVotacionView.cargoSuplentePadre}">
+                                <f:selectItems value="#{parametroVotacionView.getCargo('6,7')}"/>
                             </p:selectManyCheckbox>
                         </div>
                     </div>

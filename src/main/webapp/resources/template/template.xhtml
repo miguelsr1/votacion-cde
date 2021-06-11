@@ -60,6 +60,10 @@
     </h:head>
 
     <h:body styleClass="#{guestPreferences.inputStyleClass}" style="max-width: 1200px; margin: 0 auto; ">
+        <p:growl id="messages" escape="false" showDetail="true" >
+            <p:autoUpdate />
+        </p:growl>
+        
         <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
             <ui:include src="./topbar.xhtml" />
 

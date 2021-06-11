@@ -90,14 +90,6 @@ public class ParametroVotacionView implements Serializable {
         return catalogoFacade.findAllCargos();
     }
 
-    public List<SelectItem> getCargo(String idCargos) {
-        List<Integer> ids = new ArrayList();
-        for (String id : idCargos.split(",")) {
-            ids.add(Integer.parseInt(id));
-        }
-        return catalogoFacade.findCargos(ids);
-    }
-
     public Integer[] getCargoPropietarioDocente() {
         return cargoPropietarioDocente;
     }

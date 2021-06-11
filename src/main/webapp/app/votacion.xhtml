@@ -36,6 +36,7 @@
     <ui:param name="viewname" value="FORM LAYOUT" />
 
     <ui:define name="content">
+
         <div jsf:id="dvPrincipal" class="wrapper">
             <div jsf:id="div1" class="p-grid p-ai-center vertical-container" >
                 <div class="p-col">
@@ -45,7 +46,7 @@
                             <br/>
                             <p:graphicImage name="pencil.png" library="images"  width="80"/>
                         </div>
-                        <f:setPropertyActionListener target="#{votacionView.showCargo}" value="false"/>
+                        <f:param name="idCargo" value="1"/>
                     </p:commandLink>
                 </div>
                 <div class="p-col">
@@ -55,7 +56,7 @@
                             <br/>
                             <p:graphicImage name="woman.png" library="images"  width="80"/>
                         </div>
-                        <f:setPropertyActionListener target="#{votacionView.showCargo}" value="false" />
+                        <f:param name="idCargo" value="2"/>
                     </p:commandLink>
                 </div>
                 <div class="p-col">
@@ -65,7 +66,7 @@
                             <br/>
                             <p:graphicImage name="save-money.png" library="images" width="80"/>
                         </div>
-                        <f:setPropertyActionListener target="#{votacionView.showCargo}" value="false" />
+                        <f:param name="idCargo" value="3"/>
                     </p:commandLink>
                 </div>
                 <div class="p-col">
@@ -75,7 +76,17 @@
                             <br/>
                             <p:graphicImage name="agent.png" library="images" width="80"/>
                         </div>
-                        <f:setPropertyActionListener target="#{votacionView.showCargo}" value="false" />
+                        <f:param name="idCargo" value="4"/>
+                    </p:commandLink>
+                </div>
+                <div class="p-col">
+                    <p:commandLink action="detalleVotacion">
+                        <div class="card overview-box" style="text-align: center !important">
+                            <h5>Consejal 2</h5>
+                            <br/>
+                            <p:graphicImage name="agent.png" library="images" width="80"/>
+                        </div>
+                        <f:param name="idCargo" value="5"/>
                     </p:commandLink>
                 </div>
             </div>

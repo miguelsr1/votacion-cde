@@ -8,16 +8,21 @@
 
     <ui:define name="head">
         <script type="text/javascript">
+           function marcarEleccion(){
+               console.log('ok');
+               document.getElementById("propietarios:0:imgPropietario").addClass(imgBlackAndWhite);
+               console.log('exit');
+           }
         </script>
         <style>
-            .candidato {
+            .imgCandidato {
                 box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
                 margin: 2rem 0;
             }    
 
             .card {
                 background: var(--surface-e);
-                padding: 2rem;
+                padding: 0rem;
                 box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
                 border-radius: 4px;
                 margin-bottom: 2rem;
@@ -31,6 +36,10 @@
                 border-radius: 4px;
             }
 
+            .imgBlackAndWhite {
+                -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+                filter: grayscale(100%);
+            }
         </style>
     </ui:define>
 
@@ -39,25 +48,63 @@
     <ui:param name="viewname" value="FORM LAYOUT" />
 
     <ui:define name="content">
-        <div id="test" class="p-grid" >
-            
-            
-            <ui:repeat var="candidato" varStatus="status" value="#{votacionView.lstCandidatos}">
+
+        <h5>
+            <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
+            <p:spacer width="10"/>
+            <p:outputLabel value="Propietarios"/>
+        </h5>
+
+        <h:outputText value="#{detalleVotacionView.idCargo}" />
+        <br/>
+        <div id="test" class="p-grid" jsf:id="dvPropietarios">
+            <ui:repeat id="propietarios" var="candidato" varStatus="status" value="#{detalleVotacionView.lstCandidatosPropietarios}">
                 <div class="p-col-12 p-md-3">
                     <div class="card overview-box blue">
                         <h:panelGrid columns="2" style="width: 80%; margin: auto; text-align: center;">
-                            <p:graphicImage value="/DynamicImageServlet?file=#{bundle['path_images']}#{candidato.pathImagen}" width="100px" styleClass="candidato"/> 
-                            <p:commandButton value="Votar" iconPos="right" icon="pi pi-thumbs-up" action="#{votacionView.registrarVoto()}" 
-                                             styleClass="primary-button outlined-button"
-                                             update="pnlVoto" onsuccess="PF('dlgVoto').show();">
-                                <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{votacionView.idCandidato}" />
-                            </p:commandButton>
+                            <p:graphicImage id="imgPropietario" value="/DynamicImageServlet?file=#{candidato.pathImagen}" width="100px" styleClass="imgCandidato" /> 
+                            <p:outputPanel>
+                                <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
+                                <br/><br/>
+                                <p:commandButton value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
+                                                 styleClass="primary-button outlined-button" onclick="cambiar()"
+                                                 >
+                                </p:commandButton>
+                            </p:outputPanel>
+                        </h:panelGrid>
+                    </div>
+                </div>
+            </ui:repeat>
+        </div>
+        <p:separator/>
+        <h5>
+            <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
+            <p:spacer width="10"/>
+            <p:outputLabel value="Suplentes"/>
+        </h5>
+        <br/>
+        <div id="test" class="p-grid" jsf:id="dvSuplentes">
+            <ui:repeat var="candidato" varStatus="status" value="#{detalleVotacionView.lstCandidatosSuplentes}">
+                <div class="p-col-12 p-md-3">
+                    <div class="card overview-box blue">
+                        <h:panelGrid columns="2" style="width: 80%; margin: auto; text-align: center;">
+                            <p:graphicImage value="/DynamicImageServlet?file=#{candidato.pathImagen}" width="100px" styleClass="imgCandidato"/> 
+                            <p:outputPanel>
+                                <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
+                                <br/><br/>
+                                <p:commandButton value="Votar" iconPos="right" icon="pi pi-thumbs-up"
+                                                 styleClass="primary-button outlined-button"
+                                                 update="pnlVoto" onsuccess="PF('dlgVoto').show();">
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidato}" />
+                                </p:commandButton>
+                            </p:outputPanel>
                         </h:panelGrid>
                     </div>
                 </div>
             </ui:repeat>
         </div>
 
+        <p:remoteCommand name="cambiar" onsuccess="marcarEleccion()"/>
         <p:dialog id="dlgVoto" widgetVar="dlgVoto" header="Información" modal="true" closable="true" resizable="false">
             <p:outputPanel id="pnlVoto">
                 <i class="pi pi-info-circle" style="font-size: 18px; color: #006cd9;"></i>

@@ -6,6 +6,15 @@
                 template="/resources/template/template.xhtml"
                 xmlns:jsf="http://xmlns.jcp.org/jsf">
 
+    <ui:define name="head">
+        <style>
+            .ui-dialog {
+                width: 55% !important;
+                height: 70% !important
+            }
+
+        </style>
+    </ui:define>
     <ui:define name="title">Gestión Educativa - Votación CDE</ui:define>
 
     <ui:param name="viewname" value="FORM LAYOUT" />
@@ -14,66 +23,110 @@
         <div class="p-grid">
             <div class="p-col-12">
                 <h5>Registro de candidatos</h5>
+
+                <p:toolbar styleClass="p-mb-4">
+                    <p:toolbarGroup>
+                        <p:commandButton value="Nuevo" action="#{candidatoView.nuevo()}" icon="pi pi-plus" oncomplete="PF('dlgDatos').show();" 
+                                         styleClass="ui-button-success" style="margin-right: .5rem" process="@this" update="pnlDetalleDatos"/>
+                        <p:commandButton value="Importar de SIGES" icon="pi pi-cloud-download" style=" width: 150px" update="pnlDetalleDatos" />
+                    </p:toolbarGroup>
+                </p:toolbar>
+
+                <div class="card ui-fluid" jsf:id="divFiltro">
+                    <h5>Filtro</h5>
+
+                    <div class="p-field p-grid">
+                        <p:outputLabel for="cboCargoF" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">   Cargo</p:outputLabel>
+                        <div class="p-col-12 p-md-4">
+                            <p:selectOneMenu id="cboCargoF" value="#{candidatoView.idCargo}" >
+                                <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                <f:selectItems value="#{candidatoView.lstCargo}" var="car" itemValue="#{car.idCargo}" itemLabel="#{car.descripcionCargo}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <p:outputLabel for="cboNombramientoF" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombramiento</p:outputLabel>
+                        <div class="p-col-12 p-md-4">
+                            <p:selectOneMenu id="cboNombramientoF" value="#{candidatoView.nombramiento}" >
+                                <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="PROPIETARIO" itemValue="P"/>
+                                <f:selectItem itemLabel="SUPLENTE" itemValue="S"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                    <p:commandButton value="Buscar" icon="pi pi-search" style="width: 90px"/>
+                </div>
                 <div class="card">
-                    <div class="card-header">
-                        <h5>Datos generales</h5>
-                        <p:outputPanel>
-                            <p:commandButton value="Nuevo" action="#{candidatoView.nuevo()}" icon="pi pi-plus" style=" width: 100px" update="pnlDatos" process="@this"/>
-                            <p:spacer width="10"/>
-                            <p:commandButton value="Importar de SIGES" icon="pi pi-cloud-download" style=" width: 150px" />
-                        </p:outputPanel>
-                    </div>
-                    <br/>
-                    <div jsf:id="pnlDatos" class="ui-fluid p-formgrid p-grid">
-                        <div class="p-col-12  p-xl-2" style="text-align: center;">
-                            <p:graphicImage style="width: 120px" value="/DynamicImageServlet?file=#{candidatoView.candidato.pathImagen}.png"/>
-                            <br/>
-                            <p:commandButton icon="pi pi-camera" style="width: 50px !important"/>
-                            <p:spacer height="10"/>
-                        </div>
-                        <div class="p-col-12 p-xl-10">
-                            <div class="p-field p-grid">
-                                <p:outputLabel for="txtNombre" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre</p:outputLabel>
-                                <div class="p-col-12 p-md-4">
-                                    <p:inputText id="txtNombre" value="#{candidatoView.candidato.nombres}"/>
-                                </div>
-                                <p:outputLabel for="txtApellido" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Apellido</p:outputLabel>
-                                <div class="p-col-12 p-md-4">
-                                    <p:inputText id="txtApellido" value="#{candidatoView.candidato.apellidos}"/>
-                                </div>
-                            </div>
-                            <div class="p-field p-grid">
-                                <p:outputLabel for="txtDui" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">DUI</p:outputLabel>
-                                <div class="p-col-12 p-md-4">
-                                    <p:inputMask id="txtDui" mask="99999999-9" value="#{candidatoView.candidato.dui}"/>
-                                </div>
-                                <p:outputLabel for="txtTelefono" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Teléfono</p:outputLabel>
-                                <div class="p-col-12 p-md-4">
-                                    <p:inputMask id="txtTelefono" mask="9999-9999" value="#{candidatoView.candidato.telefono}"/>
-                                </div>
-                            </div>
-                            <div class="p-field p-grid">
-                                <p:outputLabel for="cboCargo" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Cargo al cual se postula</p:outputLabel>
-                                <div class="p-col-12 p-md-10">
-                                    <p:selectOneMenu id="cboCargo" value="#{candidatoView.idCargo}" >
-                                        <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
-                                        <f:selectItems value="#{candidatoView.lstCargo}" var="car" itemValue="#{car.idCargo}" itemLabel="#{car.descripcionCargo}"/>
-                                    </p:selectOneMenu>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <br/><br/>
-                    <div class="card-header">
-                        <p:outputLabel value=""/>
-                        <p:outputPanel>
-                            <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" action="#{candidatoView.guardar()}"/>
-                            <p:spacer width="10"/>
-                            <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="inicio"/>
-                        </p:outputPanel>
-                    </div>
+                    <p:dataTable id="tblCandidatos" value="#{candidatoView.lstCandidato}" 
+                                 var="can" rowIndexVar="rowId" rowKey="#{can.idCandidato}">
+
+                        <p:column headerText="Cargo">
+                            <p:outputLabel value="#{can.idCargo.descripcionCargo}"/>
+                        </p:column>
+                        <p:column headerText="Nombramiento">
+                            <p:outputLabel value="#{can.tipoNombramiento eq 'P' ? 'PROPIETARIO':'SUPLENTE'}"/>
+                        </p:column>
+                        <p:column headerText="Nombre">
+                            <p:outputLabel value="#{can.nombres} #{can.apellidos}"/>
+                        </p:column>
+                        <p:column exportable="false" width="50">
+                            <p:commandButton icon="pi pi-pencil" update="pnlDetalleDatos" oncomplete="PF('dlgDatos').show()" action="#{candidatoView.editar()}"
+                                             styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                <f:setPropertyActionListener value="#{can}" target="#{candidatoView.candidato}" />
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
                 </div>
             </div>
         </div>
+
+        <p:dialog id="dlgDatos" header="Datos Generales" showEffect="fade" hideEffect="fade" modal="true" widgetVar="dlgDatos" responsive="true" width="900" closable="false" resizable="false">
+            <p:outputPanel id="pnlDetalleDatos" class="ui-fluid" style="text-align: center;">
+                <p:graphicImage style="width: 120px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);" value="/DynamicImageServlet?file=#{candidatoView.candidato.pathImagen}" />
+                <br/><br/>
+                <div class="p-col-12 p-xl-12" >
+                    <div class="p-field p-grid">
+                        <p:outputLabel for="txtNombre" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre</p:outputLabel>
+                        <div class="p-col-12 p-md-4">
+                            <p:inputText id="txtNombre" value="#{candidatoView.candidato.nombres}"/>
+                        </div>
+                        <p:outputLabel for="txtApellido" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Apellido</p:outputLabel>
+                        <div class="p-col-12 p-md-4">
+                            <p:inputText id="txtApellido" value="#{candidatoView.candidato.apellidos}"/>
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <p:outputLabel for="txtDui" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">DUI</p:outputLabel>
+                        <div class="p-col-12 p-md-4">
+                            <p:inputMask id="txtDui" mask="99999999-9" value="#{candidatoView.candidato.dui}"/>
+                        </div>
+                        <p:outputLabel for="txtTelefono" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Teléfono</p:outputLabel>
+                        <div class="p-col-12 p-md-4">
+                            <p:inputMask id="txtTelefono" mask="9999-9999" value="#{candidatoView.candidato.telefono}"/>
+                        </div>
+                    </div>
+                    <div class="p-field p-grid">
+                        <p:outputLabel for="cboCargo" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Cargo </p:outputLabel>
+                        <div class="p-col-12 p-md-4">
+                            <p:selectOneMenu id="cboCargo" value="#{candidatoView.idCargo}" >
+                                <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                <f:selectItems value="#{candidatoView.lstCargo}" var="car" itemValue="#{car.idCargo}" itemLabel="#{car.descripcionCargo}"/>
+                            </p:selectOneMenu>
+                        </div>
+                        <p:outputLabel for="cboNombramiento" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombramiento </p:outputLabel>
+                        <div class="p-col-12 p-md-4">
+                            <p:selectOneMenu id="cboNombramiento" value="#{candidatoView.nombramiento}" >
+                                <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                <f:selectItem itemLabel="PROPIETARIO" itemValue="P"/>
+                                <f:selectItem itemLabel="SUPLENTE" itemValue="S"/>
+                            </p:selectOneMenu>
+                        </div>
+                    </div>
+                </div>
+            </p:outputPanel>
+
+            <f:facet name="footer">
+                <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" action="#{candidatoView.guardar()}" oncomplete="PF('dlgDatos').hide();" update="tblCandidatos"/>
+                <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="#{candidatoView.cancelarEdicion()}" oncomplete="PF('dlgDatos').hide();"/>
+            </f:facet>
+        </p:dialog>
     </ui:define>
 </ui:composition>

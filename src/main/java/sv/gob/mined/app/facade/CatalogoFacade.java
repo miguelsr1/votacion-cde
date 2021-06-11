@@ -5,10 +5,8 @@
  */
 package sv.gob.mined.app.facade;
 
-import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
-import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -29,6 +27,10 @@ public class CatalogoFacade {
     @PersistenceContext(unitName = "votacionUP")
     private EntityManager em;
 
+    public <T extends Object> T find(Class<T> clase, Object pk) {
+        return em.find(clase, pk);
+    }
+
     public List<Cargo> findAllCargos() {
         CriteriaBuilder cb = em.getCriteriaBuilder();
         CriteriaQuery<Cargo> q = cb.createQuery(Cargo.class);
@@ -41,28 +43,19 @@ public class CatalogoFacade {
         return query.getResultList();
     }
 
-    public List<SelectItem> findCargos(List<Integer> idCargos) {
-        List<SelectItem> items = new ArrayList();
-
-        CriteriaBuilder cb = em.getCriteriaBuilder();
-        CriteriaQuery<Cargo> q = cb.createQuery(Cargo.class);
-        Root<Cargo> c = q.from(Cargo.class);
-        q.orderBy(cb.asc(c.get("idCargo")));
-        q.select(c).where(c.get("idCargo").in(idCargos));
-
-        TypedQuery<Cargo> query = em.createQuery(q);
-
-        query.getResultList().forEach(cargo -> {
-            items.add(new SelectItem(cargo.getIdCargo(), cargo.getDescripcionCargo()));
-        });
-        return items;
-    }
-
-    public List<Candidato> findCandidatosByAnhoAndCodigoEntidadAndCargo(Integer idAnho, String codigoEntidad, Integer idCargo) {
-        Query q = em.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad and c.idCargo=:pIdCargo", Candidato.class);
+    public List<Candidato> findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(Integer idAnho, String codigoEntidad, Integer idCargo, Boolean propietario) {
+        Query q = em.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad and c.idCargo.idCargo=:pIdCargo and c.tipoNombramiento='" + (propietario ? "P" : "S") + "'", Candidato.class);
         q.setParameter("pIdAnho", idAnho);
         q.setParameter("pCodigoEntidad", codigoEntidad);
         q.setParameter("pIdCargo", idCargo);
+
+        return q.getResultList();
+    }
+
+    public List<Candidato> findCandidatosByAnhoAndCodigoEntidad(Integer idAnho, String codigoEntidad) {
+        Query q = em.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad ORDER BY c.idCargo.idCargo, c.tipoNombramiento", Candidato.class);
+        q.setParameter("pIdAnho", idAnho);
+        q.setParameter("pCodigoEntidad", codigoEntidad);
 
         return q.getResultList();
     }
