@@ -13,6 +13,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import org.primefaces.PrimeFaces;
 import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.model.Candidato;
 import sv.gob.mined.utils.jsf.JsfUtil;
@@ -26,8 +27,9 @@ import sv.gob.mined.utils.jsf.JsfUtil;
 public class DetalleVotacionView implements Serializable {
 
     private Integer idCargo;
+    private BigDecimal idCandidatoPro;
+    private BigDecimal idCandidatoSup;
 
-    private BigDecimal idCandidato;
 
     @Inject
     private CatalogoFacade catalogoFacade;
@@ -41,6 +43,22 @@ public class DetalleVotacionView implements Serializable {
         lstCandidatosSuplentes = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(1, "10001", Integer.parseInt(JsfUtil.getParametroUrl("idCargo")), false);
     }
 
+    public BigDecimal getIdCandidatoPro() {
+        return idCandidatoPro;
+    }
+
+    public void setIdCandidatoPro(BigDecimal idCandidatoPro) {
+        this.idCandidatoPro = idCandidatoPro;
+    }
+
+    public BigDecimal getIdCandidatoSup() {
+        return idCandidatoSup;
+    }
+
+    public void setIdCandidatoSup(BigDecimal idCandidatoSup) {
+        this.idCandidatoSup = idCandidatoSup;
+    }
+
     public List<Candidato> getLstCandidatosPropietarios() {
         return lstCandidatosPropietarios;
     }
@@ -49,19 +67,21 @@ public class DetalleVotacionView implements Serializable {
         return lstCandidatosSuplentes;
     }
 
-    public BigDecimal getIdCandidato() {
-        return idCandidato;
-    }
-
-    public void setIdCandidato(BigDecimal idCandidato) {
-        this.idCandidato = idCandidato;
-    }
-
     public Integer getIdCargo() {
         return idCargo;
     }
 
     public void setIdCargo(Integer idCargo) {
         this.idCargo = idCargo;
+    }
+    
+    public void guardar(){
+        if(idCandidatoPro != null && idCandidatoSup !=null){
+            
+            
+            PrimeFaces.current().executeScript("PF('dlgVoto').show()");
+        }else{
+            JsfUtil.mensajeAlerta("Debe de seleccionar un candidato.");
+        }
     }
 }
