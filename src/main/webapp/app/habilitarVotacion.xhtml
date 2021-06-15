@@ -32,12 +32,14 @@
                         <div class="p-col-4">
                             <h5>Habilitar</h5>
                             <div class="p-col-12">
-                                <p:selectBooleanCheckbox itemLabel="Interfaz de votación"/>
+                                <p:selectBooleanCheckbox itemLabel="Interfaz de votación" value="#{habilitarVotacionView.habilitarVotacion}"/>
                             </div>
                             <div class="p-col-12">
-                                <p:selectBooleanCheckbox itemLabel="Resultados de votación"/>
+                                <p:selectBooleanCheckbox itemLabel="Resultados de votación" value="#{habilitarVotacionView.habilitarResultados}"/>
                             </div>
-
+                            <br/>
+                            <p:commandButton value="Guardar" icon="pi pi-save" action="#{habilitarVotacionView.guardar()}" style="width: 100px;" />
+                            <br/>                            
                             <p class="card-subtitle">
                                 <h5>Impresión de informes</h5>
 

@@ -1227,10 +1227,10 @@ p:last-child {
     background-color: #ffffff;
 }
 .login-body .login-panel .p-col-12 {
-    padding: 15px 100px;
+    padding: 5px 30px;
 }
 .login-body .login-panel .p-col-12.logo-container {
-    padding: 50px 50px 25px 50px;
+    padding: 3px 50px 16px 50px;
     border-bottom: 8px solid #dee4e9;
     margin-bottom: 20px;
 }
@@ -1282,7 +1282,6 @@ p:last-child {
 }
 .login-body .login-panel label {
     display: block;
-    margin-bottom: 8px;
 }
 .login-body .login-panel button {
     width: 100%;

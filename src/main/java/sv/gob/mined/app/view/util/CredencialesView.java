@@ -13,6 +13,7 @@ import javax.mail.MessagingException;
 import javax.mail.NoSuchProviderException;
 import javax.mail.Session;
 import javax.mail.Transport;
+import sv.gob.mined.app.facade.EMailFacade;
 
 /**
  *
@@ -24,7 +25,6 @@ public class CredencialesView implements Serializable {
 
     private String correoRemitente;
     private String idDominioCorreo = "2";
-    private String dominio;
     private String password;
 
     private String remitente;
@@ -37,8 +37,15 @@ public class CredencialesView implements Serializable {
 
     private boolean correoValido;
 
-    public void setDominio(String dominio) {
-        this.dominio = dominio;
+    @Inject
+    private EMailFacade eMailFacade;
+
+    public String getIdDominioCorreo() {
+        return idDominioCorreo;
+    }
+
+    public void setIdDominioCorreo(String idDominioCorreo) {
+        this.idDominioCorreo = idDominioCorreo;
     }
 
     public void setPassword(String password) {
@@ -60,16 +67,15 @@ public class CredencialesView implements Serializable {
     public void validarCredencial() {
         try {
             if (idDominioCorreo.equals("1")) {
-                remitente = correoRemitente.concat("@").concat("mined.gob.sv");
-                port = "587";
-                server = "svr2k13mail01.mined.gob.sv";
-                //mailSession = eMailFacade.getMailSessionMined(mailSession, dominio, password, remitente);
-            } else {
-                remitente = correoRemitente.concat("@").concat("admin.mined.edu.sv");
+                remitente = correoRemitente.concat("@").concat("docentes.mined.edu.sv");
                 port = "587";
                 server = "smtp.office365.com";
-                //mailSession = eMailFacade.getMailSessionOffice(mailSession, remitente, password);
+            } else {
+                remitente = correoRemitente.concat("@").concat("clases.edu.sv");
+                port = "587";
+                server = "smtp.gmail.com";
             }
+            mailSession = eMailFacade.getMailSession(idDominioCorreo, mailSession, remitente, password);
 
             transport = mailSession.getTransport("smtp");
             transport.connect(server, Integer.parseInt(port), remitente, password);
@@ -93,11 +99,10 @@ public class CredencialesView implements Serializable {
     }
 
     public Session getMailSessionRemitente() {
-        if(mailSessionRemitente == null){
+        if (mailSessionRemitente == null) {
             remitenteOficial = "cooperacion@admin.mined.edu.sv";
-            //mailSessionRemitente = eMailFacade.getMailSessionOffice(mailSessionRemitente, "cooperacion@admin.mined.edu.sv", "mined2021.*");
         }
-        
+
         return mailSessionRemitente;
     }
 

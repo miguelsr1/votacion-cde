@@ -23,7 +23,7 @@
             </p:messages>
 
             <div class="login-panel ui-fluid p-ai-center vertical-container" jsf:id="outPrincipal" >
-                <div class="card" >
+                <div class="card" style="background-color: white !important" >
                     <div class="p-grid p-nogutter">
                         <div class="p-col-12 logo-container">
                             <h:panelGrid columns="2" width="100%">
@@ -33,69 +33,118 @@
                                                 styleClass="login-icon" style="float: right !important;"/>
                             </h:panelGrid>
                         </div>
-                        <div class="p-col-12">
-                            <p:outputLabel value="Tipo de cuenta a utilizar"/>
-                            <div class="input-wrapper">
-                                <p:selectOneMenu id="rdTipo" value="#{loginView.idDominioCorreo}" style="width: 100%;">
-                                    <f:selectItem itemLabel="Office 365" itemValue="2"/>
-                                    <f:selectItem itemLabel="Correo Institucional" itemValue="1"/>
-                                    <p:ajax update="lblDominio divDominio"/>
-                                </p:selectOneMenu>
-                            </div>
-                        </div>
-                        <div class="p-col-12">
-                            <p:outputLabel for="txtUsuario" value="Correo" />
-                            <div class="p-grid">
-                                <div class="p-col-8">
-                                    <p:inputText id="txtUsuario" placeholder="Usuario" style="width: 100%;" required="true" value="#{loginView.correoRemitente}"/>
-                                </div>
-                                <div class="p-col-4" >
-                                    <p:outputLabel id="lblDominio" value="#{loginView.idDominioCorreo eq '1' ? '@mined.gob.sv':'@admin.mined.edu.sv'}"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div jsf:id="divDominio" class="p-col-12" style="display:#{(loginView.idDominioCorreo eq '1')?'block':'none'}">
-                            <p:outputLabel for="txtDominio" value="Usuario WINDOWS" />
-                            <div class="input-wrapper">
-                                <p:inputText id="txtDominio" widgetVar="txtDominio" value="#{loginView.dominio}" rendered="#{loginView.idDominioCorreo eq '1'}" />
-                            </div>
-                        </div>
-                        <div class="p-col-12">
-                            <p:outputLabel for="passwordEmp" value="Clave de acceso"  />
-                            <div class="input-wrapper">
-                                <p:password id="passwordEmp" placeholder="Clave de acceso" feedback="false" value="#{loginView.password}" />
-                                <p:graphicImage name="images/login/lock.png" library="paradise-layout"
-                                                styleClass="lock-icon"/>
-                            </div>
-                        </div>
-                        <div class="p-col-12">
-                            <br/>
-                        </div>
-                        <div class="p-col-12 " >
-                            <div class="p-grid">
-                                <div class="p-col-6">
-                                    <p:commandButton id="btnValidar" widgetVar="btnValidar" value="Validar" style="width: 110px;" 
-                                                     action="app/inicio?faces-redirect=true" process="@this"
-                                                     onclick="PF('btnValidar').disable();" 
-                                                     oncomplete="PF('btnValidar').enable();" update="outPrincipal"/> 
-                                </div>
-                                <div class="p-col-6">
-                                    <p:ajaxStatus style="float: right;">
-                                        <f:facet name="default">
-                                        </f:facet>
+                        <p:tabView id="tbLogin" style="width: 100%;">
+                            <p:tab id="tbDocEst" title="Docente/Estudiante">
+                                <div class="p-col-12">
+                                    <p:outputLabel for="txtUsuario" value="Correo" />
+                                    <div class="p-grid">
+                                        <div class="p-col-7">
+                                            <p:inputText id="txtUsuario" placeholder="Usuario" style="width: 100%;" required="true" value="#{loginView.correoRemitente}"/>
+                                        </div>
+                                        <div class="p-col-5" >
+                                            <p:selectOneMenu id="rdTipo" value="#{loginView.idDominioCorreo}" >
+                                                <f:selectItem itemLabel="Office 365" itemValue="1"/>
+                                                <f:selectItem itemLabel="Google Classroom" itemValue="2"/>
+                                            </p:selectOneMenu>
 
-                                        <f:facet name="start">
-                                            <h:outputText value="Espere por favor" style="font-size: 14px;" />
-                                            <i class="fa fa-spinner fa-spin" style="font-size: 20px;"></i>
-                                        </f:facet>
-
-                                        <f:facet name="complete">
-                                            <h:outputText value="" />
-                                        </f:facet>
-                                    </p:ajaxStatus>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                                <div class="p-col-12">
+                                    <p:outputLabel for="passwordEmp" value="Clave de acceso"  />
+                                    <div class="input-wrapper">
+                                        <p:password id="passwordEmp" placeholder="Clave de acceso" feedback="false" value="#{loginView.password}" />
+                                        <p:graphicImage name="images/login/lock.png" library="paradise-layout"
+                                                        styleClass="lock-icon"/>
+                                    </div>
+                                </div>
+                                <div class="p-col-12" style="height: 32px;">
+                                    <br/>
+                                </div>
+                                <div class="p-col-12 " >
+                                    <div class="p-grid">
+                                        <div class="p-col-6">
+                                            <p:commandButton id="btnValidar" widgetVar="btnValidar" value="Validar" style="width: 110px;" 
+                                                             action="#{loginView.validarCrendecialesDelCorreo()}" process="@this,txtUsuario,rdTipo,passwordEmp"
+                                                             onclick="PF('btnValidar').disable();"  icon="pi pi-sign-in"
+                                                             oncomplete="PF('btnValidar').enable();" update="outPrincipal"/> 
+                                        </div>
+                                        <div class="p-col-6">
+                                            <p:ajaxStatus style="float: right;">
+                                                <f:facet name="default">
+                                                </f:facet>
+
+                                                <f:facet name="start">
+                                                    <h:outputText value="Espere por favor" style="font-size: 14px;" />
+                                                    <i class="fa fa-spinner fa-spin" style="font-size: 20px;"></i>
+                                                </f:facet>
+
+                                                <f:facet name="complete">
+                                                    <h:outputText value="" />
+                                                </f:facet>
+                                            </p:ajaxStatus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:tab>
+                            <p:tab id="tbPadre" title="Responsable de estudiante">
+                                <div class="p-col-12">
+                                    <div class="p-grid p-ai-center vertical-container">
+                                        <div class="p-col-6">
+                                            <p:outputLabel for="txtDui" value="DUI" />
+                                        </div>
+                                        <div class="p-col-6" >
+                                            <p:inputText id="txtDui" placeholder="DUI" style="width: 100%;" required="true" value="#{loginView.dui}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-12">
+                                    <div class="p-grid p-ai-center vertical-container">
+                                        <div class="p-col-6">
+                                            <p:outputLabel for="txtNie" value="NIE" />
+                                        </div>
+                                        <div class="p-col-6" >
+                                            <p:inputText id="txtNie" placeholder="NIE" style="width: 100%;" required="true" value="#{loginView.nie}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-12">
+                                    <div class="p-grid p-ai-center vertical-container">
+                                        <div class="p-col-6">
+                                            <p:outputLabel for="txtCodigo" value="Código de Infraestructura" />
+                                        </div>
+                                        <div class="p-col-6" >
+                                            <p:inputText id="txtCodigo" placeholder="Código de Infraestructura" style="width: 100%;" required="true" value="#{loginView.codigoEntidad}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-12 " >
+                                    <div class="p-grid">
+                                        <div class="p-col-6">
+                                            <p:commandButton id="btnValidarEst" widgetVar="btnValidar" value="Validar" style="width: 110px;" 
+                                                             action="#{loginView.validarCredencialesResponsable()}" process="@this,txtDui,txtNie,txtCodigo"
+                                                             onclick="PF('btnValidar').disable();" icon="pi pi-sign-in"
+                                                             oncomplete="PF('btnValidar').enable();" update="outPrincipal"/> 
+                                        </div>
+                                        <div class="p-col-6">
+                                            <p:ajaxStatus style="float: right;">
+                                                <f:facet name="default">
+                                                </f:facet>
+
+                                                <f:facet name="start">
+                                                    <h:outputText value="Espere por favor" style="font-size: 14px;" />
+                                                    <i class="fa fa-spinner fa-spin" style="font-size: 20px;"></i>
+                                                </f:facet>
+
+                                                <f:facet name="complete">
+                                                    <h:outputText value="" />
+                                                </f:facet>
+                                            </p:ajaxStatus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:tab>
+                        </p:tabView>
                     </div>
                 </div>
             </div>

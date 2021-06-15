@@ -38,6 +38,10 @@ public class ProcesoVotacion implements Serializable {
     private BigDecimal idProcesoVotacion;
     @Column(name = "CODIGO_ENTIDAD")
     private String codigoEntidad;
+    @Column(name = "HABILITAR_VOTACION")
+    private Short habilitarVotacion;
+    @Column(name = "HABILITAR_RESULTADOS")
+    private Short habilitarResultados;
     @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
     private List<Candidato> candidatoList;
     @JoinColumn(name = "ID_ANHO", referencedColumnName = "ID_ANHO")
@@ -115,6 +119,22 @@ public class ProcesoVotacion implements Serializable {
 
     public void setParametroVotacionList(List<ParametroVotacion> parametroVotacionList) {
         this.parametroVotacionList = parametroVotacionList;
+    }
+
+    public Short getHabilitarVotacion() {
+        return habilitarVotacion;
+    }
+
+    public void setHabilitarVotacion(Short habilitarVotacion) {
+        this.habilitarVotacion = habilitarVotacion;
+    }
+
+    public Short getHabilitarResultados() {
+        return habilitarResultados;
+    }
+
+    public void setHabilitarResultados(Short habilitarResultados) {
+        this.habilitarResultados = habilitarResultados;
     }
 
 }

@@ -11,7 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import sv.gob.mined.app.facade.siges.CatalogoFacadeSiges;
 import sv.gob.mined.app.view.util.CredencialesView;
+import sv.gob.mined.app.view.util.VarSession;
 import sv.gob.mined.utils.jsf.JsfUtil;
 
 /**
@@ -27,9 +29,15 @@ public class LoginView implements Serializable {
     private String idDominioCorreo = "2";
     private String dominio;
     private String password;
+    private Long nie;
+    private String dui;
+    private String codigoEntidad;
 
     @Inject
     private CredencialesView credencialesView;
+
+    @Inject
+    private CatalogoFacadeSiges catalogoFacadeSiges;
 
     @PostConstruct
     public void init() {
@@ -77,17 +85,40 @@ public class LoginView implements Serializable {
         this.password = password;
     }
 
+    public Long getNie() {
+        return nie;
+    }
+
+    public void setNie(Long nie) {
+        this.nie = nie;
+    }
+
+    public String getDui() {
+        return dui;
+    }
+
+    public void setDui(String dui) {
+        this.dui = dui;
+    }
+
+    public String getCodigoEntidad() {
+        return codigoEntidad;
+    }
+
+    public void setCodigoEntidad(String codigoEntidad) {
+        this.codigoEntidad = codigoEntidad;
+    }
+
     public String validarCrendecialesDelCorreo() {
         String url = "";
         if (correoRemitente != null && password != null) {
 
-            credencialesView.setDominio(idDominioCorreo);
+            credencialesView.setIdDominioCorreo(idDominioCorreo);
             credencialesView.setCorreoRemitente(correoRemitente);
             credencialesView.setPassword(password);
             credencialesView.validarCredencial();
 
-            //correoValido = credencialesView.isCorreoValido();
-
+            correoValido = credencialesView.isCorreoValido();
             if (correoValido) {
 
                 url = "/app/inicio?faces-redirect=true";
@@ -98,5 +129,18 @@ public class LoginView implements Serializable {
         }
 
         return url;
+    }
+
+    public String validarCredencialesResponsable() {
+        if (catalogoFacadeSiges.validarCredenciales(nie, dui, codigoEntidad)) {
+            VarSession.setVariableSession("nie", nie);
+            VarSession.setVariableSession("dui", dui);
+            VarSession.setVariableSession("codigo", codigoEntidad);
+            VarSession.setVariableSession(VarSession.TIPO_USUARIO, VarSession.USUARIO_PAD);
+
+            return "app/inicio?faces-redirect=true";
+        } else {
+            return "";
+        }
     }
 }

@@ -16,7 +16,7 @@ import javax.persistence.PersistenceContext;
 @Stateless
 public class PersistenceFacade {
 
-    @PersistenceContext(unitName = "votacionUP")
+    @PersistenceContext(unitName = "votacionPU")
     private EntityManager em;
 
     public void crear(Object obj) {

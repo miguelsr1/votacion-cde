@@ -22,7 +22,7 @@ import sv.gob.mined.app.model.ProcesoVotacion;
 @Stateless
 public class ParametrosFacade {
 
-    @PersistenceContext(unitName = "votacionUP")
+    @PersistenceContext(unitName = "votacionPU")
     private EntityManager em;
 
     public void guardarParametroVotacionCe(String codigoEntidad, BigDecimal idProcesoVotacion, Integer[] lstDocentePro, Integer[] lstDocenteSup, Integer[] lstPadrePro, Integer[] lstPadreSup) {

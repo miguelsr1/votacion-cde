@@ -1,9 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
-  <persistence-unit name="votacionUP" transaction-type="JTA">
-    <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-    <jta-data-source>java:/VotacionCdeDS</jta-data-source>
-    <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties/>
-  </persistence-unit>
+    <persistence-unit name="votacionPU" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>java:/VotacionCdeDS</jta-data-source>
+        <class>sv.gob.mined.app.model.Anho</class>
+        <class>sv.gob.mined.app.model.Candidato</class>
+        <class>sv.gob.mined.app.model.Cargo</class>
+        <class>sv.gob.mined.app.model.ParametroVotacion</class>
+        <class>sv.gob.mined.app.model.ProcesoVotacion</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.cache.shared.default" value="false"/>
+            <property name="eclipselink.target-database" value="Oracle"/>
+            <property name="eclipselink.target-server" value="JBoss"/>
+            <property name="eclipselink.archive.factory" value="org.jipijapa.eclipselink.JBossArchiveFactoryImpl"/>
+        </properties>
+    </persistence-unit>
+    <persistence-unit name="sigesPU" transaction-type="JTA">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <jta-data-source>java:/SigesDS</jta-data-source>
+        <mapping-file>META-INF/nativeQueries.xml</mapping-file>
+        <class>sv.gob.mined.app.model.siges.dto.EstudianteDto</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties/>
+    </persistence-unit>
 </persistence>
