@@ -5,8 +5,10 @@
  */
 package sv.gob.mined.app.facade;
 
+import java.util.ArrayList;
 import java.util.List;
 import javax.ejb.Stateless;
+import javax.faces.model.SelectItem;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -14,9 +16,12 @@ import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
+import sv.gob.mined.app.model.Anho;
 import sv.gob.mined.app.model.Candidato;
 import sv.gob.mined.app.model.Cargo;
+import sv.gob.mined.app.model.Director;
 import sv.gob.mined.app.model.ProcesoVotacion;
+import sv.gob.mined.app.model.Usuario;
 
 /**
  *
@@ -61,15 +66,50 @@ public class CatalogoFacade {
         return q.getResultList();
     }
 
-    public ProcesoVotacion findProceso() {
-        return null;
-    }
-
     public ProcesoVotacion findProcesoByAnhoAndCodigoEntidad(String anho, String codigoEntidad) {
         Query q = emVotacion.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.idAnho.anho=:pAnho and p.codigoEntidad=:pCodigoEntidad", ProcesoVotacion.class);
         q.setParameter("pAnho", anho);
         q.setParameter("pCodigoEntidad", codigoEntidad);
 
         return q.getResultList().isEmpty() ? null : (ProcesoVotacion) q.getResultList().get(0);
+    }
+
+    public Usuario getsUsuarioRegistrado(String correo) {
+        Query q = emVotacion.createQuery("SELECT u FROM Usuario u WHERE u.cuentaCorreo=:pCorreo", Usuario.class);
+        q.setParameter("pCorreo", correo);
+        return q.getResultList().isEmpty() ? null : (Usuario) q.getResultList().get(0);
+    }
+
+    public List<SelectItem> findCargos(List<Integer> idCargos) {
+        List<SelectItem> items = new ArrayList();
+
+        CriteriaBuilder cb = emVotacion.getCriteriaBuilder();
+        CriteriaQuery<Cargo> q = cb.createQuery(Cargo.class);
+        Root<Cargo> c = q.from(Cargo.class);
+        q.orderBy(cb.asc(c.get("idCargo")));
+        q.select(c).where(c.get("idCargo").in(idCargos));
+
+        TypedQuery<Cargo> query = emVotacion.createQuery(q);
+
+        query.getResultList().forEach(cargo -> {
+            items.add(new SelectItem(cargo.getIdCargo(), cargo.getDescripcionCargo()));
+        });
+        return items;
+    }
+
+    public String getCodigoEntidadByCorreoDirector(String correo) {
+        Query q = emVotacion.createQuery("SELECT d FROM Director d WHERE d.correoElectronico=:pCorreo", Director.class);
+        q.setParameter("pCorreo", correo);
+
+        if (q.getResultList().isEmpty()) {
+            return null;
+        } else {
+            return ((Director) q.getResultList().get(0)).getCodigoEntidad();
+        }
+    }
+
+    public Anho findAnhoActivo() {
+        Query q = emVotacion.createQuery("SELECT a FROM Anho a WHERE a.activo=1 ", Anho.class);
+        return (Anho) q.getResultList().get(0);
     }
 }

@@ -13,7 +13,7 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <link href="#{request.contextPath}/resources/images/favicon.png" rel="shortcut icon"/>
         </f:facet>
-        <title>Cooperación a Centros Educativos</title>
+        <title>Gestión Educativa - Votación CDE</title>
     </h:head>
 
     <h:body styleClass="login-body">
@@ -42,7 +42,8 @@
                                             <p:inputText id="txtUsuario" placeholder="Usuario" style="width: 100%;" required="true" value="#{loginView.correoRemitente}"/>
                                         </div>
                                         <div class="p-col-5" >
-                                            <p:selectOneMenu id="rdTipo" value="#{loginView.idDominioCorreo}" >
+                                            <p:selectOneMenu id="cboDominio" value="#{loginView.idDominioCorreo}" >
+                                                <f:selectItem itemLabel="Seleccione un valor" />
                                                 <f:selectItem itemLabel="Office 365" itemValue="1"/>
                                                 <f:selectItem itemLabel="Google Classroom" itemValue="2"/>
                                             </p:selectOneMenu>
@@ -65,7 +66,7 @@
                                     <div class="p-grid">
                                         <div class="p-col-6">
                                             <p:commandButton id="btnValidar" widgetVar="btnValidar" value="Validar" style="width: 110px;" 
-                                                             action="#{loginView.validarCrendecialesDelCorreo()}" process="@this,txtUsuario,rdTipo,passwordEmp"
+                                                             action="#{loginView.validarCrendecialesDelCorreo()}" process="@this,txtUsuario,cboDominio,passwordEmp"
                                                              onclick="PF('btnValidar').disable();"  icon="pi pi-sign-in"
                                                              oncomplete="PF('btnValidar').enable();" update="outPrincipal"/> 
                                         </div>

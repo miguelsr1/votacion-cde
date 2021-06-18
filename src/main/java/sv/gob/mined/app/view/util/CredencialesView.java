@@ -66,15 +66,6 @@ public class CredencialesView implements Serializable {
 
     public void validarCredencial() {
         try {
-            if (idDominioCorreo.equals("1")) {
-                remitente = correoRemitente.concat("@").concat("docentes.mined.edu.sv");
-                port = "587";
-                server = "smtp.office365.com";
-            } else {
-                remitente = correoRemitente.concat("@").concat("clases.edu.sv");
-                port = "587";
-                server = "smtp.gmail.com";
-            }
             mailSession = eMailFacade.getMailSession(idDominioCorreo, mailSession, remitente, password);
 
             transport = mailSession.getTransport("smtp");
@@ -95,6 +86,17 @@ public class CredencialesView implements Serializable {
     }
 
     public String getRemitente() {
+        if (idDominioCorreo.equals("1")) {
+            //remitente = correoRemitente.concat("@").concat("docentes.mined.edu.sv");
+            remitente = correoRemitente.concat("@").concat("admin.mined.edu.sv");
+            port = "587";
+            server = "smtp.office365.com";
+        } else {
+            remitente = correoRemitente.concat("@").concat("clases.edu.sv");
+            port = "587";
+            server = "smtp.gmail.com";
+        }
+
         return remitente;
     }
 

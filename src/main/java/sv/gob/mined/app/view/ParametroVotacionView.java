@@ -38,10 +38,12 @@ public class ParametroVotacionView implements Serializable {
     private CatalogoFacade catalogoFacade;
     @Inject
     private ParametrosFacade parametrosFacade;
+    @Inject
+    private ParametrosSesionView parametrosSesionView;
 
     @PostConstruct
     public void init() {
-        List<ParametroVotacion> lstParam = parametrosFacade.findParametrosByCodigoEntAndAnho("10001", 1);
+        List<ParametroVotacion> lstParam = parametrosFacade.findParametrosByCodigoEntAndAnho(parametrosSesionView.getCodigoEntidad(), parametrosSesionView.getAnho().getAnho());
         String cpd = "";
         String csd = "";
         String cpp = "";
@@ -71,11 +73,18 @@ public class ParametroVotacionView implements Serializable {
                     break;
             }
         }
-
-        cargoPropietarioDocente = cargarParametros(cpd.split(","));
-        cargoSuplenteDocente = cargarParametros(csd.split(","));
-        cargoPropietarioPadre = cargarParametros(cpp.split(","));
-        cargoSuplentePadre = cargarParametros(csp.split(","));
+        if (!cpd.isEmpty()) {
+            cargoPropietarioDocente = cargarParametros(cpd.split(","));
+        }
+        if (!csd.isEmpty()) {
+            cargoSuplenteDocente = cargarParametros(csd.split(","));
+        }
+        if (!cpp.isEmpty()) {
+            cargoPropietarioPadre = cargarParametros(cpp.split(","));
+        }
+        if (!csp.isEmpty()) {
+            cargoSuplentePadre = cargarParametros(csp.split(","));
+        }
     }
 
     private Integer[] cargarParametros(String[] valores) {
@@ -88,6 +97,14 @@ public class ParametroVotacionView implements Serializable {
 
     public List<Cargo> getCargos() {
         return catalogoFacade.findAllCargos();
+    }
+
+    public List<SelectItem> getCargo(String idCargos) {
+        List<Integer> ids = new ArrayList();
+        for (String id : idCargos.split(",")) {
+            ids.add(Integer.parseInt(id));
+        }
+        return catalogoFacade.findCargos(ids);
     }
 
     public Integer[] getCargoPropietarioDocente() {
@@ -123,7 +140,9 @@ public class ParametroVotacionView implements Serializable {
     }
 
     public void guardar() {
-        parametrosFacade.guardarParametroVotacionCe("10001", BigDecimal.ONE, cargoPropietarioDocente, cargoSuplenteDocente, cargoPropietarioPadre, cargoSuplentePadre);
+        parametrosFacade.guardarParametroVotacionCe(parametrosSesionView.getCodigoEntidad(),
+                parametrosSesionView.getProcesoVotacion().getIdProcesoVotacion(),
+                cargoPropietarioDocente, cargoSuplenteDocente, cargoPropietarioPadre, cargoSuplentePadre);
     }
 
     public Boolean getDeshabilitar() {

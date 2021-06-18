@@ -64,22 +64,19 @@
         <p:growl id="messages" escape="false" showDetail="true" >
             <p:autoUpdate />
         </p:growl>
-        
-        <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
-            <ui:include src="./topbar.xhtml" />
+        <h:form id="frmPrincipal" prependId="false" >
+            <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
+                <ui:include src="./topbar.xhtml" />
 
-            <div class="layout-main">
-
-                <div class="layout-content">
-                    <h:form id="frmPrincipal" prependId="false" >
+                <div class="layout-main">
+                    <div class="layout-content">
                         <ui:insert name="content"/>
-                    </h:form>
-                </div>
+                    </div>
 
-                <ui:include src="./footer.xhtml" />
-            </div>        
-        </div>
-
+                    <ui:include src="./footer.xhtml" />
+                </div>        
+            </div>
+        </h:form>
         <p:ajaxStatus style="width:32px;height:32px;position:fixed;right:7px;bottom:7px">
             <f:facet name="start">
                 <i class="pi pi-spin pi-spinner layout-ajax-loader-icon" aria-hidden="true"></i>

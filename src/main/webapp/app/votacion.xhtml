@@ -36,10 +36,10 @@
     <ui:param name="viewname" value="FORM LAYOUT" />
 
     <ui:define name="content">
-        
+
         <div jsf:id="dvPrincipal" class="wrapper">
             <div jsf:id="div1" class="p-grid p-ai-center vertical-container" >
-                <div class="p-col">
+                <div class="p-col" style="display: #{votacionView.showSecretario?'block':'none'}">
                     <p:commandLink action="detalleVotacion">
                         <div class="card overview-box" style="text-align: center !important">
                             <h5>Secretario</h5>
@@ -49,7 +49,7 @@
                         <f:param name="idCargo" value="1"/>
                     </p:commandLink>
                 </div>
-                <div class="p-col">
+                <div class="p-col" style="display: #{votacionView.showConsejalDocente?'block':'none'}">
                     <p:commandLink action="detalleVotacion">
                         <div class="card overview-box"  style="text-align: center !important">
                             <h5>Consejal</h5>
@@ -59,7 +59,7 @@
                         <f:param name="idCargo" value="2"/>
                     </p:commandLink>
                 </div>
-                <div class="p-col">
+                <div class="p-col" style="display: #{votacionView.showTesorero?'block':'none'}">
                     <p:commandLink action="detalleVotacion">
                         <div class="card overview-box"  style="text-align: center !important">
                             <h5>Tesorero</h5>
@@ -69,7 +69,7 @@
                         <f:param name="idCargo" value="3"/>
                     </p:commandLink>
                 </div>
-                <div class="p-col">
+                <div class="p-col" style="display: #{votacionView.showConsejal1?'block':'none'}">
                     <p:commandLink action="detalleVotacion">
                         <div class="card overview-box" style="text-align: center !important">
                             <h5>Consejal 1</h5>
@@ -79,7 +79,7 @@
                         <f:param name="idCargo" value="4"/>
                     </p:commandLink>
                 </div>
-                <div class="p-col">
+                <div class="p-col" style="display: #{votacionView.showConsejal2?'block':'none'}">
                     <p:commandLink action="detalleVotacion">
                         <div class="card overview-box" style="text-align: center !important">
                             <h5>Consejal 2</h5>
@@ -89,6 +89,28 @@
                         <f:param name="idCargo" value="5"/>
                     </p:commandLink>
                 </div>
+
+                <div class="p-col" style="display: #{votacionView.showRepresentante1?'block':'none'}">
+                    <p:commandLink action="detalleVotacion">
+                        <div class="card overview-box" style="text-align: center !important">
+                            <h5>Representante 1</h5>
+                            <br/>
+                            <p:graphicImage name="parents.png" library="images" width="80"/>
+                        </div>
+                        <f:param name="idCargo" value="6"/>
+                    </p:commandLink>
+                </div>
+                <div class="p-col" style="display: #{votacionView.showRepresentante2?'block':'none'}">
+                    <p:commandLink action="detalleVotacion">
+                        <div class="card overview-box" style="text-align: center !important">
+                            <h5>Representante 2</h5>
+                            <br/>
+                            <p:graphicImage name="parents.png" library="images" width="80"/>
+                        </div>
+                        <f:param name="idCargo" value="7"/>
+                    </p:commandLink>
+                </div>
+
             </div>
         </div>
     </ui:define>

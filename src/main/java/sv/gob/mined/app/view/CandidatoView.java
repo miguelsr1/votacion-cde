@@ -34,11 +34,13 @@ public class CandidatoView implements java.io.Serializable {
     private CatalogoFacade catalogoFacade;
     @Inject
     private PersistenceFacade persistenceFacade;
+    @Inject
+    private ParametrosSesionView parametrosSesionView;
 
     @PostConstruct
     public void init() {
-        lstCandidato = catalogoFacade.findCandidatosByAnhoAndCodigoEntidad(1, "10001");
-        procesoVotacion = catalogoFacade.find(ProcesoVotacion.class, BigDecimal.ONE);
+        lstCandidato = catalogoFacade.findCandidatosByAnhoAndCodigoEntidad(1, parametrosSesionView.getCodigoEntidad());
+        procesoVotacion = parametrosSesionView.getProcesoVotacion();
     }
 
     public Candidato getCandidato() {

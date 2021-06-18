@@ -34,6 +34,9 @@ public class Anho implements Serializable {
     @OneToMany(mappedBy = "idAnho", fetch = FetchType.LAZY)
     private List<ProcesoVotacion> procesoVotacionList;
 
+    @Column(name = "ACTIVO")
+    private Short activo;
+
     public Anho() {
     }
 
@@ -90,5 +93,13 @@ public class Anho implements Serializable {
     public String toString() {
         return "sv.gob.mined.app.model.Anho[ idAnho=" + idAnho + " ]";
     }
-    
+
+    public Short getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Short activo) {
+        this.activo = activo;
+    }
+
 }

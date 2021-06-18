@@ -61,42 +61,14 @@
                 <div class="layout-main">
                     <div class="layout-content ">
                         <div class="p-grid  p-ai-center vertical-container">
-                            <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuario eq 'A')?'block':'none'}">
-                                <p:commandLink action="parametroVotacion.mined">
-                                    <div class="card overview-box" style="text-align: center !important">
-                                        <h5>Parametros de cargos</h5>
-                                        <br/>
-                                        <p:graphicImage name="config.png" library="images"  width="80"/>
-                                    </div>
-                                </p:commandLink>
-                            </div>
-                            <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuario eq 'A')?'block':'none'}">
-                                <p:commandLink action="registroCandidato.mined">
-                                    <div class="card overview-box"  style="text-align: center !important">
-                                        <h5>Agregar candidato</h5>
-                                        <br/>
-                                        <p:graphicImage name="add-user.png" library="images"  width="80"/>
-                                    </div>
-                                </p:commandLink>
-                            </div>
-                            <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
-                                <p:commandLink action="votacion.mined" disabled="#{inicioView.procesoVotacion.habilitarVotacion eq 0}">
-                                    <div class="card overview-box"  style="text-align: center !important">
-                                        <h5>Emitir voto</h5>
-                                        <br/>
-                                        <p:graphicImage name="vote.png" library="images" width="80" style="filter: grayscale(#{(inicioView.procesoVotacion.habilitarVotacion eq 1)?'0%':'200%'});"/>
-                                    </div>
-                                </p:commandLink>
-                            </div>
-                            <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
-                                <p:commandLink action="votacion.mined" disabled="#{inicioView.procesoVotacion.habilitarResultados eq 0}">
-                                    <div class="card overview-box" style="text-align: center !important">
-                                        <h5>Resultados</h5>
-                                        <br/>
-                                        <p:graphicImage name="presentation.png" library="images" width="80" style="filter: grayscale(#{(inicioView.procesoVotacion.habilitarResultados eq 1)?'0%':'200%'});"/>
-                                    </div>
-                                </p:commandLink>
-                            </div>
+                            <p:tabView>
+                                <p:tab title="Cargos">
+                                    <ui:include
+                                </p:tab>
+                                <p:tab title="Votación y Resultados">
+                                    
+                                </p:tab>
+                            </p:tabView>
                         </div>
                     </div>
 

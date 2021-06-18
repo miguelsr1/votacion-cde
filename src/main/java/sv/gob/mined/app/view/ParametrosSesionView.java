@@ -7,19 +7,32 @@ package sv.gob.mined.app.view;
 
 import java.io.Serializable;
 import javax.annotation.PostConstruct;
-import javax.enterprise.context.SessionScoped;;
+import javax.enterprise.context.SessionScoped;
+import javax.inject.Inject;
+;
 import javax.inject.Named;
+import sv.gob.mined.app.facade.CatalogoFacade;
+import sv.gob.mined.app.model.ProcesoVotacion;
+import sv.gob.mined.app.model.Anho;
 import sv.gob.mined.app.view.util.VarSession;
+
+
 
 @Named
 @SessionScoped
-public class ParametrosSesionView implements Serializable {  
+public class ParametrosSesionView implements Serializable {
+
+    private Anho anho;
+    private ProcesoVotacion procesoVotacion;
+
+    @Inject
+    private CatalogoFacade catalogoFacade;
 
     @PostConstruct
     public void init() {
-
+        anho = catalogoFacade.findAnhoActivo();
+        procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", getCodigoEntidad());
     }
-
 
     public String getTipoUsuario() {
         return VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString();
@@ -34,5 +47,17 @@ public class ParametrosSesionView implements Serializable {
             default:
                 return false;
         }
+    }
+
+    public String getCodigoEntidad() {
+        return VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString();
+    }
+
+    public Anho getAnho() {
+        return anho;
+    }
+
+    public ProcesoVotacion getProcesoVotacion() {
+        return procesoVotacion;
     }
 }

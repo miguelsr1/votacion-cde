@@ -11,7 +11,9 @@ import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.siges.CatalogoFacadeSiges;
+import sv.gob.mined.app.model.Usuario;
 import sv.gob.mined.app.view.util.CredencialesView;
 import sv.gob.mined.app.view.util.VarSession;
 import sv.gob.mined.utils.jsf.JsfUtil;
@@ -26,7 +28,7 @@ public class LoginView implements Serializable {
 
     private Boolean correoValido = false;
     private String correoRemitente;
-    private String idDominioCorreo = "2";
+    private String idDominioCorreo = "1";
     private String dominio;
     private String password;
     private Long nie;
@@ -38,6 +40,9 @@ public class LoginView implements Serializable {
 
     @Inject
     private CatalogoFacadeSiges catalogoFacadeSiges;
+
+    @Inject
+    private CatalogoFacade catalogoFacade;
 
     @PostConstruct
     public void init() {
@@ -112,19 +117,31 @@ public class LoginView implements Serializable {
     public String validarCrendecialesDelCorreo() {
         String url = "";
         if (correoRemitente != null && password != null) {
-
             credencialesView.setIdDominioCorreo(idDominioCorreo);
             credencialesView.setCorreoRemitente(correoRemitente);
             credencialesView.setPassword(password);
-            credencialesView.validarCredencial();
 
-            correoValido = credencialesView.isCorreoValido();
-            if (correoValido) {
+            Usuario usuario = catalogoFacade.getsUsuarioRegistrado(credencialesView.getRemitente());
 
-                url = "/app/inicio?faces-redirect=true";
+            if (usuario != null) {
+                //credencialesView.validarCredencial();
 
+                /*correoValido = credencialesView.isCorreoValido();
+                if (correoValido) {*/
+                    VarSession.setVariableSession(VarSession.TIPO_USUARIO, usuario.getTipoUsuario());
+                    if(usuario.getTipoUsuario().equals("A")){
+                        //recuperar el centro educativo
+                        VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, 
+                                catalogoFacade.getCodigoEntidadByCorreoDirector(usuario.getCuentaCorreo()));
+                    }
+
+                    url = "/app/inicio?faces-redirect=true";
+
+                /*} else {
+                    JsfUtil.mensajeError("Error en el usuario o  clave de acceso.");
+                }*/
             } else {
-                JsfUtil.mensajeError("Error en el usuario o  clave de acceso.");
+                JsfUtil.mensajeError("Este USUARIO no esta registrado en el sistema.");
             }
         }
 
@@ -135,7 +152,7 @@ public class LoginView implements Serializable {
         if (catalogoFacadeSiges.validarCredenciales(nie, dui, codigoEntidad)) {
             VarSession.setVariableSession("nie", nie);
             VarSession.setVariableSession("dui", dui);
-            VarSession.setVariableSession("codigo", codigoEntidad);
+            VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, codigoEntidad);
             VarSession.setVariableSession(VarSession.TIPO_USUARIO, VarSession.USUARIO_PAD);
 
             return "app/inicio?faces-redirect=true";

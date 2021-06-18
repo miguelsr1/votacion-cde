@@ -43,10 +43,10 @@ public class ParametrosFacade {
         }
     }
 
-    public List<ParametroVotacion> findParametrosByCodigoEntAndAnho(String codigoEntidad, Integer idAnho) {
-        Query q = em.createQuery("SELECT p FROM ParametroVotacion p WHERE p.idProcesoVotacion.codigoEntidad=:pCodigoEntidad and p.idProcesoVotacion.idAnho.idAnho=:pIdAnho", ParametroVotacion.class);
+    public List<ParametroVotacion> findParametrosByCodigoEntAndAnho(String codigoEntidad, String idAnho) {
+        Query q = em.createQuery("SELECT p FROM ParametroVotacion p WHERE p.idProcesoVotacion.codigoEntidad=:pCodigoEntidad and p.idProcesoVotacion.idAnho.anho=:pAnho", ParametroVotacion.class);
         q.setParameter("pCodigoEntidad", codigoEntidad);
-        q.setParameter("pIdAnho", idAnho);
+        q.setParameter("pAnho", idAnho);
 
         return q.getResultList();
     }

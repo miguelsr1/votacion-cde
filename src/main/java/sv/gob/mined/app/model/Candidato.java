@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,6 +23,9 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "CANDIDATO")
 public class Candidato implements Serializable {
+
+    @OneToMany(mappedBy = "idCandidato", fetch = FetchType.LAZY)
+    private List<Votacion> votacionList;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -180,6 +185,14 @@ public class Candidato implements Serializable {
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public List<Votacion> getVotacionList() {
+        return votacionList;
+    }
+
+    public void setVotacionList(List<Votacion> votacionList) {
+        this.votacionList = votacionList;
     }
 
 }

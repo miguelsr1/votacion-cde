@@ -30,17 +30,18 @@ public class DetalleVotacionView implements Serializable {
     private BigDecimal idCandidatoPro;
     private BigDecimal idCandidatoSup;
 
-
     @Inject
     private CatalogoFacade catalogoFacade;
+    @Inject
+    private ParametrosSesionView parametrosSesionView;
 
     private List<Candidato> lstCandidatosPropietarios = new ArrayList();
     private List<Candidato> lstCandidatosSuplentes = new ArrayList();
 
     @PostConstruct
     public void init() {
-        lstCandidatosPropietarios = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(1, "10001", Integer.parseInt(JsfUtil.getParametroUrl("idCargo")), true);
-        lstCandidatosSuplentes = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(1, "10001", Integer.parseInt(JsfUtil.getParametroUrl("idCargo")), false);
+        lstCandidatosPropietarios = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), Integer.parseInt(JsfUtil.getParametroUrl("idCargo")), true);
+        lstCandidatosSuplentes = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), Integer.parseInt(JsfUtil.getParametroUrl("idCargo")), false);
     }
 
     public BigDecimal getIdCandidatoPro() {
@@ -74,13 +75,12 @@ public class DetalleVotacionView implements Serializable {
     public void setIdCargo(Integer idCargo) {
         this.idCargo = idCargo;
     }
-    
-    public void guardar(){
-        if(idCandidatoPro != null && idCandidatoSup !=null){
-            
-            
+
+    public void guardar() {
+        if (idCandidatoPro != null && idCandidatoSup != null) {
+
             PrimeFaces.current().executeScript("PF('dlgVoto').show()");
-        }else{
+        } else {
             JsfUtil.mensajeAlerta("Debe de seleccionar un candidato.");
         }
     }
