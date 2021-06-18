@@ -6,6 +6,7 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -43,6 +44,9 @@ public class LoginView implements Serializable {
 
     @Inject
     private CatalogoFacade catalogoFacade;
+
+    @Inject
+    private UsuariosConectadosView usuariosConectados;
 
     @PostConstruct
     public void init() {
@@ -128,14 +132,13 @@ public class LoginView implements Serializable {
 
                 /*correoValido = credencialesView.isCorreoValido();
                 if (correoValido) {*/
-                    VarSession.setVariableSession(VarSession.TIPO_USUARIO, usuario.getTipoUsuario());
-                    if(usuario.getTipoUsuario().equals("A")){
-                        //recuperar el centro educativo
-                        VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, 
-                                catalogoFacade.getCodigoEntidadByCorreoDirector(usuario.getCuentaCorreo()));
-                    }
-
-                    url = "/app/inicio?faces-redirect=true";
+                VarSession.setVariableSession(VarSession.TIPO_USUARIO, usuario.getTipoUsuario());
+                if (usuario.getTipoUsuario().equals("A")) {
+                    //recuperar el centro educativo
+                    VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD,
+                            catalogoFacade.getCodigoEntidadByCorreoDirector(usuario.getCuentaCorreo()));
+                }
+                url = "/app/inicio?faces-redirect=true";
 
                 /*} else {
                     JsfUtil.mensajeError("Error en el usuario o  clave de acceso.");
@@ -154,6 +157,8 @@ public class LoginView implements Serializable {
             VarSession.setVariableSession("dui", dui);
             VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, codigoEntidad);
             VarSession.setVariableSession(VarSession.TIPO_USUARIO, VarSession.USUARIO_PAD);
+
+            usuariosConectados.agregarUsuario(BigDecimal.ZERO, dui, dui, codigoEntidad);
 
             return "app/inicio?faces-redirect=true";
         } else {

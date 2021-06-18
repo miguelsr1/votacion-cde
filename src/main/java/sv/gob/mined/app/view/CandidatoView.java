@@ -5,7 +5,6 @@
  */
 package sv.gob.mined.app.view;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;

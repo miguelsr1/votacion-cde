@@ -6,6 +6,7 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -13,6 +14,8 @@ import javax.inject.Named;
 import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.model.ProcesoVotacion;
+import sv.gob.mined.app.model.dto.UsuarioConectadoDto;
+import sv.gob.mined.app.view.util.VarSession;
 
 @Named
 @ViewScoped
@@ -26,6 +29,8 @@ public class HabilitarVotacionView implements Serializable {
     private PersistenceFacade persistenceFacade;
     @Inject
     private CatalogoFacade catalogoFacade;
+    @Inject
+    private UsuariosConectadosView usuariosConectadosView;
 
     @PostConstruct
     public void init() {
@@ -58,20 +63,8 @@ public class HabilitarVotacionView implements Serializable {
         this.habilitarResultados = habilitarResultados;
     }
 
-    public PersistenceFacade getPersistenceFacade() {
-        return persistenceFacade;
-    }
-
-    public void setPersistenceFacade(PersistenceFacade persistenceFacade) {
-        this.persistenceFacade = persistenceFacade;
-    }
-
-    public CatalogoFacade getCatalogoFacade() {
-        return catalogoFacade;
-    }
-
-    public void setCatalogoFacade(CatalogoFacade catalogoFacade) {
-        this.catalogoFacade = catalogoFacade;
+    public List<UsuarioConectadoDto> lstUsuarios() {
+        return usuariosConectadosView.getLstUsuarioConectados(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
     }
 
     public void guardar() {
