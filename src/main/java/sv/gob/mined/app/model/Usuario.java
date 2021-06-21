@@ -8,11 +8,18 @@ package sv.gob.mined.app.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -22,11 +29,16 @@ import javax.persistence.Table;
 @Table(name = "USUARIO")
 public class Usuario implements Serializable {
 
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
+    private List<DetalleVotaUsuario> detalleVotaUsuarioList;
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @Column(name = "ID_USUARIO")
+    @GeneratedValue(generator = "SEQ_USUARIO", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "SEQ_USUARIO", sequenceName = "SEQ_USUARIO", allocationSize = 1, initialValue = 1)
     private BigDecimal idUsuario;
     @Column(name = "CUENTA_CORREO")
     private String cuentaCorreo;
@@ -98,5 +110,14 @@ public class Usuario implements Serializable {
     public String toString() {
         return "sv.gob.mined.app.model.Usuario[ idUsuario=" + idUsuario + " ]";
     }
-    
+
+    @XmlTransient
+    public List<DetalleVotaUsuario> getDetalleVotaUsuarioList() {
+        return detalleVotaUsuarioList;
+    }
+
+    public void setDetalleVotaUsuarioList(List<DetalleVotaUsuario> detalleVotaUsuarioList) {
+        this.detalleVotaUsuarioList = detalleVotaUsuarioList;
+    }
+
 }

@@ -79,6 +79,7 @@ public class DetalleVotacionView implements Serializable {
     public void guardar() {
         if (idCandidatoPro != null && idCandidatoSup != null) {
 
+            
             PrimeFaces.current().executeScript("PF('dlgVoto').show()");
         } else {
             JsfUtil.mensajeAlerta("Debe de seleccionar un candidato.");

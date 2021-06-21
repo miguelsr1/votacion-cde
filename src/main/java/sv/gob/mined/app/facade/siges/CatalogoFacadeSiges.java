@@ -21,13 +21,12 @@ public class CatalogoFacadeSiges {
     @PersistenceContext(unitName = "sigesPU")
     private EntityManager emSiges;
 
-   
-    public Boolean validarCredenciales(Long nie, String dui, String codigoEntidad) {
+    public EstudianteDto validarCredenciales(Long nie, String dui, String codigoEntidad) {
         Query q = emSiges.createNamedQuery("Votacion.EstudianteDto", EstudianteDto.class);
         q.setParameter(1, nie);
         q.setParameter(2, codigoEntidad);
         q.setParameter(3, dui);
 
-        return !q.getResultList().isEmpty();
+        return q.getResultList().isEmpty() ? null : (EstudianteDto) q.getResultList().get(0);
     }
 }

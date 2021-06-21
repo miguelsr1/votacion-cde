@@ -7,6 +7,7 @@ package sv.gob.mined.app.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.List;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,8 +17,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -26,6 +29,9 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "PARAMETRO_VOTACION")
 public class ParametroVotacion implements Serializable {
+
+    @OneToMany(mappedBy = "idParametro", fetch = FetchType.LAZY)
+    private List<DetalleVotaUsuario> detalleVotaUsuarioList;
 
     @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -107,6 +113,15 @@ public class ParametroVotacion implements Serializable {
 
     public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
         this.idProcesoVotacion = idProcesoVotacion;
+    }
+
+    @XmlTransient
+    public List<DetalleVotaUsuario> getDetalleVotaUsuarioList() {
+        return detalleVotaUsuarioList;
+    }
+
+    public void setDetalleVotaUsuarioList(List<DetalleVotaUsuario> detalleVotaUsuarioList) {
+        this.detalleVotaUsuarioList = detalleVotaUsuarioList;
     }
 
 }

@@ -6,11 +6,14 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.ParametrosFacade;
 import sv.gob.mined.app.model.ParametroVotacion;
 
@@ -34,6 +37,8 @@ public class VotacionView implements Serializable {
 
     @Inject
     private ParametrosFacade parametrosFacade;
+    @Inject
+    private CatalogoFacade catalogoFacade;
     @Inject
     private ParametrosSesionView parametrosSesionView;
 
@@ -112,4 +117,9 @@ public class VotacionView implements Serializable {
         return showRepresentante2;
     }
 
+    public String validarVotoRealizado(){
+        //if(catalogoFacade.isVotoRealizadoByUsuarioAndParametro(BigDecimal.ZERO, BigInteger.ZERO)){
+            return "";
+        //}
+    }
 }

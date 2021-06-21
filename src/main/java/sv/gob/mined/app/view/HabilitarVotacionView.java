@@ -6,6 +6,7 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -24,6 +25,7 @@ public class HabilitarVotacionView implements Serializable {
     private Boolean habilitarVotacion;
     private Boolean habilitarResultados;
     private ProcesoVotacion procesoVotacion;
+    private List<UsuarioConectadoDto> lstUsuarios = new ArrayList();
 
     @Inject
     private PersistenceFacade persistenceFacade;
@@ -37,6 +39,7 @@ public class HabilitarVotacionView implements Serializable {
         procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", "20627");
         habilitarResultados = (procesoVotacion.getHabilitarResultados() == 1);
         habilitarVotacion = (procesoVotacion.getHabilitarVotacion() == 1);
+        lstUsuarios = usuariosConectadosView.getLstUsuarioConectados(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
     }
 
     public ProcesoVotacion getProcesoVotacion() {
@@ -63,8 +66,12 @@ public class HabilitarVotacionView implements Serializable {
         this.habilitarResultados = habilitarResultados;
     }
 
-    public List<UsuarioConectadoDto> lstUsuarios() {
-        return usuariosConectadosView.getLstUsuarioConectados(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
+    public List<UsuarioConectadoDto> getLstUsuarios() {
+        return lstUsuarios;
+    }
+
+    public void setLstUsuarios(List<UsuarioConectadoDto> lstUsuarios) {
+        this.lstUsuarios = lstUsuarios;
     }
 
     public void guardar() {

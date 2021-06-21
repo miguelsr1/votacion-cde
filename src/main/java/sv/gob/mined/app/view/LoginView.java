@@ -15,6 +15,7 @@ import javax.inject.Named;
 import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.siges.CatalogoFacadeSiges;
 import sv.gob.mined.app.model.Usuario;
+import sv.gob.mined.app.model.siges.dto.EstudianteDto;
 import sv.gob.mined.app.view.util.CredencialesView;
 import sv.gob.mined.app.view.util.VarSession;
 import sv.gob.mined.utils.jsf.JsfUtil;
@@ -152,11 +153,15 @@ public class LoginView implements Serializable {
     }
 
     public String validarCredencialesResponsable() {
-        if (catalogoFacadeSiges.validarCredenciales(nie, dui, codigoEntidad)) {
+        EstudianteDto padreSiges = catalogoFacadeSiges.validarCredenciales(nie, dui, codigoEntidad);
+        if (padreSiges != null) {
             VarSession.setVariableSession("nie", nie);
             VarSession.setVariableSession("dui", dui);
             VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, codigoEntidad);
             VarSession.setVariableSession(VarSession.TIPO_USUARIO, VarSession.USUARIO_PAD);
+            VarSession.setVariableSession(VarSession.ID_USUARIO, new BigDecimal(padreSiges.getIdPerSiges().toString()));
+
+            catalogoFacade.guardarUsuarioPadre(padreSiges.getIdPerSiges());
 
             usuariosConectados.agregarUsuario(BigDecimal.ZERO, dui, dui, codigoEntidad);
 
