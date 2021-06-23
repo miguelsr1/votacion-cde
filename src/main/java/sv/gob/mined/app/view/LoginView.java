@@ -162,7 +162,7 @@ public class LoginView implements Serializable {
             VarSession.setVariableSession("dui", dui);
             VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, codigoEntidad);
             VarSession.setVariableSession(VarSession.TIPO_USUARIO, VarSession.USUARIO_PAD);
-            VarSession.setVariableSession(VarSession.ID_USUARIO, new BigDecimal(padreSiges.getIdPerSiges().toString()));
+            VarSession.setVariableSession(VarSession.ID_USUARIO_SIGES, new BigDecimal(padreSiges.getIdPerSiges().toString()));
             VarSession.setVariableSession("nombres", padreSiges.getNombres());
             VarSession.setVariableSession("apellidos", padreSiges.getApellidos());
 

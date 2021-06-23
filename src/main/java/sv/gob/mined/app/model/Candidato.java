@@ -194,5 +194,4 @@ public class Candidato implements Serializable {
     public void setVotacionList(List<Votacion> votacionList) {
         this.votacionList = votacionList;
     }
-
 }

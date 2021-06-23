@@ -29,6 +29,12 @@ import javax.xml.bind.annotation.XmlTransient;
 @Table(name = "PROCESO_VOTACION")
 public class ProcesoVotacion implements Serializable {
 
+    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
+    private List<DetalleVotaUsuario> detalleVotaUsuarioList;
+    
+    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
+    private List<Votacion> votacionList;
+
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "procesoVotacion", fetch = FetchType.LAZY)
     private Asistencia asistencia;
 
@@ -52,6 +58,14 @@ public class ProcesoVotacion implements Serializable {
     @JoinColumn(name = "ID_ANHO", referencedColumnName = "ID_ANHO")
     @ManyToOne(fetch = FetchType.LAZY)
     private Anho idAnho;
+
+    public List<DetalleVotaUsuario> getDetalleVotaUsuarioList() {
+        return detalleVotaUsuarioList;
+    }
+
+    public void setDetalleVotaUsuarioList(List<DetalleVotaUsuario> detalleVotaUsuarioList) {
+        this.detalleVotaUsuarioList = detalleVotaUsuarioList;
+    }
 
     public ProcesoVotacion() {
     }
@@ -148,6 +162,15 @@ public class ProcesoVotacion implements Serializable {
 
     public void setAsistencia(Asistencia asistencia) {
         this.asistencia = asistencia;
+    }
+
+    @XmlTransient
+    public List<Votacion> getVotacionList() {
+        return votacionList;
+    }
+
+    public void setVotacionList(List<Votacion> votacionList) {
+        this.votacionList = votacionList;
     }
 
 }

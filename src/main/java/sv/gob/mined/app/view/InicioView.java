@@ -6,20 +6,50 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import sv.gob.mined.app.facade.CatalogoFacade;
+import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.model.ProcesoVotacion;
+import sv.gob.mined.utils.jsf.JsfUtil;
 
 @Named
 @ViewScoped
 public class InicioView implements Serializable {
 
+    private Boolean usuarioVoto = false;
     @Inject
     private CatalogoFacade catalogoFacade;
-    
+    @Inject
+    private PersistenceFacade persistenceFacade;
+    @Inject
+    private ParametrosSesionView parametrosSesionView;
+
+    @PostConstruct
+    public void init() {
+        usuarioVoto = persistenceFacade.isVotoDeUsuario(parametrosSesionView.getIdUsuario(), parametrosSesionView.getProcesoVotacion().getIdProcesoVotacion());
+    }
+
     public ProcesoVotacion getProcesoVotacion() {
         return catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", "20627");
+    }
+
+    public Boolean getUsuarioVoto() {
+        return usuarioVoto;
+    }
+
+    public void setUsuarioVoto(Boolean usuarioVoto) {
+        this.usuarioVoto = usuarioVoto;
+    }
+
+    public String detVotacion() {
+        if (usuarioVoto) {
+            return "#";
+        } else {
+            return "detalleVotacion";
+        }
     }
 }

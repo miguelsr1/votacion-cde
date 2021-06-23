@@ -7,27 +7,22 @@ package sv.gob.mined.app.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
-;
 import javax.inject.Named;
 import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.model.ProcesoVotacion;
 import sv.gob.mined.app.model.Anho;
-import sv.gob.mined.app.model.Asistencia;
-import sv.gob.mined.app.model.Usuario;
 import sv.gob.mined.app.model.dto.VwCatalogoEntidadEducativa;
 import sv.gob.mined.app.view.util.VarSession;
-
-
 
 @Named
 @SessionScoped
 public class ParametrosSesionView implements Serializable {
 
+    private BigDecimal idUsuario;
     private Anho anho;
     private ProcesoVotacion procesoVotacion;
     private VwCatalogoEntidadEducativa entidadEducativa;
@@ -44,7 +39,8 @@ public class ParametrosSesionView implements Serializable {
         procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", getCodigoEntidad());
         entidadEducativa = catalogoFacade.findEntidadEducativaByCodigo(getCodigoEntidad());
 
-        persistenceFacade.guardarUsuarioPadre(((BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO)).longValue(),
+        idUsuario = persistenceFacade.guardarUsuarioPadre(
+                ((BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO_SIGES)).longValue(),
                 VarSession.getVariableSession("nombres").toString(),
                 VarSession.getVariableSession("apellidos").toString(),
                 VarSession.getVariableSession("dui").toString(),
@@ -89,4 +85,9 @@ public class ParametrosSesionView implements Serializable {
     public String getCentroEducativo() {
         return entidadEducativa.getCodigoEntidad().concat(" - ").concat(entidadEducativa.getNombre());
     }
+
+    public BigDecimal getIdUsuario() {
+        return idUsuario;
+    }
+
 }

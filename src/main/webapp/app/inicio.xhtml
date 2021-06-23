@@ -80,7 +80,7 @@
                                 </p:commandLink>
                             </div>
                             <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
-                                <p:commandLink action="detalleVotacion.mined" disabled="#{inicioView.procesoVotacion.habilitarVotacion eq 0}">
+                                <p:commandLink action="#{inicioView.detVotacion()}" disabled="#{inicioView.procesoVotacion.habilitarVotacion eq 0}">
                                     <div class="card overview-box"  style="text-align: center !important">
                                         <h5>Emitir voto</h5>
                                         <br/>
@@ -96,6 +96,9 @@
                                         <p:graphicImage name="presentation.png" library="images" width="80" style="filter: grayscale(#{(inicioView.procesoVotacion.habilitarResultados eq 1)?'0%':'200%'});"/>
                                     </div>
                                 </p:commandLink>
+                            </div>
+                            <div class="p-col-12" style="display: #{(inicioView.usuarioVoto)?'block':'none'}">
+                                <p:staticMessage severity="warn" summary="Alerta" detail="Usted ya realizo el proceso de votación" style="width: 100%"/>
                             </div>
                         </div>
                     </div>

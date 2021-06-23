@@ -14,7 +14,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import sv.gob.mined.app.model.Asistencia;
 import sv.gob.mined.app.model.DetalleVotaUsuario;
-import sv.gob.mined.app.model.ParametroVotacion;
+import sv.gob.mined.app.model.ProcesoVotacion;
 import sv.gob.mined.app.model.Usuario;
 import sv.gob.mined.app.view.util.VarSession;
 
@@ -36,7 +36,8 @@ public class PersistenceFacade {
         return em.merge(entity);
     }
 
-    public void guardarUsuarioPadre(Long idPerSiges, String nombres, String apellidos, String dui, BigDecimal idProcesoVotacion) {
+    public BigDecimal guardarUsuarioPadre(Long idPerSiges, String nombres, String apellidos, String dui, BigDecimal idProcesoVotacion) {
+        BigDecimal idUsuario;
         Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.idPerSiges=:pIdPer", Usuario.class);
         q.setParameter("pIdPer", new BigInteger(idPerSiges.toString()));
 
@@ -49,22 +50,33 @@ public class PersistenceFacade {
             usuario.setDui(dui);
             em.persist(usuario);
 
+            idUsuario = usuario.getIdUsuario();
+
             Asistencia asistencia = new Asistencia();
             asistencia.setFechaLogeo(new Date());
             asistencia.setIdProcesoVotacion(idProcesoVotacion);
             asistencia.setIdUsuario(usuario);
-            
+
             em.persist(asistencia);
+        } else {
+            idUsuario = ((Usuario) q.getResultList().get(0)).getIdUsuario();
         }
+        return idUsuario;
     }
 
-    public void guardarDetalleVoto(BigDecimal idParametro, BigInteger idUsuario) {
+    public void guardarDetalleVoto(BigDecimal idUsuario, ProcesoVotacion procesoVotacion) {
         DetalleVotaUsuario detalleVotaUsuario = new DetalleVotaUsuario();
-        detalleVotaUsuario.setIdParametro(em.find(ParametroVotacion.class, idParametro));
+        detalleVotaUsuario.setIdProcesoVotacion(procesoVotacion);
         detalleVotaUsuario.setIdUsuario(em.find(Usuario.class, idUsuario));
         detalleVotaUsuario.setFechaInsercion(new Date());
 
         em.persist(detalleVotaUsuario);
     }
 
+    public Boolean isVotoDeUsuario(BigDecimal idUsuario, BigDecimal idProcesoVotacion) {
+        Query q = em.createQuery("SELECT d FROM DetalleVotaUsuario d WHERE d.idProcesoVotacion.idProcesoVotacion=:pIdProcesoVotacion and d.idUsuario.idUsuario=:pIdUsuario", DetalleVotaUsuario.class);
+        q.setParameter("pIdProcesoVotacion", idProcesoVotacion);
+        q.setParameter("pIdUsuario", idUsuario);
+        return !q.getResultList().isEmpty();
+    }
 }

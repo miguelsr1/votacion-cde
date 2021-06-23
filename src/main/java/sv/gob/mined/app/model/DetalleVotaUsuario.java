@@ -46,9 +46,9 @@ public class DetalleVotaUsuario implements Serializable {
     @Column(name = "FECHA_INSERCION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaInsercion;
-    @JoinColumn(name = "ID_PARAMETRO", referencedColumnName = "ID_PARAMETRO")
+    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
     @ManyToOne(fetch = FetchType.LAZY)
-    private ParametroVotacion idParametro;
+    private ProcesoVotacion idProcesoVotacion;
     @JoinColumn(name = "ID_USUARIO", referencedColumnName = "ID_USUARIO")
     @ManyToOne(fetch = FetchType.LAZY)
     private Usuario idUsuario;
@@ -76,12 +76,12 @@ public class DetalleVotaUsuario implements Serializable {
         this.fechaInsercion = fechaInsercion;
     }
 
-    public ParametroVotacion getIdParametro() {
-        return idParametro;
+    public ProcesoVotacion getIdProcesoVotacion() {
+        return idProcesoVotacion;
     }
 
-    public void setIdParametro(ParametroVotacion idParametro) {
-        this.idParametro = idParametro;
+    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
+        this.idProcesoVotacion = idProcesoVotacion;
     }
 
     public Usuario getIdUsuario() {

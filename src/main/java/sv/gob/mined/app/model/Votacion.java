@@ -12,9 +12,12 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,11 +30,17 @@ import javax.persistence.TemporalType;
 @Table(name = "VOTACION")
 public class Votacion implements Serializable {
 
+    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProcesoVotacion idProcesoVotacion;
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @Column(name = "ID_VOTACION")
+    @GeneratedValue(generator = "SEQ_VOTACION", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(sequenceName = "SEQ_VOTACION", name = "SEQ_VOTACION", initialValue = 1, allocationSize = 1)
     private BigDecimal idVotacion;
     @Basic(optional = false)
     @Column(name = "FECHA_INSERCION")
@@ -100,6 +109,14 @@ public class Votacion implements Serializable {
     @Override
     public String toString() {
         return "sv.gob.mined.app.model.Votacion[ idVotacion=" + idVotacion + " ]";
+    }
+
+    public ProcesoVotacion getIdProcesoVotacion() {
+        return idProcesoVotacion;
+    }
+
+    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
+        this.idProcesoVotacion = idProcesoVotacion;
     }
     
 }

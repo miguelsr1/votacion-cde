@@ -47,6 +47,22 @@
                 margin-left: 0rem;
                 margin-top: 0rem;
             }
+
+            .custom-scrolltop.ui-scrolltop {
+                width: 2rem;
+                height: 2rem;
+                border-radius: 4px;
+                outline: 0 none;
+                background-color: var(--primary-color);
+            }
+            .custom-scrolltop.ui-scrolltop:hover {
+                background-color: var(--primary-color);
+            }
+
+            .custom-scrolltop.ui-scrolltop .ui-scrolltop-icon {
+                font-size: 1rem;
+                color: var(--primary-color-text);
+            }
         </style>
     </ui:define>
 
@@ -55,6 +71,8 @@
     <ui:param name="viewname" value="FORM LAYOUT" />
 
     <ui:define name="content">
+        <p:scrollTop id="clientId" style="margin-right: 170px; margin-bottom: 25px;" />
+
         <div class="p-grid" jsf:id="dvSecretario" style="display: #{detalleVotacionView.showSecretario?'block':'none'}}">
             <div class="p-col-12">
                 <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
@@ -74,7 +92,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_proSec" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
                                                  onclick="marcarEleccion('proSec',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoPro}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro1}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -101,7 +119,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_supSec" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
                                                  onclick="marcarEleccion('supSec',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoSup}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup1}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -130,7 +148,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_proConD" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
                                                  onclick="marcarEleccion('proConD',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoPro}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro2}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -159,7 +177,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_supConD" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
                                                  onclick="marcarEleccion('supConD',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoSup}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup2}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -189,7 +207,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_proTes" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
                                                  onclick="marcarEleccion('proTes',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoPro}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro3}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -218,7 +236,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_supTes" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
                                                  onclick="marcarEleccion('supTes',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoSup}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup3}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -248,7 +266,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_proCon1" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
                                                  onclick="marcarEleccion('proCon1',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoPro}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro4}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -276,7 +294,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_supCon1" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
                                                  onclick="marcarEleccion('supCon1',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoSup}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup4}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -306,7 +324,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_proCon2" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
                                                  onclick="marcarEleccion('proCon2',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoPro}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro5}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -333,7 +351,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_supCon2" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
                                                  onclick="marcarEleccion('supCon2',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoSup}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup5}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -362,7 +380,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_proRep1" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
                                                  onclick="marcarEleccion('proRep1',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoPro}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro6}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -389,7 +407,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_supRep1" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
                                                  onclick="marcarEleccion('supRep1',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoSup}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup6}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -418,7 +436,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_proRep2" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
                                                  onclick="marcarEleccion('proRep2',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoPro}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro7}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -447,7 +465,7 @@
                                 <br/><br/>
                                 <p:commandButton id="btn_supRep2" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
                                                  onclick="marcarEleccion('supRep2',#{status.index}, 'success')" action="#" class="ui-button-secondary">
-                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idCandidatoSup}" />
+                                    <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup7}" />
                                 </p:commandButton>
                             </p:outputPanel>
                         </h:panelGrid>
@@ -460,7 +478,8 @@
 
         <div class="grid p-jc-center">
             <div class="p-col-12">
-                <p:commandButton value="Guardar" action="#{detalleVotacionView.guardar()}" icon="pi pi-save" style="margin-right: .5rem">
+                <p:commandButton value="Guardar" action="#{detalleVotacionView.guardar()}"  onclick="PrimeFaces.scrollTo('clientId');"
+                                 icon="pi pi-save" style="margin-right: .5rem">
                 </p:commandButton>
 
                 <p:commandButton value="Cancelar" icon="pi pi-times" action="inicio"/>
@@ -468,14 +487,14 @@
         </div>
         <p:remoteCommand name="cambiar" onsuccess="marcarEleccion()"/>
 
-        <p:dialog id="dlgVoto" widgetVar="dlgVoto" header="Información" modal="true" closable="true" resizable="false">
+        <p:dialog id="dlgVoto" widgetVar="dlgVoto" header="Información" modal="true" closable="true" resizable="false" width="230">
             <p:outputPanel id="pnlVoto">
                 <i class="pi pi-info-circle" style="font-size: 18px; color: #006cd9;"></i>
                 <p:spacer width="15"/>
                 <p:outputLabel value="Su voto ha sido procesado" />
             </p:outputPanel>
             <f:facet name="footer">
-                <p:commandButton value="Aceptar" action="votacion"/>
+                <p:commandButton value="Aceptar" action="inicio"/>
             </f:facet>
         </p:dialog>
     </ui:define>
