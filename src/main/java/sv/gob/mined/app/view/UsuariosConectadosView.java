@@ -25,7 +25,6 @@ public class UsuariosConectadosView implements Serializable {
         UsuarioConectadoDto usu = new UsuarioConectadoDto();
         usu.setIdUsuario(idUsuario);
         usu.setNombres(nombres);
-        usu.setApellidos(apellidos);
         usu.setCodigoEntidad(codigoEntidad);
 
         lstUsuarios.add(usu);

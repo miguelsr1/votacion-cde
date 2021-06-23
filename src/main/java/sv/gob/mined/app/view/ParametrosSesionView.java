@@ -6,14 +6,20 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
 ;
 import javax.inject.Named;
 import sv.gob.mined.app.facade.CatalogoFacade;
+import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.model.ProcesoVotacion;
 import sv.gob.mined.app.model.Anho;
+import sv.gob.mined.app.model.Asistencia;
+import sv.gob.mined.app.model.Usuario;
+import sv.gob.mined.app.model.dto.VwCatalogoEntidadEducativa;
 import sv.gob.mined.app.view.util.VarSession;
 
 
@@ -24,14 +30,25 @@ public class ParametrosSesionView implements Serializable {
 
     private Anho anho;
     private ProcesoVotacion procesoVotacion;
+    private VwCatalogoEntidadEducativa entidadEducativa;
 
     @Inject
     private CatalogoFacade catalogoFacade;
+
+    @Inject
+    private PersistenceFacade persistenceFacade;
 
     @PostConstruct
     public void init() {
         anho = catalogoFacade.findAnhoActivo();
         procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", getCodigoEntidad());
+        entidadEducativa = catalogoFacade.findEntidadEducativaByCodigo(getCodigoEntidad());
+
+        persistenceFacade.guardarUsuarioPadre(((BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO)).longValue(),
+                VarSession.getVariableSession("nombres").toString(),
+                VarSession.getVariableSession("apellidos").toString(),
+                VarSession.getVariableSession("dui").toString(),
+                procesoVotacion.getIdProcesoVotacion());
     }
 
     public String getTipoUsuario() {
@@ -59,5 +76,17 @@ public class ParametrosSesionView implements Serializable {
 
     public ProcesoVotacion getProcesoVotacion() {
         return procesoVotacion;
+    }
+
+    public String getNombreUsuario() {
+        if (VarSession.isVariableSession("nombreUsuario")) {
+            return VarSession.getVariableSession("nombreUsuario").toString();
+        } else {
+            return "";
+        }
+    }
+
+    public String getCentroEducativo() {
+        return entidadEducativa.getCodigoEntidad().concat(" - ").concat(entidadEducativa.getNombre());
     }
 }

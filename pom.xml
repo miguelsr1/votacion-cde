@@ -122,23 +122,6 @@
             <artifactId>geronimo-annotation_1.3_spec</artifactId>
             <version>1.0</version>
         </dependency>
-
-        <!-- CDI Impl -->
-        <dependency>
-            <groupId>org.apache.openwebbeans</groupId>
-            <artifactId>openwebbeans-impl</artifactId>
-            <version>${owb.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.openwebbeans</groupId>
-            <artifactId>openwebbeans-web</artifactId>
-            <version>${owb.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.openwebbeans</groupId>
-            <artifactId>openwebbeans-jsf</artifactId>
-            <version>${owb.version}</version>
-        </dependency>
     </dependencies>
 
     <build>

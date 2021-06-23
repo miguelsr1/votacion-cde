@@ -29,9 +29,27 @@ public class EstudianteDto implements Serializable {
     private String sedCodigo;
     private Long perNie;
     private String perDui;
-    private Long idPerSiges ;
+    private String nombres;
+    private String apellidos;
+    private Long idPerSiges;
     @Temporal(javax.persistence.TemporalType.DATE)
     private Date perFechaNacimiento;
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
 
     public Long getIdPerSiges() {
         return idPerSiges;

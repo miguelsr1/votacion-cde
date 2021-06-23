@@ -7,14 +7,17 @@ package sv.gob.mined.app.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import sv.gob.mined.app.facade.CatalogoFacade;
+import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.facade.siges.CatalogoFacadeSiges;
 import sv.gob.mined.app.model.Usuario;
+import sv.gob.mined.app.model.Asistencia;
 import sv.gob.mined.app.model.siges.dto.EstudianteDto;
 import sv.gob.mined.app.view.util.CredencialesView;
 import sv.gob.mined.app.view.util.VarSession;
@@ -47,7 +50,7 @@ public class LoginView implements Serializable {
     private CatalogoFacade catalogoFacade;
 
     @Inject
-    private UsuariosConectadosView usuariosConectados;
+    private PersistenceFacade persistenceFacade;
 
     @PostConstruct
     public void init() {
@@ -160,11 +163,10 @@ public class LoginView implements Serializable {
             VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, codigoEntidad);
             VarSession.setVariableSession(VarSession.TIPO_USUARIO, VarSession.USUARIO_PAD);
             VarSession.setVariableSession(VarSession.ID_USUARIO, new BigDecimal(padreSiges.getIdPerSiges().toString()));
+            VarSession.setVariableSession("nombres", padreSiges.getNombres());
+            VarSession.setVariableSession("apellidos", padreSiges.getApellidos());
 
-            catalogoFacade.guardarUsuarioPadre(padreSiges.getIdPerSiges());
-
-            usuariosConectados.agregarUsuario(BigDecimal.ZERO, dui, dui, codigoEntidad);
-
+            //registrar primer logeo para le proceso de votación.
             return "app/inicio?faces-redirect=true";
         } else {
             return "";

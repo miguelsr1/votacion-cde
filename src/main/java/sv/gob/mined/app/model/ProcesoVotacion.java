@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -16,6 +17,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlTransient;
 
@@ -26,6 +28,9 @@ import javax.xml.bind.annotation.XmlTransient;
 @Entity
 @Table(name = "PROCESO_VOTACION")
 public class ProcesoVotacion implements Serializable {
+
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "procesoVotacion", fetch = FetchType.LAZY)
+    private Asistencia asistencia;
 
     @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
     private List<ParametroVotacion> parametroVotacionList;
@@ -135,6 +140,14 @@ public class ProcesoVotacion implements Serializable {
 
     public void setHabilitarResultados(Short habilitarResultados) {
         this.habilitarResultados = habilitarResultados;
+    }
+
+    public Asistencia getAsistencia() {
+        return asistencia;
+    }
+
+    public void setAsistencia(Asistencia asistencia) {
+        this.asistencia = asistencia;
     }
 
 }

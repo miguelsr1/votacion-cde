@@ -30,6 +30,9 @@ import javax.xml.bind.annotation.XmlTransient;
 public class Usuario implements Serializable {
 
     @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
+    private List<Asistencia> asistenciaList;
+
+    @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
     private List<DetalleVotaUsuario> detalleVotaUsuarioList;
 
     private static final long serialVersionUID = 1L;
@@ -44,11 +47,42 @@ public class Usuario implements Serializable {
     private String cuentaCorreo;
     @Column(name = "TIPO_USUARIO")
     private String tipoUsuario;
+    @Column(name = "NOMBRES")
+    private String nombres;
+    @Column(name = "APELLIDOS")
+    private String apellidos;
+    @Column(name = "DUI")
+    private String dui;
     @Column(name = "ID_PER_SIGES")
     private BigInteger idPerSiges;
 
     public Usuario() {
     }
+
+    public String getDui() {
+        return dui;
+    }
+
+    public void setDui(String dui) {
+        this.dui = dui;
+    }
+
+    public String getNombres() {
+        return nombres;
+    }
+
+    public void setNombres(String nombres) {
+        this.nombres = nombres;
+    }
+
+    public String getApellidos() {
+        return apellidos;
+    }
+
+    public void setApellidos(String apellidos) {
+        this.apellidos = apellidos;
+    }
+
 
     public Usuario(BigDecimal idUsuario) {
         this.idUsuario = idUsuario;
@@ -118,6 +152,15 @@ public class Usuario implements Serializable {
 
     public void setDetalleVotaUsuarioList(List<DetalleVotaUsuario> detalleVotaUsuarioList) {
         this.detalleVotaUsuarioList = detalleVotaUsuarioList;
+    }
+
+    @XmlTransient
+    public List<Asistencia> getAsistenciaList() {
+        return asistenciaList;
+    }
+
+    public void setAsistenciaList(List<Asistencia> asistenciaList) {
+        this.asistenciaList = asistenciaList;
     }
 
 }

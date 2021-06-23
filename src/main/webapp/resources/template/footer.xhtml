@@ -6,7 +6,14 @@
     xmlns:p="http://primefaces.org/ui">
 
     <div class="layout-footer">
-        <p:graphicImage name="escudo_rpt.png" library="images" style="width: 24px !important;"/>
+        <div>
+            <h:panelGrid columns="4">
+                <p:graphicImage name="escudo_rpt.png" library="images" style="width: 24px !important;"/>
+                <p:outputLabel value="CE: &lt;b&gt;#{parametrosSesionView.centroEducativo}&lt;/b&gt;" escape="false" />
+                <p:spacer width="50"/>
+                <p:outputLabel value="Usuario: &lt;b&gt;#{parametrosSesionView.nombreUsuario}&lt;/b&gt;" escape="false" />
+            </h:panelGrid>
+        </div>
         <div class="layout-footer-right">
             <p:outputLabel value="versión &lt;b&gt;#{versionView.version}&lt;/b&gt;" escape="false" />
             <p:spacer width="10"/>

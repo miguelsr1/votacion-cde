@@ -11,6 +11,9 @@
     <class>sv.gob.mined.app.model.Director</class>
     <class>sv.gob.mined.app.model.Usuario</class>
     <class>sv.gob.mined.app.model.Votacion</class>
+    <class>sv.gob.mined.app.model.DetalleVotaUsuario</class>
+    <class>sv.gob.mined.app.model.dto.VwCatalogoEntidadEducativa</class>
+    <class>sv.gob.mined.app.model.Asistencia</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
