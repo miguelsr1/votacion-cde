@@ -1215,11 +1215,11 @@ p:last-child {
     }
 }
 .login-body {
-    background-color: #1d1d4c;
+    /*background-color: #1d1d4c;*/
     background-size: cover;
-    height: auto;
-    min-height: 100vh;
-    padding-top: 125px;
+    /*height: auto;*/
+    /*min-height: 100vh;*/
+    /*padding-top: 125px;*/
 }
 .login-body .login-panel {
     width: 600px;
@@ -1285,7 +1285,7 @@ p:last-child {
 }
 .login-body .login-panel button {
     width: 100%;
-    display: block;
+    
     margin-bottom: 20px;
 }
 
@@ -2531,13 +2531,13 @@ body a {
 .layout-config .layout-config-content .layout-config-button {
     display: block;
     position: absolute;
-    width: 52px;
+    width: 85px;
     height: 52px;
     line-height: 52px;
     background-color: #3984b8;
     text-align: center;
     top: 230px;
-    left: -51px;
+    left: -85px;
     z-index: -1;
     cursor: pointer;
     color: #ffffff;

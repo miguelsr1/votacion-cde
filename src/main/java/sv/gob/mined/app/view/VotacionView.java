@@ -111,10 +111,4 @@ public class VotacionView implements Serializable {
     public Boolean getShowRepresentante2() {
         return showRepresentante2;
     }
-
-    public String validarVotoRealizado(){
-        //if(catalogoFacade.isVotoRealizadoByUsuarioAndParametro(BigDecimal.ZERO, BigInteger.ZERO)){
-            return "";
-        //}
-    }
 }

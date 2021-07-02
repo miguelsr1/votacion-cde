@@ -3,7 +3,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:pe="http://primefaces.org/ui/extensions">
 
     <h:head>
         <f:facet name="first">
@@ -16,6 +17,7 @@
         <title>Elección de CDE</title>
         <h:outputScript name="js/layout.js" library="paradise-layout"/>
         <h:outputScript name="js/prism.js" library="paradise-layout"/>
+        <h:outputScript name="funciones.js" library="js"/>
 
         <style>
             .layout-wrapper.layout-menu-static .layout-content {
@@ -56,25 +58,111 @@
                 padding-top: 1rem;
                 border-top: 1px solid #dee4e9;
             }
-
+            body .ui-widget-overlay {
+                background-color: #424242;
+                opacity: 0.3;
+                filter: alpha(opacity=70);
+            }
+            #ajax_gif{
+                position: absolute;
+                top: 0;
+                bottom: 0;
+                left:0;
+                right:0;
+                margin: auto;
+                width:60px;
+                height: 60px;
+                z-index:1000; 
+                text-align: center;
+            }
+            .ui-growl {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                width: 400px !important;
+            }
+            .ui-growl-message {
+                padding: 0 0 5px 0;
+                width: 325px !important;
+                float: right;
+            }
         </style>
     </h:head>
 
-    <h:body styleClass="#{guestPreferences.inputStyleClass}" style="max-width: 1200px; margin: 0 auto; ">
+    <h:body styleClass="#{guestPreferences.inputStyleClass}" style="margin: 0 auto; ">
+        <p:ajaxStatus style="position:fixed;right:60px;bottom:30px">
+            <f:facet name="default">
+
+            </f:facet>
+            <f:facet name="start">
+                <div id="div_modal" class="layout-content ui-widget-overlay ui-dialog-mask" ></div>
+                <div id="ajax_gif" class="ui-tooltip-text ui-corner-all " style="z-index: 1000;">
+                    <i class="fa fa-refresh fa-spin ajax-loader" aria-hidden="true" 
+                       style="color: #1d1d4c; font-size: 30px; position: relative;  bottom: -18%;  transform: translateY(-18%);"></i>
+                </div>
+            </f:facet>
+
+            <f:facet name="complete">
+
+            </f:facet>
+        </p:ajaxStatus>
+
+        <p:growl id="messages" escape="false" showDetail="true" showSummary="true" >
+            <p:autoUpdate />
+        </p:growl>
+
+
         <h:form id="frmPrincipal" prependId="false" >
             <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
 
                 <ui:include src="../resources/template/topbar.xhtml"/>
 
+                <div id="layout-config" class="layout-config" style="display:#{(habilitarVotacionView.tiempoFinalizado )?'block':'none'}">
+                    <div class="layout-config-content">
+                        <a href="#" id="layout-config-button" class="layout-config-button">
+<!--                            <pe:timer 
+                                timeout="{habilitarVotacionView.tiempoRestante}"
+                                format="HH:mm:ss"
+                                singleRun="false"
+                                style="color: white;font-size: 14px; font-weight: bold;"/>-->
+                        </a>
+                    </div>
+                </div>
+
                 <div class="layout-main">
                     <div class="layout-content ">
                         <div class="p-grid  p-ai-center vertical-container">
-                            <p:tabView style="width: 100%">
-                                <p:tab title="Cargos a Cubrir">
-                                    <ui:include src="/app/parametroVotacion.xhtml"/>
+                            <p:tabView id="tbvConfig" widgetVar="tbvConfig" style="width: 100%" prependId="false">
+                                <p:tab title="I - CARGOS A CUBRIR">
+                                    <ui:include src="/app/config/parametroVotacion.xhtml"/>
                                 </p:tab>
-                                <p:tab title="Votación y Resultados">
-                                    <ui:include src="/app/habilitarVotacion.xhtml"/>
+                                <p:tab title="II - INGRESO DE CANDIDATOS">
+                                    <ui:include src="/app/config/registroCandidato.xhtml"/>
+                                </p:tab>
+                                <p:tab title="III - PROCESO DE VOTACIÓN">
+                                    <ui:include src="/app/config/habilitarVotacion.xhtml"/>
+                                </p:tab>
+                                <p:tab title="IV - INFORMES">
+                                    <div class="p-grid">
+                                        <div class="p-col-12">
+                                            <div class="card">
+                                                <div class="p-grid ui-fluid">
+                                                    <div class="p-col-3">                        
+                                                        <p class="card-subtitle">
+                                                            <h5>Impresión de informes</h5>
+
+                                                            <div class="p-col-12">
+                                                                <p:commandButton value="Listado de asistentes"/>
+                                                            </div>
+                                                            <div class="p-col-12">
+                                                                <p:commandButton value="Resultados de votación"/>
+                                                            </div>
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </p:tab>
                             </p:tabView>
                         </div>
@@ -83,6 +171,7 @@
                     <ui:include src="../resources/template/footer.xhtml" />
                 </div>
             </div>
+
         </h:form>
         <h:outputStylesheet name="css/primeicons.css" library="paradise-layout"/>
         <h:outputStylesheet name="css/primeflex.min.css" library="paradise-layout"/>

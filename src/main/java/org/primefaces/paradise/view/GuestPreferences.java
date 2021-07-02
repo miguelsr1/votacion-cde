@@ -22,14 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.inject.Named;
 import javax.servlet.ServletContext;
 
-@ManagedBean
-@SessionScoped
+@Named
+@javax.enterprise.context.SessionScoped
 public class GuestPreferences implements Serializable {
 
     private String theme = "blue";

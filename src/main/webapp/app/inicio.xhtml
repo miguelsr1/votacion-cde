@@ -3,6 +3,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
 
     <h:head>
@@ -13,22 +14,9 @@
             <meta name="apple-mobile-web-app-capable" content="yes" />
             <link href="#{request.contextPath}/resources/images/favicon.png" rel="shortcut icon"/>
         </f:facet>
-        <title>Elección de CDE</title>
-        <h:outputScript name="js/layout.js" library="paradise-layout"/>
-        <h:outputScript name="js/prism.js" library="paradise-layout"/>
-
+        <title>Gestión Educativa - Votación CDE</title>
+        
         <style>
-            .layout-wrapper.layout-menu-static .layout-content {
-                margin-left: 0px;
-            }
-
-            .card {
-                background: var(--surface-e);
-                padding: 2rem;
-                box-shadow: 0 2px 1px -1px rgba(0, 0, 0, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.14), 0 1px 3px 0 rgba(0, 0, 0, 0.12);
-                border-radius: 4px;
-                margin-bottom: 2rem;
-            }
             .pageColumnMid{
                 float : left;
                 vertical-align: middle !important;
@@ -36,50 +24,33 @@
                 height: 82px;
                 padding-left: 60px;
             }
-            .p-ai-center {
-                align-items: center;
-            }
-
-            .vertical-container {
-                margin: 0;
-                border-radius: 4px;
-            }
-            .imgBlackAndWhite {
-                -webkit-filter: grayscale(200%); /* Safari 6.0 - 9.0 */
-                filter: grayscale(200%);
-            }
-
         </style>
     </h:head>
 
-    <h:body styleClass="#{guestPreferences.inputStyleClass}" style="max-width: 1200px; margin: 0 auto; ">
-        <h:form id="frmPrincipal" prependId="false" >
+    <h:body styleClass="login-body">
+        <h:form prependId="false">
+            <p:messages id="growl" closable="true" escape="false" showDetail="true">
+                <p:autoUpdate />
+            </p:messages>
+
             <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
 
                 <ui:include src="../resources/template/topbar.xhtml"/>
-
-                <div class="layout-main">
+                
+                <div class="layout-main" style="padding-top: 80px;">
                     <div class="layout-content ">
-                        <div class="p-grid  p-ai-center vertical-container">
-                            <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuario eq 'A')?'block':'none'}">
+                        <div class="content-section implementation">
+                        <div class="p-grid p-jc-center">
+                            <div class="p-col-3" style="display: #{(parametrosSesionView.tipoUsuario eq 'A')?'block':'none'}">
                                 <p:commandLink action="inicioConfig.mined">
                                     <div class="card overview-box" style="text-align: center !important">
-                                        <h5>Parametros de cargos</h5>
+                                        <h5>Parametros</h5>
                                         <br/>
                                         <p:graphicImage name="config.png" library="images"  width="80"/>
                                     </div>
                                 </p:commandLink>
                             </div>
-                            <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuario eq 'A')?'block':'none'}">
-                                <p:commandLink action="registroCandidato.mined">
-                                    <div class="card overview-box"  style="text-align: center !important">
-                                        <h5>Agregar candidato</h5>
-                                        <br/>
-                                        <p:graphicImage name="add-user.png" library="images"  width="80"/>
-                                    </div>
-                                </p:commandLink>
-                            </div>
-                            <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
+                            <div class="p-col-3" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
                                 <p:commandLink action="#{inicioView.detVotacion()}" disabled="#{inicioView.procesoVotacion.habilitarVotacion eq 0}">
                                     <div class="card overview-box"  style="text-align: center !important">
                                         <h5>Emitir voto</h5>
@@ -88,8 +59,8 @@
                                     </div>
                                 </p:commandLink>
                             </div>
-                            <div class="p-col" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
-                                <p:commandLink action="votacion.mined" disabled="#{inicioView.procesoVotacion.habilitarResultados eq 0}">
+                            <div class="p-col-3" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
+                                <p:commandLink action="presentacionResultados.mined" disabled="#{inicioView.procesoVotacion.habilitarResultados eq 0}">
                                     <div class="card overview-box" style="text-align: center !important">
                                         <h5>Resultados</h5>
                                         <br/>
@@ -101,16 +72,14 @@
                                 <p:staticMessage severity="warn" summary="Alerta" detail="Usted ya realizo el proceso de votación" style="width: 100%"/>
                             </div>
                         </div>
+                        </div>
                     </div>
-
-                    <ui:include src="../resources/template/footer.xhtml" />
                 </div>
             </div>
         </h:form>
-        <h:outputStylesheet name="css/primeicons.css" library="paradise-layout"/>
-        <h:outputStylesheet name="css/primeflex.min.css" library="paradise-layout"/>
-        <h:outputStylesheet name="css/demo.css" library="demo"/>
-        <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="paradise-layout"/>
     </h:body>
 
+    <h:outputStylesheet name="css/primeicons.css" library="paradise-layout" />
+    <h:outputStylesheet name="css/primeflex.min.css" library="paradise-layout" />
+    <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="paradise-layout" />
 </html>

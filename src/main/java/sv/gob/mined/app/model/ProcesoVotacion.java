@@ -7,18 +7,24 @@ package sv.gob.mined.app.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -27,19 +33,8 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "PROCESO_VOTACION")
+@XmlRootElement
 public class ProcesoVotacion implements Serializable {
-
-    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
-    private List<DetalleVotaUsuario> detalleVotaUsuarioList;
-    
-    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
-    private List<Votacion> votacionList;
-
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "procesoVotacion", fetch = FetchType.LAZY)
-    private Asistencia asistencia;
-
-    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
-    private List<ParametroVotacion> parametroVotacionList;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -53,19 +48,24 @@ public class ProcesoVotacion implements Serializable {
     private Short habilitarVotacion;
     @Column(name = "HABILITAR_RESULTADOS")
     private Short habilitarResultados;
+    @Column(name = "HORAS")
+    private Integer horas;
+    @Column(name = "FECHA_INSERCION")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaInsercion;
+    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
+    private List<Votacion> votacionList;
+    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
+    private List<Asistencia> asistenciaList;
     @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
     private List<Candidato> candidatoList;
     @JoinColumn(name = "ID_ANHO", referencedColumnName = "ID_ANHO")
     @ManyToOne(fetch = FetchType.LAZY)
     private Anho idAnho;
-
-    public List<DetalleVotaUsuario> getDetalleVotaUsuarioList() {
-        return detalleVotaUsuarioList;
-    }
-
-    public void setDetalleVotaUsuarioList(List<DetalleVotaUsuario> detalleVotaUsuarioList) {
-        this.detalleVotaUsuarioList = detalleVotaUsuarioList;
-    }
+    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
+    private List<ParametroVotacion> parametroVotacionList;
+    @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
+    private List<DetalleVotaUsuario> detalleVotaUsuarioList;
 
     public ProcesoVotacion() {
     }
@@ -90,6 +90,56 @@ public class ProcesoVotacion implements Serializable {
         this.codigoEntidad = codigoEntidad;
     }
 
+    public Short getHabilitarVotacion() {
+        return habilitarVotacion;
+    }
+
+    public void setHabilitarVotacion(Short habilitarVotacion) {
+        this.habilitarVotacion = habilitarVotacion;
+    }
+
+    public Short getHabilitarResultados() {
+        return habilitarResultados;
+    }
+
+    public void setHabilitarResultados(Short habilitarResultados) {
+        this.habilitarResultados = habilitarResultados;
+    }
+
+    public Integer getHoras() {
+        return horas;
+    }
+
+    public void setHoras(Integer horas) {
+        this.horas = horas;
+    }
+
+    public Date getFechaInsercion() {
+        return fechaInsercion;
+    }
+
+    public void setFechaInsercion(Date fechaInsercion) {
+        this.fechaInsercion = fechaInsercion;
+    }
+
+    @XmlTransient
+    public List<Votacion> getVotacionList() {
+        return votacionList;
+    }
+
+    public void setVotacionList(List<Votacion> votacionList) {
+        this.votacionList = votacionList;
+    }
+
+    @XmlTransient
+    public List<Asistencia> getAsistenciaList() {
+        return asistenciaList;
+    }
+
+    public void setAsistenciaList(List<Asistencia> asistenciaList) {
+        this.asistenciaList = asistenciaList;
+    }
+
     @XmlTransient
     public List<Candidato> getCandidatoList() {
         return candidatoList;
@@ -105,6 +155,24 @@ public class ProcesoVotacion implements Serializable {
 
     public void setIdAnho(Anho idAnho) {
         this.idAnho = idAnho;
+    }
+
+    @XmlTransient
+    public List<ParametroVotacion> getParametroVotacionList() {
+        return parametroVotacionList;
+    }
+
+    public void setParametroVotacionList(List<ParametroVotacion> parametroVotacionList) {
+        this.parametroVotacionList = parametroVotacionList;
+    }
+
+    @XmlTransient
+    public List<DetalleVotaUsuario> getDetalleVotaUsuarioList() {
+        return detalleVotaUsuarioList;
+    }
+
+    public void setDetalleVotaUsuarioList(List<DetalleVotaUsuario> detalleVotaUsuarioList) {
+        this.detalleVotaUsuarioList = detalleVotaUsuarioList;
     }
 
     @Override
@@ -131,46 +199,5 @@ public class ProcesoVotacion implements Serializable {
     public String toString() {
         return "sv.gob.mined.app.model.ProcesoVotacion[ idProcesoVotacion=" + idProcesoVotacion + " ]";
     }
-
-    public List<ParametroVotacion> getParametroVotacionList() {
-        return parametroVotacionList;
-    }
-
-    public void setParametroVotacionList(List<ParametroVotacion> parametroVotacionList) {
-        this.parametroVotacionList = parametroVotacionList;
-    }
-
-    public Short getHabilitarVotacion() {
-        return habilitarVotacion;
-    }
-
-    public void setHabilitarVotacion(Short habilitarVotacion) {
-        this.habilitarVotacion = habilitarVotacion;
-    }
-
-    public Short getHabilitarResultados() {
-        return habilitarResultados;
-    }
-
-    public void setHabilitarResultados(Short habilitarResultados) {
-        this.habilitarResultados = habilitarResultados;
-    }
-
-    public Asistencia getAsistencia() {
-        return asistencia;
-    }
-
-    public void setAsistencia(Asistencia asistencia) {
-        this.asistencia = asistencia;
-    }
-
-    @XmlTransient
-    public List<Votacion> getVotacionList() {
-        return votacionList;
-    }
-
-    public void setVotacionList(List<Votacion> votacionList) {
-        this.votacionList = votacionList;
-    }
-
+    
 }

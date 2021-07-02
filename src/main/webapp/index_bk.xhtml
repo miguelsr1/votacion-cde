@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link href="#{request.contextPath}/resources/images/favicon.png" rel="shortcut icon"/>
+        </f:facet>
+        <title>Gestión Educativa - Votación CDE</title>
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <h:form prependId="false">
+            <p:messages id="growl" closable="true" escape="false" showDetail="true">
+                <p:autoUpdate />
+            </p:messages>
+
+            <div class="login-panel ui-fluid p-ai-center vertical-container" jsf:id="outPrincipal" >
+                <div class="card" style="background-color: white !important" >
+                    <div class="p-grid p-nogutter">
+                        <div class="p-col-12 logo-container">
+                            <h:panelGrid columns="2" width="100%">
+                                <p:outputLabel style="font-size: 18px;">Elección de Miembros de CDE</p:outputLabel>
+
+                                <p:graphicImage name="images/login/icon-login.png" library="paradise-layout"
+                                                styleClass="login-icon" style="float: right !important;"/>
+                            </h:panelGrid>
+                        </div>
+                        <p:tabView id="tbLogin" style="width: 100%;">
+                            <p:tab id="tbDocEst" title="Docente/Estudiante">
+                                <div class="p-col-12">
+                                    <p:outputLabel for="txtUsuario" value="Correo" />
+                                    <div class="p-grid">
+                                        <div class="p-col-7">
+                                            <p:inputText id="txtUsuario" placeholder="Usuario" style="width: 100%;" required="true" value="#{loginView.correoRemitente}"/>
+                                        </div>
+                                        <div class="p-col-5" >
+                                            <p:selectOneMenu id="cboDominio" value="#{loginView.idDominioCorreo}" >
+                                                <f:selectItem itemLabel="Seleccione un valor" />
+                                                <f:selectItem itemLabel="Office 365" itemValue="1"/>
+                                                <f:selectItem itemLabel="Google Classroom" itemValue="2"/>
+                                            </p:selectOneMenu>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-12">
+                                    <p:outputLabel for="passwordEmp" value="Clave de acceso"  />
+                                    <div class="input-wrapper">
+                                        <p:password id="passwordEmp" placeholder="Clave de acceso" feedback="false" value="#{loginView.password}" />
+                                        <p:graphicImage name="images/login/lock.png" library="paradise-layout"
+                                                        styleClass="lock-icon"/>
+                                    </div>
+                                </div>
+                                <div class="p-col-12" style="height: 32px;">
+                                    <br/>
+                                </div>
+                                <div class="p-col-12 " >
+                                    <div class="p-grid">
+                                        <div class="p-col-6">
+                                            <p:commandButton id="btnValidar" widgetVar="btnValidar" value="Validar" style="width: 110px;" 
+                                                             action="#{loginView.validarCrendecialesDelCorreo()}" process="@this,txtUsuario,cboDominio,passwordEmp"
+                                                             onclick="PF('btnValidar').disable();"  icon="pi pi-sign-in"
+                                                             oncomplete="PF('btnValidar').enable();" update="outPrincipal"/> 
+                                        </div>
+                                        <div class="p-col-6">
+                                            <p:ajaxStatus style="float: right;">
+                                                <f:facet name="default">
+                                                </f:facet>
+
+                                                <f:facet name="start">
+                                                    <h:outputText value="Espere por favor" style="font-size: 14px;" />
+                                                    <i class="fa fa-spinner fa-spin" style="font-size: 20px;"></i>
+                                                </f:facet>
+
+                                                <f:facet name="complete">
+                                                    <h:outputText value="" />
+                                                </f:facet>
+                                            </p:ajaxStatus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:tab>
+                            <p:tab id="tbPadre" title="Responsable de estudiante">
+                                <div class="p-col-12">
+                                    <div class="p-grid p-ai-center vertical-container">
+                                        <div class="p-col-6">
+                                            <p:outputLabel for="txtDui" value="DUI" />
+                                        </div>
+                                        <div class="p-col-6" >
+                                            <p:inputText id="txtDui" placeholder="DUI" style="width: 100%;" required="true" value="#{loginView.dui}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-12">
+                                    <div class="p-grid p-ai-center vertical-container">
+                                        <div class="p-col-6">
+                                            <p:outputLabel for="txtNie" value="NIE" />
+                                        </div>
+                                        <div class="p-col-6" >
+                                            <p:inputText id="txtNie" placeholder="NIE" style="width: 100%;" required="true" value="#{loginView.nie}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-12">
+                                    <div class="p-grid p-ai-center vertical-container">
+                                        <div class="p-col-6">
+                                            <p:outputLabel for="txtCodigo" value="Código de Infraestructura" />
+                                        </div>
+                                        <div class="p-col-6" >
+                                            <p:inputText id="txtCodigo" placeholder="Código de Infraestructura" style="width: 100%;" required="true" value="#{loginView.codigoEntidad}"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-col-12 " >
+                                    <div class="p-grid">
+                                        <div class="p-col-6">
+                                            <p:commandButton id="btnValidarEst" widgetVar="btnValidar" value="Validar" style="width: 110px;" 
+                                                             action="#{loginView.validarCredencialesResponsable()}" process="@this,txtDui,txtNie,txtCodigo"
+                                                             onclick="PF('btnValidar').disable();" icon="pi pi-sign-in"
+                                                             oncomplete="PF('btnValidar').enable();" update="outPrincipal"/> 
+                                        </div>
+                                        <div class="p-col-6">
+                                            <p:ajaxStatus style="float: right;">
+                                                <f:facet name="default">
+                                                </f:facet>
+
+                                                <f:facet name="start">
+                                                    <h:outputText value="Espere por favor" style="font-size: 14px;" />
+                                                    <i class="fa fa-spinner fa-spin" style="font-size: 20px;"></i>
+                                                </f:facet>
+
+                                                <f:facet name="complete">
+                                                    <h:outputText value="" />
+                                                </f:facet>
+                                            </p:ajaxStatus>
+                                        </div>
+                                    </div>
+                                </div>
+                            </p:tab>
+                        </p:tabView>
+                    </div>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+
+    <h:outputStylesheet name="css/primeicons.css" library="paradise-layout" />
+    <h:outputStylesheet name="css/primeflex.min.css" library="paradise-layout" />
+    <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="paradise-layout" />
+
+
+</html>      

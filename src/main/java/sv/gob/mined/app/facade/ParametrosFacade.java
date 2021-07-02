@@ -25,11 +25,13 @@ public class ParametrosFacade {
     @PersistenceContext(unitName = "votacionPU")
     private EntityManager em;
 
-    public void guardarParametroVotacionCe(String codigoEntidad, BigDecimal idProcesoVotacion, Integer[] lstDocentePro, Integer[] lstDocenteSup, Integer[] lstPadrePro, Integer[] lstPadreSup) {
+    public void guardarParametroVotacionCe(String codigoEntidad, BigDecimal idProcesoVotacion, Integer[] lstDocentePro, Integer[] lstDocenteSup, Integer[] lstPadrePro, Integer[] lstPadreSup, Integer[] lstEstPro, Integer[] lstEstSup) {
         create(lstDocentePro, "P", idProcesoVotacion);
         create(lstDocenteSup, "S", idProcesoVotacion);
         create(lstPadrePro, "P", idProcesoVotacion);
         create(lstPadreSup, "S", idProcesoVotacion);
+        create(lstEstPro, "P", idProcesoVotacion);
+        create(lstEstSup, "S", idProcesoVotacion);
     }
 
     private void create(Integer[] lst, String tipoNombramiento, BigDecimal idProcesoVotacion) {
@@ -43,10 +45,14 @@ public class ParametrosFacade {
         }
     }
 
-    public List<ParametroVotacion> findParametrosByCodigoEntAndAnho(String codigoEntidad, String idAnho) {
-        Query q = em.createQuery("SELECT p FROM ParametroVotacion p WHERE p.idProcesoVotacion.codigoEntidad=:pCodigoEntidad and p.idProcesoVotacion.idAnho.anho=:pAnho", ParametroVotacion.class);
-        q.setParameter("pCodigoEntidad", codigoEntidad);
-        q.setParameter("pAnho", idAnho);
+    public List<ParametroVotacion> findParametrosByCodigoEntAndAnho(String codigoEntidad, String anho) {
+        Query q = em.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.codigoEntidad=:pCodigo and p.idAnho.anho=:pAnho", ProcesoVotacion.class);
+        q.setParameter("pCodigo", codigoEntidad);
+        q.setParameter("pAnho", anho);
+        ProcesoVotacion pv = (ProcesoVotacion) q.getSingleResult();
+        
+        q = em.createQuery("SELECT p FROM ParametroVotacion p WHERE p.idProcesoVotacion=:pProceso", ParametroVotacion.class);
+        q.setParameter("pProceso", pv);
 
         return q.getResultList();
     }

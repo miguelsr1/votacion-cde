@@ -22,41 +22,58 @@
             <div class="p-col-12">
                 <h5>Resultados de votación</h5>
                 <div class="card">
-                    <div class="p-field p-grid">
-                        <p:outputLabel for="txtUsuario" styleClass="p-col-12 p-mb-3 p-md-3 p-mb-md-0">Cantidad de usuario</p:outputLabel>
-                        <div class="p-col-12 p-md-9">
-                            <p:inputText id="txtUsuario" size="5" style="text-align: right;"/>
+                    <div class="p-grid ui-fluid">
+                        <div class="p-col-3">
+                            <div class="p-field p-grid">
+                                <p:outputLabel for="txtUsuario" styleClass="p-col-12 p-mb-7 p-md-7 p-mb-md-0"># de asistentes</p:outputLabel>
+                                <div class="p-col-12 p-md-5">
+                                    <p:inputText id="txtUsuario" size="5" style="text-align: right;"/>
+                                </div>
+                            </div>
+                            <div class="p-field p-grid">
+                                <p:outputLabel for="txtUsuarioVoto" styleClass="p-col-12 p-mb-7 p-md-7 p-mb-md-0"># de asistentes que votarón</p:outputLabel>
+                                <div class="p-col-12 p-md-5">
+                                    <p:inputText id="txtUsuarioVoto" size="5" style="text-align: right;" value="#{habilitarVotacionView.lstUsuarios.size()}"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-col-1">
+                        </div>
+                        <div class="p-col-8">
+                            <h6>Distribución de votos entre candidatos</h6>
+
+                            <div class="p-col-12">
+                                <div class="p-field p-grid">
+                                    <p:outputLabel for="cboCargo" styleClass="p-col-12 p-mb-4 p-md-4 p-mb-md-0">Cargo</p:outputLabel>
+                                    <div class="p-col-12 p-md-8">
+                                        <p:selectOneMenu id="cboCargo" value="#{resultadoVotacionView.idCargo}" >
+                                            <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
+                                            <f:selectItems value="#{resultadoVotacionView.lstCargo}" var="car" itemValue="#{car.idCargo}" itemLabel="#{car.descripcionCargo}"/>
+                                            <p:ajax listener="#{resultadoVotacionView.limpiar}" update="tblDatos"/>
+                                        </p:selectOneMenu>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p:dataTable id="tblDatos" value="#{resultadoVotacionView.lstDistribucionFinalPorcentaje}" var="dis" 
+                                         scrollable="true" scrollRows="6" scrollHeight="264">
+                                <p:column headerText="Nombre" width="200">
+                                    <p:outputLabel value="#{dis.nombres} #{dis.apellidos}" />
+                                </p:column>
+                                <p:column headerText="Canditato" width="80" class="centrado">
+                                    <p:graphicImage id="img_proSec" value="/DynamicImageServlet?file=#{dis.pathImagen}" width="80px"   /> 
+                                </p:column>
+                                <p:column headerText="# de votos" class="centrado" width="70">
+                                    <p:outputLabel value="#{dis.cantidad}"/>
+                                </p:column>
+                                <p:column headerText="Porcentaje" class="centrado" width="50">
+                                    <p:outputLabel value="#{dis.porcentaje}">
+                                        <f:convertNumber pattern="##,00" />
+                                    </p:outputLabel>
+                                </p:column>
+                            </p:dataTable>
                         </div>
                     </div>
-                    <div class="p-field p-grid">
-                        <p:outputLabel for="txtUsuarioVoto" styleClass="p-col-12 p-mb-3 p-md-3 p-mb-md-0">Cantidad de usuarios que votarón</p:outputLabel>
-                        <div class="p-col-12 p-md-9">
-                            <p:inputText id="txtUsuarioVoto" size="5" style="text-align: right;"/>
-                        </div>
-                    </div>
-                    <br/>
-                    <h6>Distribución de votos entre candidatos</h6>
-                    <p:dataTable>
-                        <p:column headerText="Nombre candidato">
-                            
-                        </p:column>
-                        <p:column headerText="Cargo">
-                            
-                        </p:column>
-                        <p:column headerText="# votos">
-                            
-                        </p:column>
-                    </p:dataTable>
-                    <br/>
-                    <h6>Candidatos electos por cargo</h6>
-                    <p:dataTable>
-                        <p:column headerText="Cargo">
-                            
-                        </p:column>
-                        <p:column headerText="Nombre candidato">
-                            
-                        </p:column>
-                    </p:dataTable>
                 </div>
             </div>
         </div>

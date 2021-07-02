@@ -7,9 +7,6 @@
                 template="/resources/template/template.xhtml">
 
     <ui:define name="head">
-        <script type="text/javascript">
-
-        </script>
         <style>
             .imgCandidato {
                 box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
@@ -68,13 +65,11 @@
 
     <ui:define name="title">Gestión Educativa - Votación CDE</ui:define>
 
-    <ui:param name="viewname" value="FORM LAYOUT" />
-
     <ui:define name="content">
         <p:scrollTop id="clientId" style="margin-right: 170px; margin-bottom: 25px;" />
 
-        <div class="p-grid" jsf:id="dvSecretario" style="display: #{detalleVotacionView.showSecretario?'block':'none'}}">
-            <div class="p-col-12">
+        <div class="p-grid" jsf:id="dvSecretario" style="display: #{detalleVotacionView.showSecretario?'flex':'none'}">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstPropietarioSecretario.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Secretario Propietario" style="color: #006cd9; font-size: 16px;" />
@@ -91,7 +86,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_proSec" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
-                                                 onclick="marcarEleccion('proSec',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('proSec',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro1}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -101,7 +96,7 @@
                 </div>
             </ui:repeat>
 
-            <div class="p-col-12">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstSuplenteSecretario.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Secretario Suplente" style="color: #aaaaaa; font-size: 16px;"/>
@@ -118,7 +113,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_supSec" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
-                                                 onclick="marcarEleccion('supSec',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('supSec',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup1}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -129,11 +124,11 @@
 
         </div>
 
-        <div id="test" class="p-grid" jsf:id="dvConsejalDoc" style="display: #{detalleVotacionView.showConsejalDoc?'block':'none'}">
-            <div class="p-col-12">
+        <div id="test" class="p-grid" jsf:id="dvConsejalDoc" >
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstPropietarioConsejalDoc.size() == 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
                 <p:spacer width="10"/>
-                <p:outputLabel value="Consejal Docente Propietario #{detalleVotacionView.showConsejalDoc}" style="color: #006cd9; font-size: 16px;"/>
+                <p:outputLabel value="Consejal Docente Propietario" style="color: #006cd9; font-size: 16px;"/>
             </div>
             <ui:repeat id="proConD" var="candidato" varStatus="status" value="#{detalleVotacionView.lstPropietarioConsejalDoc}" >
                 <div class="p-col-12 p-md-3">
@@ -147,7 +142,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_proConD" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
-                                                 onclick="marcarEleccion('proConD',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('proConD',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro2}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -159,7 +154,7 @@
 
 
 
-            <div class="p-col-12">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstSuplenteConsejalDoc.size() == 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Consejal Docente Suplente" style="color: #aaaaaa; font-size: 16px;"/>
@@ -176,7 +171,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_supConD" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
-                                                 onclick="marcarEleccion('supConD',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('supConD',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup2}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -188,8 +183,8 @@
         </div>
 
 
-        <div id="test" class="p-grid" jsf:id="dvTesorero" style="display: #{detalleVotacionView.showTesorero?'block':'none'}">
-            <div class="p-col-12">
+        <div id="test" class="p-grid" jsf:id="dvTesorero" style="display: #{detalleVotacionView.showTesorero?'flex':'none'}">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstPropietarioTesorero.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Tesorero Propietario" style="color: #006cd9; font-size: 16px;"/>
@@ -206,7 +201,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_proTes" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
-                                                 onclick="marcarEleccion('proTes',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('proTes',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro3}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -218,7 +213,7 @@
 
 
 
-            <div class="p-col-12">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstSuplenteTesorero.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Tesorero Suplente" style="color: #aaaaaa; font-size: 16px;"/>
@@ -235,7 +230,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_supTes" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
-                                                 onclick="marcarEleccion('supTes',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('supTes',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup3}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -247,8 +242,8 @@
 
 
 
-        <div id="test" class="p-grid" jsf:id="dvConsejal1" style="display: #{detalleVotacionView.showConcejal1?'block':'none'}">
-            <div class="p-col-12">
+        <div id="test" class="p-grid" jsf:id="dvConsejal1" style="display: #{detalleVotacionView.showConcejal1?'flex':'none'}">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstPropietarioConsejal1.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Concejal Padre de Familia 1 Propietario" style="color: #006cd9; font-size: 16px;"/>
@@ -265,7 +260,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_proCon1" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
-                                                 onclick="marcarEleccion('proCon1',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('proCon1',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro4}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -276,7 +271,7 @@
             </ui:repeat>
 
 
-            <div class="p-col-12">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstPropietarioSecretario.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Concejal Padre de Familia 1 Suplente" style="color: #aaaaaa; font-size: 16px;"/>
@@ -293,7 +288,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_supCon1" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
-                                                 onclick="marcarEleccion('supCon1',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('supCon1',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup4}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -305,8 +300,8 @@
 
 
 
-        <div id="test" class="p-grid" jsf:id="dvConsejal2" style="display: #{detalleVotacionView.showConcejal2?'block':'none'}">
-            <div class="p-col-12">
+        <div id="test" class="p-grid" jsf:id="dvConsejal2" style="display: #{detalleVotacionView.showConcejal2?'flex':'none'}">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstPropietarioConsejal2.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Concejal Padre de Familia 2 Propietario" style="color: #006cd9; font-size: 16px;"/>
@@ -323,7 +318,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_proCon2" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
-                                                 onclick="marcarEleccion('proCon2',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('proCon2',#{status.index}, 'success')" class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro5}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -333,7 +328,7 @@
                 </div>
             </ui:repeat>
 
-            <div class="p-col-12">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstSuplenteConsejal2.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Concejal Padre de Familia 2 Suplente" style="color: #aaaaaa; font-size: 16px;"/>
@@ -350,7 +345,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_supCon2" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
-                                                 onclick="marcarEleccion('supCon2',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('supCon2',#{status.index}, 'success')"  class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup5}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -361,8 +356,8 @@
         </div>
 
 
-        <div id="test" class="p-grid" jsf:id="dvRepresentante1" style="display: #{detalleVotacionView.showRepresentante1?'block':'none'}">
-            <div class="p-col-12">
+        <div id="test" class="p-grid" jsf:id="dvRepresentante1" style="display: #{detalleVotacionView.showRepresentante1?'flex':'none'}">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstPropietarioRepresentante1.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Representante 1 Propietario" style="color: #006cd9; font-size: 16px;"/>
@@ -379,7 +374,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_proRep1" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
-                                                 onclick="marcarEleccion('proRep1',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('proRep1',#{status.index}, 'success')"  class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro6}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -389,7 +384,7 @@
                 </div>
             </ui:repeat>
 
-            <div class="p-col-12">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstSuplenteRepresentante1.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Representante 1 Suplente" style="color: #aaaaaa; font-size: 16px;"/>
@@ -406,7 +401,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_supRep1" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
-                                                 onclick="marcarEleccion('supRep1',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('supRep1',#{status.index}, 'success')"  class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup6}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -417,8 +412,8 @@
         </div>
 
 
-        <div id="test" class="p-grid" jsf:id="dvRepresentante2" style="display: #{detalleVotacionView.showRepresentante2?'block':'none'}">
-            <div class="p-col-12">
+        <div id="test" class="p-grid" jsf:id="dvRepresentante2" style="display: #{detalleVotacionView.showRepresentante2?'flex':'none'}">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstPropietarioRepresentante2.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #006cd9; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Representante 2 Propietario" style="color: #006cd9; font-size: 16px;"/>
@@ -435,7 +430,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_proRep2" value="Votar" iconPos="right" icon="pi pi-thumbs-up"  
-                                                 onclick="marcarEleccion('proRep2',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('proRep2',#{status.index}, 'success')"  class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idPro7}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -447,7 +442,7 @@
 
 
 
-            <div class="p-col-12">
+            <div class="p-col-12" style="display: #{detalleVotacionView.lstSuplenteRepresentante2.size()== 0?'none':'flex'}">
                 <i class="fa fa-user" aria-hidden="true" style="color: #aaaaaa; font-size: 16px;" />
                 <p:spacer width="10"/>
                 <p:outputLabel value="Representante 2 Suplente" style="color: #aaaaaa; font-size: 16px;"/>
@@ -464,7 +459,7 @@
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>
                                 <p:commandButton id="btn_supRep2" value="Votar" iconPos="right" icon="pi pi-thumbs-up"
-                                                 onclick="marcarEleccion('supRep2',#{status.index}, 'success')" action="#" class="ui-button-secondary">
+                                                 onclick="marcarEleccion('supRep2',#{status.index}, 'success')"  class="ui-button-secondary">
                                     <f:setPropertyActionListener value="#{candidato.idCandidato}" target="#{detalleVotacionView.idSup7}" />
                                 </p:commandButton>
                             </p:outputPanel>
@@ -479,7 +474,7 @@
         <div class="grid p-jc-center">
             <div class="p-col-12">
                 <p:commandButton value="Guardar" action="#{detalleVotacionView.guardar()}"  onclick="PrimeFaces.scrollTo('clientId');"
-                                 icon="pi pi-save" style="margin-right: .5rem">
+                                 icon="pi pi-save" style="margin-right: .5rem" disabled="#{!parametrosSesionView.showTiempoFinalizado}">
                 </p:commandButton>
 
                 <p:commandButton value="Cancelar" icon="pi pi-times" action="inicio"/>

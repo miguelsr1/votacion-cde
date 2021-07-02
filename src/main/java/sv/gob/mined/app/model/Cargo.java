@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sv.gob.mined.app.model;
 
 import java.io.Serializable;
@@ -9,10 +14,16 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author misanchez
+ */
 @Entity
 @Table(name = "CARGO")
+@XmlRootElement
 public class Cargo implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -83,7 +94,15 @@ public class Cargo implements Serializable {
             return false;
         }
         Cargo other = (Cargo) object;
-        return !((this.idCargo == null && other.idCargo != null) || (this.idCargo != null && !this.idCargo.equals(other.idCargo)));
+        if ((this.idCargo == null && other.idCargo != null) || (this.idCargo != null && !this.idCargo.equals(other.idCargo))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "sv.gob.mined.app.model.Cargo[ idCargo=" + idCargo + " ]";
     }
 
     public List<Candidato> getCandidatoList() {
@@ -92,11 +111,6 @@ public class Cargo implements Serializable {
 
     public void setCandidatoList(List<Candidato> candidatoList) {
         this.candidatoList = candidatoList;
-    }
-
-    @Override
-    public String toString() {
-        return "sv.gob.mined.app.model.Cargo[ idCargo=" + idCargo + " ]";
     }
     
 }

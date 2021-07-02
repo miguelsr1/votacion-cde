@@ -10,10 +10,10 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Named;
 import sv.gob.mined.app.model.dto.UsuarioConectadoDto;
+import sv.gob.mined.app.model.Usuario;
 
 @Named
 @ApplicationScoped
@@ -36,9 +36,4 @@ public class UsuariosConectadosView implements Serializable {
         return lstUsu.isPresent();
     }
 
-    public List<UsuarioConectadoDto> getLstUsuarioConectados(String codigoEntidad) {
-        return lstUsuarios.stream().parallel().
-                filter(usu -> usu.getCodigoEntidad().compareTo(codigoEntidad) == 0).
-                collect(Collectors.toList());
-    }
 }

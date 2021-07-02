@@ -38,11 +38,12 @@ public class PersistenceFacade {
 
     public BigDecimal guardarUsuarioPadre(Long idPerSiges, String nombres, String apellidos, String dui, BigDecimal idProcesoVotacion) {
         BigDecimal idUsuario;
+        Usuario usuario;
         Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.idPerSiges=:pIdPer", Usuario.class);
         q.setParameter("pIdPer", new BigInteger(idPerSiges.toString()));
 
         if (q.getResultList().isEmpty()) {
-            Usuario usuario = new Usuario();
+            usuario = new Usuario();
             usuario.setIdPerSiges(new BigInteger(idPerSiges.toString()));
             usuario.setTipoUsuario(VarSession.USUARIO_PAD);
             usuario.setNombres(nombres.replaceAll("  ", " ").trim());
@@ -51,16 +52,18 @@ public class PersistenceFacade {
             em.persist(usuario);
 
             idUsuario = usuario.getIdUsuario();
-
-            Asistencia asistencia = new Asistencia();
-            asistencia.setFechaLogeo(new Date());
-            asistencia.setIdProcesoVotacion(idProcesoVotacion);
-            asistencia.setIdUsuario(usuario);
-
-            em.persist(asistencia);
         } else {
-            idUsuario = ((Usuario) q.getResultList().get(0)).getIdUsuario();
+            usuario = ((Usuario) q.getResultList().get(0));
+            idUsuario = usuario.getIdUsuario();
         }
+
+        Asistencia asistencia = new Asistencia();
+        asistencia.setFechaLogeo(new Date());
+        asistencia.setIdProcesoVotacion(em.find(ProcesoVotacion.class, idProcesoVotacion));
+        asistencia.setIdUsuario(usuario);
+
+        em.persist(asistencia);
+
         return idUsuario;
     }
 

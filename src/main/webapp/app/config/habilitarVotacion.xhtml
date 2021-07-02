@@ -15,17 +15,17 @@
                     <div class="p-col-8">
                         <h5>Quorom</h5>
 
-                        <p:dataTable value="#{habilitarVotacionView.lstUsuarios}" var="usu">
+                        <p:dataTable value="#{habilitarVotacionView.lstUsuarios}" var="usu" scrollable="true" scrollRows="6" scrollHeight="264">
                             <p:column headerText="Nombre">
-                                <p:outputLabel value="#{usu.nombres} #{usu.apellidos}"/>
+                                <p:outputLabel value="#{usu.nombres}" />
                             </p:column>
                             <p:column headerText="Apellidos">
-                                <p:outputLabel value="#{usu.codigoEntidad}"/>
+                                <p:outputLabel value="#{usu.apellidos}"/>
                             </p:column>
                         </p:dataTable>
                         <br/>
                         <p class="card-subtitle">
-                            <p:outputLabel value="Cantidad o Quorum" style="font-weight: bold;"/>
+                            <p:outputLabel value="Cantidad o Quorum: #{habilitarVotacionView.lstUsuarios.size()}" style="font-weight: bold;"/>
                         </p>
                     </div>
                     <div class="p-col-4">
@@ -36,19 +36,21 @@
                         <div class="p-col-12">
                             <p:selectBooleanCheckbox itemLabel="Resultados de votación" value="#{habilitarVotacionView.habilitarResultados}"/>
                         </div>
-                        <br/>
-                        <p:commandButton value="Guardar" icon="pi pi-save" action="#{habilitarVotacionView.guardar()}" style="width: 100px;" />
-                        <br/>                            
-                        <p class="card-subtitle">
-                            <h5>Impresión de informes</h5>
+                        <div class="p-col-12">
+                            <div class="p-field p-grid">
 
-                            <div class="p-col-12">
-                                <p:commandButton value="Listado de asistentes"/>
+                                <p:outputLabel value="Tiempo habilitado para votación:" styleClass="p-col-12 p-mb-8 p-md-8 p-mb-md-0"/>
+                                <div class="p-col-12 p-md-4">
+                                    <p:inputNumber value="#{habilitarVotacionView.procesoVotacion.horas}" inputStyle="text-align: right" decimalPlaces="0" maxValue="16"  />
+                                </div>
                             </div>
-                            <div class="p-col-12">
-                                <p:commandButton value="Resultados de votación"/>
-                            </div>
-                        </p>
+                        </div>
+                        <div class="p-col-12" style="text-align: center">
+                            <p:commandButton id="btnGuardarParam" value="Guardar" icon="pi pi-save" action="#{habilitarVotacionView.guardar()}" 
+                                             style="width: 100px;" update="tbBotones, btnGuardarParam"
+                                             disabled="#{parametroVotacionView.deshabilitar}" />
+                        </div>
+
                     </div>
                 </div>
             </div>

@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package sv.gob.mined.app.model;
 
 import java.io.Serializable;
@@ -19,13 +24,17 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
+/**
+ *
+ * @author misanchez
+ */
 @Entity
 @Table(name = "CANDIDATO")
+@XmlRootElement
 public class Candidato implements Serializable {
-
-    @OneToMany(mappedBy = "idCandidato", fetch = FetchType.LAZY)
-    private List<Votacion> votacionList;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -49,10 +58,6 @@ public class Candidato implements Serializable {
     private Cargo idCargo;
     @Column(name = "TIPO_NOMBRAMIENTO")
     private String tipoNombramiento;
-    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ProcesoVotacion idProcesoVotacion;
-    
     @Column(name = "NOMBRES")
     private String nombres;
     @Column(name = "APELLIDOS")
@@ -61,6 +66,11 @@ public class Candidato implements Serializable {
     private String dui;
     @Column(name = "TELEFONO")
     private String telefono;
+    @OneToMany(mappedBy = "idCandidato", fetch = FetchType.LAZY)
+    private List<Votacion> votacionList;
+    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProcesoVotacion idProcesoVotacion;
 
     public Candidato() {
     }
@@ -125,36 +135,6 @@ public class Candidato implements Serializable {
         this.tipoNombramiento = tipoNombramiento;
     }
 
-    public ProcesoVotacion getIdProcesoVotacion() {
-        return idProcesoVotacion;
-    }
-
-    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
-        this.idProcesoVotacion = idProcesoVotacion;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (idCandidato != null ? idCandidato.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Candidato)) {
-            return false;
-        }
-        Candidato other = (Candidato) object;
-        return !((this.idCandidato == null && other.idCandidato != null) || (this.idCandidato != null && !this.idCandidato.equals(other.idCandidato)));
-    }
-
-    @Override
-    public String toString() {
-        return "sv.gob.mined.app.model.Candidato[ idCandidato=" + idCandidato + " ]";
-    }
-
     public String getNombres() {
         return nombres;
     }
@@ -187,6 +167,7 @@ public class Candidato implements Serializable {
         this.telefono = telefono;
     }
 
+    @XmlTransient
     public List<Votacion> getVotacionList() {
         return votacionList;
     }
@@ -194,4 +175,38 @@ public class Candidato implements Serializable {
     public void setVotacionList(List<Votacion> votacionList) {
         this.votacionList = votacionList;
     }
+
+    public ProcesoVotacion getIdProcesoVotacion() {
+        return idProcesoVotacion;
+    }
+
+    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
+        this.idProcesoVotacion = idProcesoVotacion;
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 0;
+        hash += (idCandidato != null ? idCandidato.hashCode() : 0);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object object) {
+        // TODO: Warning - this method won't work in the case the id fields are not set
+        if (!(object instanceof Candidato)) {
+            return false;
+        }
+        Candidato other = (Candidato) object;
+        if ((this.idCandidato == null && other.idCandidato != null) || (this.idCandidato != null && !this.idCandidato.equals(other.idCandidato))) {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "sv.gob.mined.app.model.Candidato[ idCandidato=" + idCandidato + " ]";
+    }
+    
 }

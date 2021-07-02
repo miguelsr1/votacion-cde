@@ -3,6 +3,7 @@
   <persistence-unit name="votacionPU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>java:/VotacionCdeDS</jta-data-source>
+    <mapping-file>META-INF/nativeQueriesVotacion.xml</mapping-file>
     <class>sv.gob.mined.app.model.Anho</class>
     <class>sv.gob.mined.app.model.Candidato</class>
     <class>sv.gob.mined.app.model.Cargo</class>
@@ -13,7 +14,8 @@
     <class>sv.gob.mined.app.model.Votacion</class>
     <class>sv.gob.mined.app.model.DetalleVotaUsuario</class>
     <class>sv.gob.mined.app.model.Asistencia</class>
-    <class>sv.gob.mined.app.model.dto.VwCatalogoEntidadEducativa</class>
+    <class>sv.gob.mined.app.model.VwCatalogoEntidadEducativa</class>
+    <class>sv.gob.mined.app.model.dto.DistribucionVotacionDto</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
@@ -25,7 +27,7 @@
   <persistence-unit name="sigesPU" transaction-type="JTA">
     <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
     <jta-data-source>java:/SigesDS</jta-data-source>
-    <mapping-file>META-INF/nativeQueries.xml</mapping-file>
+    <mapping-file>META-INF/nativeQueriesSiges.xml</mapping-file>
     <class>sv.gob.mined.app.model.siges.dto.EstudianteDto</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties/>

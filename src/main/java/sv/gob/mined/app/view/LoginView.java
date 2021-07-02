@@ -7,7 +7,6 @@ package sv.gob.mined.app.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 import javax.annotation.PostConstruct;
 import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
@@ -17,7 +16,6 @@ import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.facade.siges.CatalogoFacadeSiges;
 import sv.gob.mined.app.model.Usuario;
-import sv.gob.mined.app.model.Asistencia;
 import sv.gob.mined.app.model.siges.dto.EstudianteDto;
 import sv.gob.mined.app.view.util.CredencialesView;
 import sv.gob.mined.app.view.util.VarSession;
@@ -31,6 +29,8 @@ import sv.gob.mined.utils.jsf.JsfUtil;
 @ViewScoped
 public class LoginView implements Serializable {
 
+    private Boolean showLoginCe = false;
+    private Boolean showPadresFam = false;
     private Boolean correoValido = false;
     private String correoRemitente;
     private String idDominioCorreo = "1";
@@ -122,6 +122,26 @@ public class LoginView implements Serializable {
         this.codigoEntidad = codigoEntidad;
     }
 
+    public Boolean getShowLoginCe() {
+        return showLoginCe;
+    }
+    
+    public Boolean getMostraOpcionLogin(){
+        return (showLoginCe || showPadresFam);
+    }
+
+    public void setShowLoginCe(Boolean showLoginCe) {
+        this.showLoginCe = showLoginCe;
+    }
+
+    public Boolean getShowPadresFam() {
+        return showPadresFam;
+    }
+
+    public void setShowPadresFam(Boolean showPadresFam) {
+        this.showPadresFam = showPadresFam;
+    }
+
     public String validarCrendecialesDelCorreo() {
         String url = "";
         if (correoRemitente != null && password != null) {
@@ -165,11 +185,27 @@ public class LoginView implements Serializable {
             VarSession.setVariableSession(VarSession.ID_USUARIO_SIGES, new BigDecimal(padreSiges.getIdPerSiges().toString()));
             VarSession.setVariableSession("nombres", padreSiges.getNombres());
             VarSession.setVariableSession("apellidos", padreSiges.getApellidos());
+            VarSession.setVariableSession("nombreUsuario", padreSiges.getNombres().concat(" ").concat(padreSiges.getApellidos()));
 
             //registrar primer logeo para le proceso de votación.
             return "app/inicio?faces-redirect=true";
         } else {
             return "";
         }
+    }
+
+    public void showLoginDocEst() {
+        showLoginCe = true;
+        showPadresFam = false;
+    }
+    
+    public void cancelarLogin(){
+        showLoginCe = false;
+        showPadresFam = false;
+    }
+
+    public void showLoginPadRes() {
+        showLoginCe = false;
+        showPadresFam = true;
     }
 }

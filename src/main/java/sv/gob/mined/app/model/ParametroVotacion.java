@@ -18,6 +18,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -25,11 +26,8 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "PARAMETRO_VOTACION")
+@XmlRootElement
 public class ParametroVotacion implements Serializable {
-
-    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ProcesoVotacion idProcesoVotacion;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -44,6 +42,9 @@ public class ParametroVotacion implements Serializable {
     @JoinColumn(name = "ID_CARGO", referencedColumnName = "ID_CARGO")
     @ManyToOne(fetch = FetchType.LAZY)
     private Cargo idCargo;
+    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProcesoVotacion idProcesoVotacion;
 
     public ParametroVotacion() {
     }
@@ -76,6 +77,14 @@ public class ParametroVotacion implements Serializable {
         this.idCargo = idCargo;
     }
 
+    public ProcesoVotacion getIdProcesoVotacion() {
+        return idProcesoVotacion;
+    }
+
+    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
+        this.idProcesoVotacion = idProcesoVotacion;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -100,13 +109,5 @@ public class ParametroVotacion implements Serializable {
     public String toString() {
         return "sv.gob.mined.app.model.ParametroVotacion[ idParametro=" + idParametro + " ]";
     }
-
-    public ProcesoVotacion getIdProcesoVotacion() {
-        return idProcesoVotacion;
-    }
-
-    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
-        this.idProcesoVotacion = idProcesoVotacion;
-    }
-
+    
 }

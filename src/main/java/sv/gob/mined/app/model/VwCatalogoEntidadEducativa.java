@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package sv.gob.mined.app.model.dto;
+package sv.gob.mined.app.model;
 
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -11,9 +11,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -21,8 +20,7 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "VW_CATALOGO_ENTIDAD_EDUCATIVA")
-@NamedQueries({
-    @NamedQuery(name = "VwCatalogoEntidadEducativa.findAll", query = "SELECT v FROM VwCatalogoEntidadEducativa v")})
+@XmlRootElement
 public class VwCatalogoEntidadEducativa implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -6,24 +6,25 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.PostConstruct;
-import javax.faces.bean.ManagedBean;
 import javax.faces.model.SelectItem;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
+import javax.inject.Named;
+import org.primefaces.PF;
 import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.ParametrosFacade;
 import sv.gob.mined.app.model.Cargo;
 import sv.gob.mined.app.model.ParametroVotacion;
+import sv.gob.mined.utils.jsf.JsfUtil;
 
 /**
  *
  * @author misanchez
  */
-@ManagedBean
+@Named
 @ViewScoped
 public class ParametroVotacionView implements Serializable {
 
@@ -31,8 +32,10 @@ public class ParametroVotacionView implements Serializable {
 
     private Integer[] cargoPropietarioDocente;
     private Integer[] cargoPropietarioPadre;
+    private Integer[] cargoPropietarioEstudiante;
     private Integer[] cargoSuplenteDocente;
     private Integer[] cargoSuplentePadre;
+    private Integer[] cargoSuplenteEstudiante;
 
     @Inject
     private CatalogoFacade catalogoFacade;
@@ -44,46 +47,67 @@ public class ParametroVotacionView implements Serializable {
     @PostConstruct
     public void init() {
         List<ParametroVotacion> lstParam = parametrosFacade.findParametrosByCodigoEntAndAnho(parametrosSesionView.getCodigoEntidad(), parametrosSesionView.getAnho().getAnho());
-        String cpd = "";
-        String csd = "";
-        String cpp = "";
-        String csp = "";
+        String cpDoc = "";
+        String csDoc = "";
+        String cpPadre = "";
+        String csPadre = "";
+        String cpEst = "";
+        String csEst = "";
 
         for (ParametroVotacion param : lstParam) {
             deshabilitar = true;
             switch (param.getIdCargo().getIdCargo()) {
                 case 1:
                 case 2:
-                    if (param.getTipoNombramiento().equals("P")) {
-                        cpd += (cpd.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
-                    } else {
-                        csd += (csd.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
-                    }
-                    break;
                 case 3:
                 case 4:
+                    if (param.getTipoNombramiento().equals("P")) {
+                        cpDoc += (cpDoc.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                    } else {
+                        csDoc += (csDoc.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                    }
+                    break;
                 case 5:
                 case 6:
                 case 7:
+                case 8:
+                case 9:
+                case 10:
                     if (param.getTipoNombramiento().equals("P")) {
-                        cpp += (cpp.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                        cpPadre += (cpPadre.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
                     } else {
-                        csp += (csp.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                        csPadre += (csPadre.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                    }
+                    break;
+                case 11:
+                case 12:
+                case 13:
+                case 14:
+                    if (param.getTipoNombramiento().equals("P")) {
+                        cpEst += (cpEst.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
+                    } else {
+                        csEst += (csEst.isEmpty() ? "" : ",").concat(param.getIdCargo().getIdCargo().toString());
                     }
                     break;
             }
         }
-        if (!cpd.isEmpty()) {
-            cargoPropietarioDocente = cargarParametros(cpd.split(","));
+        if (!cpDoc.isEmpty()) {
+            cargoPropietarioDocente = cargarParametros(cpDoc.split(","));
         }
-        if (!csd.isEmpty()) {
-            cargoSuplenteDocente = cargarParametros(csd.split(","));
+        if (!csDoc.isEmpty()) {
+            cargoSuplenteDocente = cargarParametros(csDoc.split(","));
         }
-        if (!cpp.isEmpty()) {
-            cargoPropietarioPadre = cargarParametros(cpp.split(","));
+        if (!cpPadre.isEmpty()) {
+            cargoPropietarioPadre = cargarParametros(cpPadre.split(","));
         }
-        if (!csp.isEmpty()) {
-            cargoSuplentePadre = cargarParametros(csp.split(","));
+        if (!csPadre.isEmpty()) {
+            cargoSuplentePadre = cargarParametros(csPadre.split(","));
+        }
+        if (!cpEst.isEmpty()) {
+            cargoPropietarioEstudiante = cargarParametros(cpEst.split(","));
+        }
+        if (!csEst.isEmpty()) {
+            cargoSuplenteEstudiante = cargarParametros(csEst.split(","));
         }
     }
 
@@ -96,7 +120,7 @@ public class ParametroVotacionView implements Serializable {
     }
 
     public List<Cargo> getCargos() {
-        return catalogoFacade.findAllCargos();
+        return catalogoFacade.findAllCargos(parametrosSesionView.getProcesoVotacion().getIdProcesoVotacion());
     }
 
     public List<SelectItem> getCargo(String idCargos) {
@@ -139,10 +163,36 @@ public class ParametroVotacionView implements Serializable {
         this.cargoSuplentePadre = cargoSuplentePadre;
     }
 
+    public Integer[] getCargoPropietarioEstudiante() {
+        return cargoPropietarioEstudiante;
+    }
+
+    public void setCargoPropietarioEstudiante(Integer[] cargoPropietarioEstudiante) {
+        this.cargoPropietarioEstudiante = cargoPropietarioEstudiante;
+    }
+
+    public Integer[] getCargoSuplenteEstudiante() {
+        return cargoSuplenteEstudiante;
+    }
+
+    public void setCargoSuplenteEstudiante(Integer[] cargoSuplenteEstudiante) {
+        this.cargoSuplenteEstudiante = cargoSuplenteEstudiante;
+    }
+
     public void guardar() {
-        parametrosFacade.guardarParametroVotacionCe(parametrosSesionView.getCodigoEntidad(),
-                parametrosSesionView.getProcesoVotacion().getIdProcesoVotacion(),
-                cargoPropietarioDocente, cargoSuplenteDocente, cargoPropietarioPadre, cargoSuplentePadre);
+        if (cargoPropietarioDocente.length > 0 || cargoPropietarioEstudiante.length > 0
+                || cargoPropietarioPadre.length > 0 || cargoSuplenteDocente.length > 0
+                || cargoSuplenteEstudiante.length > 0 || cargoSuplentePadre.length > 0) {
+            deshabilitar = true;
+            parametrosFacade.guardarParametroVotacionCe(parametrosSesionView.getCodigoEntidad(),
+                    parametrosSesionView.getProcesoVotacion().getIdProcesoVotacion(),
+                    cargoPropietarioDocente, cargoSuplenteDocente,
+                    cargoPropietarioPadre, cargoSuplentePadre,
+                    cargoPropietarioEstudiante, cargoSuplenteEstudiante);
+            PF.current().executeScript("PF('tbvConfig').select(1)");
+        } else {
+            JsfUtil.mensajeAlerta("Debe de seleccionar al menos un cargo a cubrir en el proceso de votación");
+        }
     }
 
     public Boolean getDeshabilitar() {

@@ -21,6 +21,7 @@ import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
@@ -28,11 +29,8 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @Table(name = "VOTACION")
+@XmlRootElement
 public class Votacion implements Serializable {
-
-    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
-    @ManyToOne(fetch = FetchType.LAZY)
-    private ProcesoVotacion idProcesoVotacion;
 
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -49,6 +47,9 @@ public class Votacion implements Serializable {
     @JoinColumn(name = "ID_CANDIDATO", referencedColumnName = "ID_CANDIDATO")
     @ManyToOne(fetch = FetchType.LAZY)
     private Candidato idCandidato;
+    @JoinColumn(name = "ID_PROCESO_VOTACION", referencedColumnName = "ID_PROCESO_VOTACION")
+    @ManyToOne(fetch = FetchType.LAZY)
+    private ProcesoVotacion idProcesoVotacion;
 
     public Votacion() {
     }
@@ -86,6 +87,14 @@ public class Votacion implements Serializable {
         this.idCandidato = idCandidato;
     }
 
+    public ProcesoVotacion getIdProcesoVotacion() {
+        return idProcesoVotacion;
+    }
+
+    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
+        this.idProcesoVotacion = idProcesoVotacion;
+    }
+
     @Override
     public int hashCode() {
         int hash = 0;
@@ -109,14 +118,6 @@ public class Votacion implements Serializable {
     @Override
     public String toString() {
         return "sv.gob.mined.app.model.Votacion[ idVotacion=" + idVotacion + " ]";
-    }
-
-    public ProcesoVotacion getIdProcesoVotacion() {
-        return idProcesoVotacion;
-    }
-
-    public void setIdProcesoVotacion(ProcesoVotacion idProcesoVotacion) {
-        this.idProcesoVotacion = idProcesoVotacion;
     }
     
 }

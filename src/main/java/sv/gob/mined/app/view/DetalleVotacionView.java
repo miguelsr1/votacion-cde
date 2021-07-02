@@ -22,7 +22,6 @@ import sv.gob.mined.app.model.Candidato;
 import sv.gob.mined.app.model.ParametroVotacion;
 import sv.gob.mined.app.model.ProcesoVotacion;
 import sv.gob.mined.app.model.Votacion;
-import sv.gob.mined.app.view.util.VarSession;
 import sv.gob.mined.utils.jsf.JsfUtil;
 
 /**
@@ -88,42 +87,80 @@ public class DetalleVotacionView implements Serializable {
         List<ParametroVotacion> lstParam = parametrosFacade.findParametrosByCodigoEntAndAnho(parametrosSesionView.getCodigoEntidad(), parametrosSesionView.getAnho().getAnho());
         procesoVotacion = parametrosSesionView.getProcesoVotacion();
 
+        switch (parametrosSesionView.getTipoUsuario()) {
+            case "A":
+            case "D":
+                showSecretario = true;
+                showConsejalDoc = true;
+                break;
+            case "E":
+                showRepresentante1 = true;
+                showRepresentante2 = true;
+                break;
+            case "P":
+                showTesorero = true;
+                showConcejal1 = true;
+                showConcejal2 = true;
+                break;
+        }
+
         for (ParametroVotacion param : lstParam) {
             switch (param.getIdCargo().getIdCargo()) {
                 case 1:
-                    showSecretario = true;
-                    lstPropietarioSecretario = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 1, true);
-                    lstSuplenteSecretario = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 1, false);
-                    break;
                 case 2:
-                    showConsejalDoc = true;
-                    lstPropietarioConsejalDoc = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 2, true);
-                    lstSuplenteConsejalDoc = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 2, false);
+                    if (showSecretario) {
+                        lstPropietarioSecretario = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 1);
+                        lstSuplenteSecretario = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 2);
+                    }
+                    showSecretario = !(lstPropietarioSecretario.isEmpty() && lstSuplenteSecretario.isEmpty());
                     break;
                 case 3:
-                    showTesorero = true;
-                    lstPropietarioTesorero = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 3, true);
-                    lstSuplenteTesorero = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 3, false);
-                    break;
                 case 4:
-                    showConcejal1 = true;
-                    lstPropietarioConsejal1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 4, true);
-                    lstSuplenteConsejal1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 4, false);
+                    if (showConsejalDoc) {
+                        lstPropietarioConsejalDoc = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 3);
+                        lstSuplenteConsejalDoc = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 4);
+                    }
+                    showConsejalDoc = !(lstPropietarioConsejalDoc.isEmpty() && lstSuplenteConsejalDoc.isEmpty());
                     break;
                 case 5:
-                    showConcejal2 = true;
-                    lstPropietarioConsejal2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 5, true);
-                    lstSuplenteConsejal2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 5, false);
-                    break;
                 case 6:
-                    showRepresentante1 = true;
-                    lstPropietarioRepresentante1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 6, true);
-                    lstSuplenteRepresentante1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 6, false);
+                    if (showTesorero) {
+                        lstPropietarioTesorero = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 5);
+                        lstSuplenteTesorero = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 6);
+                    }
+                    showTesorero = !(lstPropietarioTesorero.isEmpty() && lstSuplenteTesorero.isEmpty());
                     break;
                 case 7:
-                    showRepresentante2 = true;
-                    lstPropietarioRepresentante2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 7, true);
-                    lstSuplenteRepresentante2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargoAndNombramiento(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 7, false);
+                case 8:
+                    if (showConcejal1) {
+                        lstPropietarioConsejal1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 7);
+                        lstSuplenteConsejal1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 8);
+                    }
+                    showConcejal1 = !(lstPropietarioConsejal1.isEmpty() && lstSuplenteConsejal1.isEmpty());
+                    break;
+                case 9:
+                case 10:
+                    if (showConcejal2) {
+                        lstPropietarioConsejal2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 9);
+                        lstSuplenteConsejal2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 10);
+                    }
+                    showConcejal2 = !(lstPropietarioConsejal2.isEmpty() && lstSuplenteConsejal2.isEmpty());
+                    break;
+                case 11:
+                case 12:
+                    if (showRepresentante1) {
+                        lstPropietarioRepresentante1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 11);
+                        lstSuplenteRepresentante1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 12);
+                    }
+                    showRepresentante1 = !(lstPropietarioRepresentante1.isEmpty() && lstSuplenteRepresentante1.isEmpty());
+                    break;
+                case 13:
+                case 14:
+                    if (showRepresentante2) {
+                        lstPropietarioRepresentante2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 13);
+                        lstSuplenteRepresentante2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 14);
+                    }
+                    showRepresentante2 = !(lstPropietarioRepresentante2.isEmpty() && lstSuplenteRepresentante2.isEmpty());
                     break;
             }
         }
@@ -359,53 +396,73 @@ public class DetalleVotacionView implements Serializable {
         Boolean validar = true;
         String msj = "";
         if (showSecretario) {
-            if (idPro1 != null && idSup1 != null) {
-            } else {
+            if (!lstPropietarioSecretario.isEmpty() && idPro1 == null) {
                 validar = false;
-                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Secretario<br/>");
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Secretario Propietario<br/>");
+            }
+            if (!lstSuplenteSecretario.isEmpty() && idSup1 == null) {
+                validar = false;
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Secretario Suplente<br/>");
             }
         }
         if (showConsejalDoc) {
-            if (idPro2 != null && idSup2 != null) {
-
-            } else {
+            if (!lstPropietarioConsejalDoc.isEmpty() && idPro2 == null) {
                 validar = false;
-                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal Docente<br/>");
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal Docente Propietario<br/>");
+            }
+            if (!lstSuplenteConsejalDoc.isEmpty() && idSup2 == null) {
+                validar = false;
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal Docente Suplente<br/>");
             }
         }
         if (showTesorero) {
-            if (idPro3 != null && idSup3 != null) {
-            } else {
+            if (!lstPropietarioTesorero.isEmpty() && idPro3 == null) {
                 validar = false;
-                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Tesorero<br/>");
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal Docente Propietario<br/>");
+            }
+            if (!lstSuplenteTesorero.isEmpty() && idSup3 == null) {
+                validar = false;
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal Docente Suplente<br/>");
             }
         }
         if (showConcejal1) {
-            if (idPro4 != null && idSup4 != null) {
-            } else {
+            if (!lstPropietarioConsejal1.isEmpty() && idPro4 == null) {
                 validar = false;
-                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal 1<br/>");
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal 1 Padre de Familia Propietario<br/>");
+            }
+            if (!lstSuplenteConsejal1.isEmpty() && idSup4 == null) {
+                validar = false;
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal 1 Padre de Familia Suplente<br/>");
             }
         }
         if (showConcejal2) {
-            if (idPro5 != null && idSup5 != null) {
-            } else {
+            if (!lstPropietarioConsejal2.isEmpty() && idPro5 == null) {
                 validar = false;
-                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal 2<br/>");
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal 2 Padre de Familia Propietario<br/>");
+            }
+            if (!lstSuplenteConsejal2.isEmpty() && idSup5 == null) {
+                validar = false;
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Consejal 2 Padre de Familia Suplente<br/>");
             }
         }
         if (showRepresentante1) {
-            if (idPro6 != null && idSup6 != null) {
-            } else {
+            if (!lstPropietarioRepresentante1.isEmpty() && idPro6 == null) {
                 validar = false;
-                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Representante 1<br/>");
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Representante 1 Propietario<br/>");
+            }
+            if (!lstSuplenteRepresentante1.isEmpty() && idSup6 == null) {
+                validar = false;
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Representante 1 Suplente<br/>");
             }
         }
         if (showRepresentante2) {
-            if (idPro7 != null && idSup7 != null) {
-            } else {
+            if (!lstPropietarioRepresentante2.isEmpty() && idPro7 == null) {
                 validar = false;
-                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Representante 2<br/>");
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Representante 2 Propietario<br/>");
+            }
+            if (!lstSuplenteRepresentante2.isEmpty() && idSup7 == null) {
+                validar = false;
+                msj = (msj.isEmpty() ? "" : msj).concat("Debe de selecionar un candidato a Representante 2 Suplente<br/>");
             }
         }
 

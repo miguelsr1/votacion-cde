@@ -4,6 +4,7 @@
     xmlns:h="http://java.sun.com/jsf/html"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:pa="http://primefaces.org/paradise">
 
     <div class="topbar">
@@ -20,6 +21,12 @@
                     <br/><p:outputLabel style="font-size: 20px; " value="Ministerio de Educación, Ciencia y Tecnología"/>
                     <br/><p:outputLabel style="font-size: 14px; " value="Elección de miembros de CDE"/>
                 </div>
+
+                <div class="pageColumnMid" style="text-align: left;padding-left: 300px;">
+                    <br/><p:outputLabel value="CE: &lt;b&gt;#{parametrosSesionView.centroEducativo}&lt;/b&gt;" escape="false" />
+                    <br/><p:outputLabel value="Usuario: &lt;b&gt;#{parametrosSesionView.nombreUsuario}&lt;/b&gt;" escape="false" />
+                    <br/><p:outputLabel value="Tiempo restante:"/><pe:timer  timeout="#{habilitarVotacionView.tiempoRestante}" format="HH:mm:ss" singleRun="false" style="color: #006cd9; font-weight: bold;"/>
+                </div>
             </div>
             <div class="topbar-right">
                 <div id="user-display" style="padding-top: 1px; text-align: right;">
@@ -27,7 +34,7 @@
                         <i class="pi pi pi-fw pi-home" style="font-size: 18px; color: #006cd9; font-weight: bold" />
                     </p:commandLink>
                     <p:spacer width="10"/>
-                    <p:commandLink action="#{guestPreferences.logout()}">
+                    <p:commandLink action="#{guestPreferences.logout()}" process="@this">
                         <i class="pi pi pi-fw pi-power-off" style="font-size: 18px; color: red; font-weight: bold" />
                     </p:commandLink>
                 </div>

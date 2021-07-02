@@ -7,6 +7,9 @@ package sv.gob.mined.app.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
 import javax.inject.Inject;
@@ -15,17 +18,20 @@ import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.model.ProcesoVotacion;
 import sv.gob.mined.app.model.Anho;
-import sv.gob.mined.app.model.dto.VwCatalogoEntidadEducativa;
+import sv.gob.mined.app.model.VwCatalogoEntidadEducativa;
 import sv.gob.mined.app.view.util.VarSession;
 
 @Named
 @SessionScoped
 public class ParametrosSesionView implements Serializable {
 
+    private Boolean showTiempoFinalizado = false;
     private BigDecimal idUsuario;
     private Anho anho;
     private ProcesoVotacion procesoVotacion;
     private VwCatalogoEntidadEducativa entidadEducativa;
+    private Date now = new Date();
+    private Date limite;
 
     @Inject
     private CatalogoFacade catalogoFacade;
@@ -39,12 +45,14 @@ public class ParametrosSesionView implements Serializable {
         procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", getCodigoEntidad());
         entidadEducativa = catalogoFacade.findEntidadEducativaByCodigo(getCodigoEntidad());
 
-        idUsuario = persistenceFacade.guardarUsuarioPadre(
-                ((BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO_SIGES)).longValue(),
-                VarSession.getVariableSession("nombres").toString(),
-                VarSession.getVariableSession("apellidos").toString(),
-                VarSession.getVariableSession("dui").toString(),
-                procesoVotacion.getIdProcesoVotacion());
+        if (VarSession.isVariableSession(VarSession.ID_USUARIO_SIGES)) {
+            idUsuario = persistenceFacade.guardarUsuarioPadre(
+                    ((BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO_SIGES)).longValue(),
+                    VarSession.getVariableSession("nombres").toString(),
+                    VarSession.getVariableSession("apellidos").toString(),
+                    VarSession.getVariableSession("dui").toString(),
+                    procesoVotacion.getIdProcesoVotacion());
+        }
     }
 
     public String getTipoUsuario() {
@@ -70,6 +78,11 @@ public class ParametrosSesionView implements Serializable {
         return anho;
     }
 
+    public Boolean getShowTiempoFinalizado() {
+        calcularTiempoRestante();
+        return showTiempoFinalizado;
+    }
+
     public ProcesoVotacion getProcesoVotacion() {
         return procesoVotacion;
     }
@@ -90,4 +103,29 @@ public class ParametrosSesionView implements Serializable {
         return idUsuario;
     }
 
+    public void calcularTiempoRestante() {
+        if (procesoVotacion.getFechaInsercion() != null && procesoVotacion.getHoras() != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(procesoVotacion.getFechaInsercion());
+            calendar.add(Calendar.HOUR_OF_DAY, procesoVotacion.getHoras());
+
+            limite = calendar.getTime();
+
+            showTiempoFinalizado = (limite.getTime() >= (now).getTime());
+        } else {
+            showTiempoFinalizado = false;
+        }
+    }
+    
+    public long getTiempoRestante() {
+        long tiempo = 0l;
+        if (procesoVotacion.getFechaInsercion() != null && procesoVotacion.getHoras() != null) {
+            if (showTiempoFinalizado) {
+            } else {
+                long diffInMillies = Math.abs(limite.getTime() - (new Date()).getTime());
+                tiempo = TimeUnit.MILLISECONDS.toSeconds(diffInMillies);
+            }
+        }
+        return tiempo;
+    }
 }

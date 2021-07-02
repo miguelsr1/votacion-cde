@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<entity-mappings 
+    xmlns="http://java.sun.com/xml/ns/persistence/orm" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://java.sun.com/xml/ns/persistence/orm  http://java.sun.com/xml/ns/persistence/orm_2_0.xsd"
+    version="2.0">
+    <description>Native queries</description>
+   
+    <named-native-query name="Votacion.DistribucionVotacionDto" 
+                        result-class="sv.gob.mined.app.model.dto.DistribucionVotacionDto">
+        <query>
+             <![CDATA[
+            select rownum           as idRow, 
+                nombres, 
+                apellidos, 
+                descripcion_cargo   as descripcionCargo, 
+                cantidad
+            from (select c.nombres, c.apellidos, ca.descripcion_cargo||decode(c.tipo_nombramiento,'P',' PROPIETARIO','S',' SUPLENTE') as descripcion_cargo, count(v.id_votacion) cantidad, c.id_cargo
+                    from candidato c
+                        inner join cargo ca on ca.id_cargo = c.id_cargo
+                        inner join votacion v on v.id_candidato = c.id_candidato
+                    where v.id_proceso_votacion = ?1
+                    group by c.nombres, c.apellidos, ca.descripcion_cargo, c.id_cargo, c.tipo_nombramiento)
+            order by id_cargo
+            ]]>
+        </query>    
+    </named-native-query>
+    <named-native-query name="Votacion.DistribucionVotacionFinalDto" 
+                        result-class="sv.gob.mined.app.model.dto.DistribucionVotacionDto">
+        <query>
+             <![CDATA[
+            select rownum             as idRow,
+                   tb1.nombres,
+                   tb1.apellidos,
+                   tb1.descripcion_cargo as descripcionCargo,
+                   tb1.cantidad
+            from
+                (select c.nombres, c.apellidos, ca.descripcion_cargo||decode(c.tipo_nombramiento,'P',' PROPIETARIO','S',' SUPLENTE') as descripcion_cargo, count(v.id_votacion) cantidad, ca.id_cargo, c.tipo_nombramiento
+                 from candidato c
+                          inner join cargo ca on ca.id_cargo = c.id_cargo
+                          inner join votacion v on v.id_candidato = c.id_candidato
+                 where v.id_proceso_votacion = ?1
+                 group by c.nombres, c.apellidos, ca.descripcion_cargo, ca.id_cargo, c.tipo_nombramiento) tb1
+                    inner join (select
+                                    max(cantidad) cantidad, descripcion_Cargo, id_cargo, tipo_nombramiento
+                                from
+                                    (select c.nombres, c.apellidos, ca.descripcion_cargo, count(v.id_votacion) cantidad, ca.id_cargo, c.tipo_nombramiento
+                                     from candidato c
+                                              inner join cargo ca on ca.id_cargo = c.id_cargo
+                                              inner join votacion v on v.id_candidato = c.id_candidato
+                                     where v.id_proceso_votacion = ?1
+                                     group by c.nombres, c.apellidos, ca.descripcion_cargo, ca.id_cargo, c.tipo_nombramiento) votos
+                                group by descripcion_Cargo, id_cargo, tipo_nombramiento) tb2 on tb1.cantidad = tb2.cantidad and tb1.id_cargo = tb2.id_cargo and tb1.tipo_nombramiento = tb2.tipo_nombramiento
+            order by tb1.id_cargo, tb1.tipo_nombramiento
+            ]]>
+        </query>    
+    </named-native-query>
+    <named-native-query name="Votacion.DistribucionVotacionFinalPorcentajeDto" 
+                        result-class="sv.gob.mined.app.model.dto.DistribucionVotacionDto">
+        <query>
+             <![CDATA[
+            select 
+                rownum as idRow,
+                nombres,
+                apellidos,
+                cantidad,
+                porcentaje,
+                path_imagen as pathImagen
+            from (    
+                select 
+                    tbl1.nombres,
+                    tbl1.apellidos,
+                    tbl1.cantidad,
+                    tbl1.path_imagen,
+                    ((tbl1.cantidad*100)/tbl2.total_votos) porcentaje
+                from (select 
+                        c.nombres, 
+                        c.apellidos, 
+                        ca.descripcion_cargo||decode(c.tipo_nombramiento,'P',' PROPIETARIO','S',' SUPLENTE') as descripcion_cargo, 
+                        count(v.id_votacion) cantidad, 
+                        c.id_cargo,
+                        c.tipo_nombramiento,
+                        c.path_imagen
+                    from candidato c
+                        inner join cargo ca on ca.id_cargo = c.id_cargo
+                        inner join votacion v on v.id_candidato = c.id_candidato
+                    where c.id_cargo = ?2 and c.tipo_nombramiento = ?3 and v.id_proceso_votacion = ?1
+                    group by c.nombres, c.apellidos, ca.descripcion_cargo, c.id_cargo,c.tipo_nombramiento, c.path_imagen) tbl1
+                inner join (select 
+                                c.id_cargo, 
+                                c.tipo_nombramiento,
+                                count(v.id_votacion) total_votos
+                            from candidato c
+                                inner join cargo ca on ca.id_cargo = c.id_cargo
+                                inner join votacion v on v.id_candidato = c.id_candidato
+                            where c.id_cargo = ?2 and c.tipo_nombramiento = ?3 and v.id_proceso_votacion = ?1
+                            group by c.id_cargo,c.tipo_nombramiento) tbl2 on tbl1.id_cargo = tbl2.id_cargo and tbl1.tipo_nombramiento = tbl2.tipo_nombramiento)
+            order by
+                porcentaje desc,
+                cantidad 
+            ]]>
+        </query>    
+    </named-native-query>
+</entity-mappings>

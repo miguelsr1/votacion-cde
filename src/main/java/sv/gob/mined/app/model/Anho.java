@@ -11,9 +11,13 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
 /**
@@ -22,20 +26,22 @@ import javax.xml.bind.annotation.XmlTransient;
  */
 @Entity
 @Table(name = "ANHO")
+@XmlRootElement
 public class Anho implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
     @Column(name = "ID_ANHO")
+    @GeneratedValue(generator = "SEQ_DET_VOTO", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "SEQ_DET_VOTO", sequenceName = "SEQ_DET_VOTO", allocationSize = 1, initialValue = 1)
     private Integer idAnho;
     @Column(name = "ANHO")
     private String anho;
-    @OneToMany(mappedBy = "idAnho", fetch = FetchType.LAZY)
-    private List<ProcesoVotacion> procesoVotacionList;
-
     @Column(name = "ACTIVO")
     private Short activo;
+    @OneToMany(mappedBy = "idAnho", fetch = FetchType.LAZY)
+    private List<ProcesoVotacion> procesoVotacionList;
 
     public Anho() {
     }
@@ -58,6 +64,14 @@ public class Anho implements Serializable {
 
     public void setAnho(String anho) {
         this.anho = anho;
+    }
+
+    public Short getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Short activo) {
+        this.activo = activo;
     }
 
     @XmlTransient
@@ -93,13 +107,5 @@ public class Anho implements Serializable {
     public String toString() {
         return "sv.gob.mined.app.model.Anho[ idAnho=" + idAnho + " ]";
     }
-
-    public Short getActivo() {
-        return activo;
-    }
-
-    public void setActivo(Short activo) {
-        this.activo = activo;
-    }
-
+    
 }
