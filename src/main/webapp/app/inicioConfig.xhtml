@@ -86,10 +86,23 @@
                 width: 325px !important;
                 float: right;
             }
+            body .ui-fileupload-simple .ui-icon-plusthick::before {
+                content: "\e96c" !important;
+            }
+            #flImagen .ui-button {
+                background: #3984b8;
+                color: #f8fafc;
+                border: 1px solid #3984b8;
+                margin: 0;
+                outline: 0 none;
+                border-radius: 16px;
+                transition: background-color 0.2s, color 0.2s, border-color 0.2s, box-shadow 0.2s;
+            }
         </style>
+
     </h:head>
 
-    <h:body styleClass="#{guestPreferences.inputStyleClass}" style="margin: 0 auto; ">
+    <h:body styleClass="#{guestPreferences.inputStyleClass}" style="margin: 0 auto;" onload="$('ui-button-text ui-c').text('');">
         <p:ajaxStatus style="position:fixed;right:60px;bottom:30px">
             <f:facet name="default">
 
@@ -120,11 +133,11 @@
                 <div id="layout-config" class="layout-config" style="display:#{(habilitarVotacionView.tiempoFinalizado )?'block':'none'}">
                     <div class="layout-config-content">
                         <a href="#" id="layout-config-button" class="layout-config-button">
-<!--                            <pe:timer 
-                                timeout="{habilitarVotacionView.tiempoRestante}"
-                                format="HH:mm:ss"
-                                singleRun="false"
-                                style="color: white;font-size: 14px; font-weight: bold;"/>-->
+                            <!--                            <pe:timer 
+                                                            timeout="{habilitarVotacionView.tiempoRestante}"
+                                                            format="HH:mm:ss"
+                                                            singleRun="false"
+                                                            style="color: white;font-size: 14px; font-weight: bold;"/>-->
                         </a>
                     </div>
                 </div>

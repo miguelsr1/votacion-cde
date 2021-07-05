@@ -1218,7 +1218,7 @@ p:last-child {
     /*background-color: #1d1d4c;*/
     background-size: cover;
     /*height: auto;*/
-    /*min-height: 100vh;*/
+    min-height: 100vh;
     /*padding-top: 125px;*/
 }
 .login-body .login-panel {

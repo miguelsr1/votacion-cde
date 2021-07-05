@@ -25,7 +25,9 @@
                 <div class="pageColumnMid" style="text-align: left;padding-left: 300px;">
                     <br/><p:outputLabel value="CE: &lt;b&gt;#{parametrosSesionView.centroEducativo}&lt;/b&gt;" escape="false" />
                     <br/><p:outputLabel value="Usuario: &lt;b&gt;#{parametrosSesionView.nombreUsuario}&lt;/b&gt;" escape="false" />
-                    <br/><p:outputLabel value="Tiempo restante:"/><pe:timer  timeout="#{habilitarVotacionView.tiempoRestante}" format="HH:mm:ss" singleRun="false" style="color: #006cd9; font-weight: bold;"/>
+                    <br/><p:outputLabel value="Tiempo restante:" rendered="#{parametrosSesionView.showTiempoFinalizado}"/>
+                    <pe:timer rendered="#{parametrosSesionView.showTiempoFinalizado}"
+                        timeout="#{habilitarVotacionView.tiempoRestante}" format="HH:mm:ss" singleRun="false" style="color: #006cd9; font-weight: bold;"/>
                 </div>
             </div>
             <div class="topbar-right">

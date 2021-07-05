@@ -81,7 +81,7 @@
                             <p:avatar label="✓" styleClass="p-mr-2" style="background-color:#689F38; color: #ffffff; margin-top: 16px; margin-left: 117px;" shape="circle"  />
                         </div>
                         <h:panelGrid columns="2" style="width: 90%; margin: auto; text-align: center;">
-                            <p:graphicImage id="img_proSec" value="/DynamicImageServlet?file=#{candidato.pathImagen}" width="100px" styleClass="imgCandidato imgBlackAndWhite"  /> 
+                            <p:graphicImage id="img_proSec" value="#{detalleVotacionView.getGraphicText(candidato.pathImagen)}" width="100px" styleClass="imgCandidato imgBlackAndWhite" stream="false"  /> 
                             <p:outputPanel>
                                 <p:outputLabel value="#{candidato.nombres} #{candidato.apellidos}"/>
                                 <br/><br/>

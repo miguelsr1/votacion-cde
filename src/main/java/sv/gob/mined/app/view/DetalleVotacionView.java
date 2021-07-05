@@ -5,16 +5,24 @@
  */
 package sv.gob.mined.app.view;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.primefaces.PrimeFaces;
+import org.primefaces.model.DefaultStreamedContent;
+import org.primefaces.model.StreamedContent;
 import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.ParametrosFacade;
 import sv.gob.mined.app.facade.PersistenceFacade;
@@ -31,6 +39,8 @@ import sv.gob.mined.utils.jsf.JsfUtil;
 @Named
 @ViewScoped
 public class DetalleVotacionView implements Serializable {
+
+    private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle("Bundle");
 
     private Boolean showSecretario = false;
     private Boolean showConsejalDoc = false;
@@ -471,5 +481,27 @@ public class DetalleVotacionView implements Serializable {
         }
 
         return validar;
+    }
+
+    public StreamedContent getGraphicText(String path) {
+        return DefaultStreamedContent.builder()
+                .contentType("image/png")
+                .stream(() -> {
+                    try {
+                        String pathImg;
+                        byte[] bytes;
+                        if (System.getProperty("os.name").toUpperCase().contains("WINDOWS")) {
+                            pathImg = RESOURCE_BUNDLE.getString("path_images_win");
+                        } else {
+                            pathImg = RESOURCE_BUNDLE.getString("path_images_linux");
+                        }
+
+                        return new FileInputStream(pathImg + File.separator + path);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                        return null;
+                    }
+                })
+                .build();
     }
 }
