@@ -29,4 +29,11 @@ public class CatalogoFacadeSiges {
 
         return q.getResultList().isEmpty() ? null : (EstudianteDto) q.getResultList().get(0);
     }
+    
+    public EstudianteDto validarCredencialesEstudiante(String correoEstudiante) {
+        Query q = emSiges.createNamedQuery("Votacion.EstudiantePerDto", EstudianteDto.class);
+        q.setParameter(1, correoEstudiante);
+
+        return q.getResultList().isEmpty() ? null : (EstudianteDto) q.getResultList().get(0);
+    }
 }

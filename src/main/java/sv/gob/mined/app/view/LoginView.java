@@ -49,9 +49,6 @@ public class LoginView implements Serializable {
     @Inject
     private CatalogoFacade catalogoFacade;
 
-    @Inject
-    private PersistenceFacade persistenceFacade;
-
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -150,6 +147,9 @@ public class LoginView implements Serializable {
             credencialesView.setPassword(password);
 
             Usuario usuario = catalogoFacade.getsUsuarioRegistrado(credencialesView.getRemitente());
+            if(usuario  == null){
+                EstudianteDto estudianteSiges  = catalogoFacadeSiges.validarCredencialesEstudiante(credencialesView.getRemitente());
+            }
 
             if (usuario != null) {
                 //credencialesView.validarCredencial();

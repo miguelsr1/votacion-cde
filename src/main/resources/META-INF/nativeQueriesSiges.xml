@@ -34,4 +34,30 @@
             ]]>
         </query>    
     </named-native-query>
+    
+    <named-native-query name="Votacion.EstudiantePerDto" 
+                        result-class="sv.gob.mined.app.model.siges.dto.EstudianteDto">
+        <query>
+             <![CDATA[
+            select 
+                ss2.sed_codigo          as sedCodigo,
+                sp.per_nie              as perNie,
+                sp.per_dui              as perDui,
+                sp.per_fecha_nacimiento as perFechaNacimiento,
+                sp.per_pk               as idPerSiges,
+                concat(sp.per_primer_nombre,' ',sp.per_segundo_nombre, ' ', sp.per_tercer_nombre , ' ', sp.per_primer_apellido, ' ',sp.per_segundo_apellido, ' ', sp.per_tercer_apellido) as nombreCompleto 
+            from centros_educativos.sg_allegados sa
+                    inner join centros_educativos.sg_personas sp on sa.all_persona_ref  = sp.per_pk --hijo
+                    inner join centros_educativos.sg_personas sp2 on sp2.per_pk = sa.all_persona  --padre
+                    inner join centros_educativos.sg_estudiantes se on se.est_persona = sp.per_pk
+                    inner join centros_educativos.sg_matriculas sm on sm.mat_estudiante_fk  = se.est_pk --matricula
+                    inner join centros_educativos.sg_secciones ss on ss.sec_pk = sm.mat_seccion_fk 
+                    inner join centros_educativos.sg_servicio_educativo sse on ss.sec_servicio_educativo_fk = sse.sdu_pk 
+                    inner join centros_educativos.sg_sedes ss2 on ss2.sed_pk = sse.sdu_sede_fk 
+            where 
+                    sm.mat_estado = 'ABIERTO' and
+                    sp.per_email like ?1
+            ]]>
+        </query>    
+    </named-native-query>
 </entity-mappings>
