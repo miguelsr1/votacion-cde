@@ -49,6 +49,9 @@ public class LoginView implements Serializable {
     @Inject
     private CatalogoFacade catalogoFacade;
 
+    @Inject
+    private PersistenceFacade persistenceFacade;
+
     @PostConstruct
     public void init() {
         FacesContext context = FacesContext.getCurrentInstance();
@@ -122,8 +125,8 @@ public class LoginView implements Serializable {
     public Boolean getShowLoginCe() {
         return showLoginCe;
     }
-    
-    public Boolean getMostraOpcionLogin(){
+
+    public Boolean getMostraOpcionLogin() {
         return (showLoginCe || showPadresFam);
     }
 
@@ -141,26 +144,31 @@ public class LoginView implements Serializable {
 
     public String validarCrendecialesDelCorreo() {
         String url = "";
+        Boolean usuarioNuevoEstudiante = false;
         if (correoRemitente != null && password != null) {
             credencialesView.setIdDominioCorreo(idDominioCorreo);
             credencialesView.setCorreoRemitente(correoRemitente);
             credencialesView.setPassword(password);
 
             Usuario usuario = catalogoFacade.getsUsuarioRegistrado(credencialesView.getRemitente());
-            if(usuario  == null){
-                EstudianteDto estudianteSiges  = catalogoFacadeSiges.validarCredencialesEstudiante(credencialesView.getRemitente());
+            if (usuario == null) {
+                EstudianteDto estudianteSiges = catalogoFacadeSiges.validarCredencialesEstudiante(credencialesView.getRemitente());
+                crearVariablesPerSiges(estudianteSiges, credencialesView.getRemitente(), VarSession.USUARIO_EST);
+                usuarioNuevoEstudiante = true;
+            } else {
+                VarSession.setVariableSession(VarSession.TIPO_USUARIO, usuario.getTipoUsuario());
             }
 
-            if (usuario != null) {
+            if (usuario != null || usuarioNuevoEstudiante) {
                 //credencialesView.validarCredencial();
 
                 /*correoValido = credencialesView.isCorreoValido();
                 if (correoValido) {*/
-                VarSession.setVariableSession(VarSession.TIPO_USUARIO, usuario.getTipoUsuario());
-                if (usuario.getTipoUsuario().equals("A")) {
+                if (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString().equals(VarSession.USUARIO_DIR) || 
+                        VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString().equals(VarSession.USUARIO_EST)) {
                     //recuperar el centro educativo
                     VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD,
-                            catalogoFacade.getCodigoEntidadByCorreoDirector(usuario.getCuentaCorreo()));
+                            catalogoFacade.getCodigoEntidadByCorreoDirector(credencialesView.getRemitente()));
                 }
                 url = "/app/inicio?faces-redirect=true";
 
@@ -178,14 +186,7 @@ public class LoginView implements Serializable {
     public String validarCredencialesResponsable() {
         EstudianteDto padreSiges = catalogoFacadeSiges.validarCredenciales(nie, dui, codigoEntidad);
         if (padreSiges != null) {
-            VarSession.setVariableSession("nie", nie);
-            VarSession.setVariableSession("dui", dui);
-            VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, codigoEntidad);
-            VarSession.setVariableSession(VarSession.TIPO_USUARIO, VarSession.USUARIO_PAD);
-            VarSession.setVariableSession(VarSession.ID_USUARIO_SIGES, new BigDecimal(padreSiges.getIdPerSiges().toString()));
-            VarSession.setVariableSession("nombres", padreSiges.getNombres());
-            VarSession.setVariableSession("apellidos", padreSiges.getApellidos());
-            VarSession.setVariableSession("nombreUsuario", padreSiges.getNombres().concat(" ").concat(padreSiges.getApellidos()));
+            crearVariablesPerSiges(padreSiges, null, VarSession.USUARIO_PAD);
 
             //registrar primer logeo para le proceso de votación.
             return "app/inicio?faces-redirect=true";
@@ -194,12 +195,24 @@ public class LoginView implements Serializable {
         }
     }
 
+    private void crearVariablesPerSiges(EstudianteDto perSiges, String correo, String tipoUsuario) {
+        VarSession.setVariableSession("nie", nie);
+        VarSession.setVariableSession("dui", dui);
+        VarSession.setVariableSession("nombres", perSiges.getNombres());
+        VarSession.setVariableSession("apellidos", perSiges.getApellidos());
+        VarSession.setVariableSession("nombreUsuario", perSiges.getNombres().concat(" ").concat(perSiges.getApellidos()));
+        VarSession.setVariableSession("correo", correo);
+        VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, perSiges.getSedCodigo());
+        VarSession.setVariableSession(VarSession.TIPO_USUARIO, tipoUsuario);
+        VarSession.setVariableSession(VarSession.ID_USUARIO_SIGES, new BigDecimal(perSiges.getIdPerSiges().toString()));
+    }
+
     public void showLoginDocEst() {
         showLoginCe = true;
         showPadresFam = false;
     }
-    
-    public void cancelarLogin(){
+
+    public void cancelarLogin() {
         showLoginCe = false;
         showPadresFam = false;
     }

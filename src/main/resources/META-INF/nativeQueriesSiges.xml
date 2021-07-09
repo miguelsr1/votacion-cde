@@ -45,7 +45,8 @@
                 sp.per_dui              as perDui,
                 sp.per_fecha_nacimiento as perFechaNacimiento,
                 sp.per_pk               as idPerSiges,
-                concat(sp.per_primer_nombre,' ',sp.per_segundo_nombre, ' ', sp.per_tercer_nombre , ' ', sp.per_primer_apellido, ' ',sp.per_segundo_apellido, ' ', sp.per_tercer_apellido) as nombreCompleto 
+                concat(sp.per_primer_nombre,' ',sp.per_segundo_nombre, ' ', sp.per_tercer_nombre) as nombres,
+                concat(sp.per_primer_apellido, ' ',sp.per_segundo_apellido, ' ', sp.per_tercer_apellido) as apellidos 
             from centros_educativos.sg_allegados sa
                     inner join centros_educativos.sg_personas sp on sa.all_persona_ref  = sp.per_pk --hijo
                     inner join centros_educativos.sg_personas sp2 on sp2.per_pk = sa.all_persona  --padre

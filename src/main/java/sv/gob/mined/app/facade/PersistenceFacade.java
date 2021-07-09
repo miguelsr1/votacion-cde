@@ -36,7 +36,7 @@ public class PersistenceFacade {
         return em.merge(entity);
     }
 
-    public BigDecimal guardarUsuarioPadre(Long idPerSiges, String nombres, String apellidos, String dui, BigDecimal idProcesoVotacion) {
+    public BigDecimal guardarUsuarioPerSiges(Long idPerSiges, String nombres, String apellidos, String dui, String correo, BigDecimal idProcesoVotacion, String tipoUsuario) {
         BigDecimal idUsuario;
         Usuario usuario;
         Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.idPerSiges=:pIdPer", Usuario.class);
@@ -45,10 +45,11 @@ public class PersistenceFacade {
         if (q.getResultList().isEmpty()) {
             usuario = new Usuario();
             usuario.setIdPerSiges(new BigInteger(idPerSiges.toString()));
-            usuario.setTipoUsuario(VarSession.USUARIO_PAD);
+            usuario.setTipoUsuario(tipoUsuario);
             usuario.setNombres(nombres.replaceAll("  ", " ").trim());
             usuario.setApellidos(apellidos.replaceAll("  ", " ").trim());
             usuario.setDui(dui);
+            usuario.setCuentaCorreo(correo);
             em.persist(usuario);
 
             idUsuario = usuario.getIdUsuario();

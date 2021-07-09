@@ -46,12 +46,14 @@ public class ParametrosSesionView implements Serializable {
         entidadEducativa = catalogoFacade.findEntidadEducativaByCodigo(getCodigoEntidad());
 
         if (VarSession.isVariableSession(VarSession.ID_USUARIO_SIGES)) {
-            idUsuario = persistenceFacade.guardarUsuarioPadre(
+            idUsuario = persistenceFacade.guardarUsuarioPerSiges(
                     ((BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO_SIGES)).longValue(),
                     VarSession.getVariableSession("nombres").toString(),
                     VarSession.getVariableSession("apellidos").toString(),
-                    VarSession.getVariableSession("dui").toString(),
-                    procesoVotacion.getIdProcesoVotacion());
+                    VarSession.getVariableSession("dui") == null ? null : VarSession.getVariableSession("dui").toString(),
+                    VarSession.isVariableSession("correo") ? VarSession.getVariableSession("correo").toString() : null,
+                    procesoVotacion.getIdProcesoVotacion(),
+                    VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString());
         }
     }
 
@@ -116,7 +118,7 @@ public class ParametrosSesionView implements Serializable {
             showTiempoFinalizado = false;
         }
     }
-    
+
     public long getTiempoRestante() {
         long tiempo = 0l;
         if (procesoVotacion.getFechaInsercion() != null && procesoVotacion.getHoras() != null) {
