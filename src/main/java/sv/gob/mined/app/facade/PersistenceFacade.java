@@ -16,7 +16,6 @@ import sv.gob.mined.app.model.Asistencia;
 import sv.gob.mined.app.model.DetalleVotaUsuario;
 import sv.gob.mined.app.model.ProcesoVotacion;
 import sv.gob.mined.app.model.Usuario;
-import sv.gob.mined.app.view.util.VarSession;
 
 /**
  *
@@ -36,7 +35,7 @@ public class PersistenceFacade {
         return em.merge(entity);
     }
 
-    public BigDecimal guardarUsuarioPerSiges(Long idPerSiges, String nombres, String apellidos, String dui, String correo, BigDecimal idProcesoVotacion, String tipoUsuario) {
+    public BigDecimal guardarUsuarioPerSiges(Long idPerSiges, String nombres, String apellidos, String dui, String correo, BigDecimal idProcesoVotacion, String tipoUsuario, String codigoEntidad) {
         BigDecimal idUsuario;
         Usuario usuario;
         Query q = em.createQuery("SELECT u FROM Usuario u WHERE u.idPerSiges=:pIdPer", Usuario.class);
@@ -50,6 +49,8 @@ public class PersistenceFacade {
             usuario.setApellidos(apellidos.replaceAll("  ", " ").trim());
             usuario.setDui(dui);
             usuario.setCuentaCorreo(correo);
+            usuario.setCodigoEntidad(codigoEntidad);
+            
             em.persist(usuario);
 
             idUsuario = usuario.getIdUsuario();

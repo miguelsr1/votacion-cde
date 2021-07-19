@@ -164,11 +164,15 @@ public class LoginView implements Serializable {
 
                 /*correoValido = credencialesView.isCorreoValido();
                 if (correoValido) {*/
-                if (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString().equals(VarSession.USUARIO_DIR) || 
-                        VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString().equals(VarSession.USUARIO_EST)) {
-                    //recuperar el centro educativo
+                if (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString().equals(VarSession.USUARIO_DIR)) {
                     VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD,
                             catalogoFacade.getCodigoEntidadByCorreoDirector(credencialesView.getRemitente()));
+                } else if (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString().equals(VarSession.USUARIO_EST)) {
+                    //recuperar el centro educativo
+                    if (!VarSession.isVariableSession(VarSession.CODIGO_ENTIDAD)) {
+                        VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, usuario.getCodigoEntidad());
+                        VarSession.setVariableSession(VarSession.ID_USUARIO, usuario.getIdUsuario());
+                    }
                 }
                 url = "/app/inicio?faces-redirect=true";
 

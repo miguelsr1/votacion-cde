@@ -51,6 +51,8 @@ public class Usuario implements Serializable {
     private String apellidos;
     @Column(name = "DUI")
     private String dui;
+    @Column(name = "CODIGO_ENTIDAD")
+    private String codigoEntidad;
     @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
     private List<Asistencia> asistenciaList;
     @OneToMany(mappedBy = "idUsuario", fetch = FetchType.LAZY)
@@ -117,6 +119,14 @@ public class Usuario implements Serializable {
 
     public void setDui(String dui) {
         this.dui = dui;
+    }
+
+    public String getCodigoEntidad() {
+        return codigoEntidad;
+    }
+
+    public void setCodigoEntidad(String codigoEntidad) {
+        this.codigoEntidad = codigoEntidad;
     }
 
     @XmlTransient

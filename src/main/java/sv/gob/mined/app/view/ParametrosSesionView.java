@@ -53,7 +53,10 @@ public class ParametrosSesionView implements Serializable {
                     VarSession.getVariableSession("dui") == null ? null : VarSession.getVariableSession("dui").toString(),
                     VarSession.isVariableSession("correo") ? VarSession.getVariableSession("correo").toString() : null,
                     procesoVotacion.getIdProcesoVotacion(),
-                    VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString());
+                    VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString(),
+                    VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
+        } else if (VarSession.isVariableSession(VarSession.ID_USUARIO)) {
+            idUsuario = (BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO);
         }
     }
 
