@@ -19,6 +19,7 @@ public class VarSession {
     public static final String USUARIO_DOC = "D";
     public static final String USUARIO_EST = "E";
     public static final String USUARIO_PAD = "P";
+    public static final String CODIGO_DEPARTAMENTO = "codigoDepartamento";
     public static final String ID_USUARIO = "idUsuario";
     public static final String ID_USUARIO_SIGES = "idUsuarioSiges";
     public static final String TIPO_USUARIO = "tipoUsuario";

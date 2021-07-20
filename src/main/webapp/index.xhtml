@@ -39,7 +39,7 @@
                             </div> 
                             <div class="p-col-12 " style="display:#{(loginView.mostraOpcionLogin)?'none':'block'}">
                                 <div class="p-grid p-jc-center">
-                                    <div class="p-col-6">
+                                    <div class="p-col-4">
                                         <p:commandLink actionListener="#{loginView.showLoginDocEst()}" update="outPrincipal" process="@this">
                                             <div class="card overview-box" style="text-align: center !important">
                                                 <h5>Docentes/Estudiantes</h5>
@@ -48,12 +48,21 @@
                                             </div>
                                         </p:commandLink>
                                     </div>
-                                    <div class="p-col-6" style="display: block;">
+                                    <div class="p-col-4" style="display: block;">
                                         <p:commandLink action="#{loginView.showLoginPadRes()}" update="outPrincipal" process="@this">
                                             <div class="card overview-box"  style="text-align: center !important">
                                                 <h5>Padres de familia o Responsable</h5>
                                                 <br/>
                                                 <p:graphicImage name="parents2.png" library="images"  width="80"/>
+                                            </div>
+                                        </p:commandLink>
+                                    </div>
+                                    <div class="p-col-4" style="display: block;">
+                                        <p:commandLink action="#{loginView.showLoginAdmin()}" update="outPrincipal" process="@this">
+                                            <div class="card overview-box"  style="text-align: center !important">
+                                                <h5>Departamentales</h5>
+                                                <br/> 
+                                                <p:graphicImage name="config.png" library="images"  width="80"/>
                                             </div>
                                         </p:commandLink>
                                     </div>
@@ -67,7 +76,7 @@
                                         <p:inputText id="txtUsuario" placeholder="Usuario" style="width: 100%;" required="true" value="#{loginView.correoRemitente}"/>
                                     </div>
                                     <div class="p-col-5" >
-                                        <p:selectOneMenu id="cboDominio" value="#{loginView.idDominioCorreo}" >
+                                        <p:selectOneMenu id="cboDominio" value="#{loginView.idDominioCorreo}" disabled="#{loginView.desactivarDominio}" >
                                             <f:selectItem itemLabel="Seleccione un valor" />
                                             <f:selectItem itemLabel="Office 365" itemValue="1"/>
                                             <f:selectItem itemLabel="Google Classroom" itemValue="2"/>

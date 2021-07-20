@@ -42,6 +42,22 @@ public class ParametrosSesionView implements Serializable {
     @PostConstruct
     public void init() {
         anho = catalogoFacade.findAnhoActivo();
+
+        switch (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString()) {
+            case "A":
+                if (VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD) == null) {
+
+                } else {
+                    cargarDatosCe();
+                }
+                break;
+            default:
+                cargarDatosCe();
+                break;
+        }
+    }
+
+    private void cargarDatosCe() {
         procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", getCodigoEntidad());
         entidadEducativa = catalogoFacade.findEntidadEducativaByCodigo(getCodigoEntidad());
 
@@ -55,8 +71,8 @@ public class ParametrosSesionView implements Serializable {
                     procesoVotacion.getIdProcesoVotacion(),
                     VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString(),
                     VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
-        } else if (VarSession.isVariableSession(VarSession.ID_USUARIO)) {
             idUsuario = (BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO);
+        } else if (VarSession.isVariableSession(VarSession.ID_USUARIO)) {
         }
     }
 
@@ -76,7 +92,11 @@ public class ParametrosSesionView implements Serializable {
     }
 
     public String getCodigoEntidad() {
-        return VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString();
+        if (VarSession.isVariableSession(VarSession.CODIGO_ENTIDAD)) {
+            return VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString();
+        } else {
+            return "";
+        }
     }
 
     public Anho getAnho() {
@@ -101,7 +121,11 @@ public class ParametrosSesionView implements Serializable {
     }
 
     public String getCentroEducativo() {
-        return entidadEducativa.getCodigoEntidad().concat(" - ").concat(entidadEducativa.getNombre());
+        if (entidadEducativa == null) {
+            return "";
+        } else {
+            return entidadEducativa.getCodigoEntidad().concat(" - ").concat(entidadEducativa.getNombre());
+        }
     }
 
     public BigDecimal getIdUsuario() {
@@ -109,7 +133,9 @@ public class ParametrosSesionView implements Serializable {
     }
 
     public void calcularTiempoRestante() {
-        if (procesoVotacion.getFechaInsercion() != null && procesoVotacion.getHoras() != null) {
+        if (procesoVotacion == null) {
+            showTiempoFinalizado = false;
+        } else if (procesoVotacion.getFechaInsercion() != null && procesoVotacion.getHoras() != null) {
             Calendar calendar = Calendar.getInstance();
             calendar.setTime(procesoVotacion.getFechaInsercion());
             calendar.add(Calendar.HOUR_OF_DAY, procesoVotacion.getHoras());

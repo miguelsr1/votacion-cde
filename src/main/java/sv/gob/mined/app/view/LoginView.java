@@ -31,6 +31,7 @@ public class LoginView implements Serializable {
 
     private Boolean showLoginCe = false;
     private Boolean showPadresFam = false;
+    private Boolean desactivarDominio = false;
     private Boolean correoValido = false;
     private String correoRemitente;
     private String idDominioCorreo = "1";
@@ -48,9 +49,6 @@ public class LoginView implements Serializable {
 
     @Inject
     private CatalogoFacade catalogoFacade;
-
-    @Inject
-    private PersistenceFacade persistenceFacade;
 
     @PostConstruct
     public void init() {
@@ -142,6 +140,10 @@ public class LoginView implements Serializable {
         this.showPadresFam = showPadresFam;
     }
 
+    public Boolean getDesactivarDominio() {
+        return desactivarDominio;
+    }
+
     public String validarCrendecialesDelCorreo() {
         String url = "";
         Boolean usuarioNuevoEstudiante = false;
@@ -164,17 +166,29 @@ public class LoginView implements Serializable {
 
                 /*correoValido = credencialesView.isCorreoValido();
                 if (correoValido) {*/
-                if (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString().equals(VarSession.USUARIO_DIR)) {
-                    VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD,
-                            catalogoFacade.getCodigoEntidadByCorreoDirector(credencialesView.getRemitente()));
-                } else if (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString().equals(VarSession.USUARIO_EST)) {
-                    //recuperar el centro educativo
-                    if (!VarSession.isVariableSession(VarSession.CODIGO_ENTIDAD)) {
-                        VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, usuario.getCodigoEntidad());
-                        VarSession.setVariableSession(VarSession.ID_USUARIO, usuario.getIdUsuario());
-                    }
+                switch (usuario.getTipoUsuario()) {
+                    case "A": //nivel central, departamentales y directores
+                        if (usuario.getCodigoEntidad() != null) { //director
+                            VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, catalogoFacade.getCodigoEntidadByCorreoDirector(credencialesView.getRemitente()));
+                        } else if (usuario.getCodigoDepartamento() != null) {
+                            VarSession.setVariableSession(VarSession.CODIGO_DEPARTAMENTO, usuario.getCodigoDepartamento());
+
+                        }
+                        url = "/app/habilitarProceso?faces-redirect=true";
+                        break;
+                    case "D":
+                    case "E":
+                    case "P":
+                        //recuperar el centro educativo
+                        if (!VarSession.isVariableSession(VarSession.CODIGO_ENTIDAD)) {
+                            VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, usuario.getCodigoEntidad());
+                            VarSession.setVariableSession(VarSession.ID_USUARIO, usuario.getIdUsuario());
+                        }
+                        url = "/app/inicio?faces-redirect=true";
+                        break;
+                    default:
+                        url = "";
                 }
-                url = "/app/inicio?faces-redirect=true";
 
                 /*} else {
                     JsfUtil.mensajeError("Error en el usuario o  clave de acceso.");
@@ -212,8 +226,10 @@ public class LoginView implements Serializable {
     }
 
     public void showLoginDocEst() {
+        desactivarDominio = false;
         showLoginCe = true;
         showPadresFam = false;
+        dominio = null;
     }
 
     public void cancelarLogin() {
@@ -224,5 +240,12 @@ public class LoginView implements Serializable {
     public void showLoginPadRes() {
         showLoginCe = false;
         showPadresFam = true;
+    }
+
+    public void showLoginAdmin() {
+        desactivarDominio = true;
+        showLoginCe = true;
+        showPadresFam = false;
+        dominio = "1";
     }
 }
