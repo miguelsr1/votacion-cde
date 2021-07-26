@@ -170,11 +170,14 @@ public class LoginView implements Serializable {
                     case "A": //nivel central, departamentales y directores
                         if (usuario.getCodigoEntidad() != null) { //director
                             VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, catalogoFacade.getCodigoEntidadByCorreoDirector(credencialesView.getRemitente()));
+                            url = "/app/inicio?faces-redirect=true";
+
                         } else if (usuario.getCodigoDepartamento() != null) {
                             VarSession.setVariableSession(VarSession.CODIGO_DEPARTAMENTO, usuario.getCodigoDepartamento());
-
+                            url = "/app/inicioDepa?faces-redirect=true";
+                        } else {
+                            url = "/app/inicio?faces-redirect=true";
                         }
-                        url = "/app/habilitarProceso?faces-redirect=true";
                         break;
                     case "D":
                     case "E":

@@ -1,64 +1,68 @@
-<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:jsf="http://xmlns.jcp.org/jsf"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/resources/template/template.xhtml">
 
-    <h:head>
-        <f:facet name="first">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
-            <meta name="apple-mobile-web-app-capable" content="yes" />
-            <link href="#{request.contextPath}/resources/images/favicon.png" rel="shortcut icon"/>
-        </f:facet>
-        <title>Gestión Educativa - Votación CDE</title>
-        
+    <ui:define name="title">Gestión Educativa - Votación CDE</ui:define>
+
+    <ui:define name="head">
         <style>
-            .pageColumnMid{
-                float : left;
-                vertical-align: middle !important;
-                clear : none;
-                height: 82px;
-                padding-left: 60px;
+            .invoice-to {
+                margin-top: 1.5rem;
+                padding-top: 1rem;
+                border-top: 1px solid #dee4e9;
             }
         </style>
-    </h:head>
+    </ui:define>
 
-    <h:body styleClass="login-body">
-        <h:form prependId="false">
-            <p:messages id="growl" closable="true" escape="false" showDetail="true">
-                <p:autoUpdate />
-            </p:messages>
-
-            <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
-
-                <ui:include src="../resources/template/topbar.xhtml"/>
-                
-                <div class="layout-main" style="padding-top: 80px;">
-                    <div class="layout-content ">
-                        <div class="content-section implementation">
-                        <div class="p-grid p-jc-center">
-                            <div class="p-col-3" style="display: #{(parametrosSesionView.tipoUsuario eq 'A')?'block':'none'}">
-                                <p:commandLink action="inicioConfig.mined">
-                                    <div class="card overview-box" style="text-align: center !important">
-                                        <h5>Habilitar configuración CE</h5>
-                                        <br/>
-                                        <p:graphicImage name="config.png" library="images"  width="80"/>
-                                    </div>
-                                </p:commandLink>
+    <ui:define name="content">
+        <div class="p-grid">
+            <div class="p-col-12">
+                <h5>Resultados de votación</h5>
+                <div class="card">
+                    <div class="p-grid ui-fluid">
+                        <div class="p-col-12">
+                            <div class="p-field p-grid">
+                                <p:outputLabel for="cboMunicipio" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Municipio</p:outputLabel>
+                                <div class="p-col-12 p-md-10">
+                                    <p:selectOneMenu id="cboMunicipio" style="width: 250px;">
+                                        <f:selectItem itemLabel="Seleccione un valor" />
+                                    </p:selectOneMenu>
+                                </div>
+                            </div>
+                            <div class="p-field p-grid">
+                                <p:outputLabel for="txtNombreCe" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre C.E.</p:outputLabel>
+                                <div class="p-col-12 p-md-10">
+                                    <p:inputText id="txtNombreCe" />
+                                </div>
                             </div>
                         </div>
+
+
+                        <div class="p-col-12">
+                            <h6>Distribución de votos entre candidatos</h6>
+
+                            <p:dataTable id="tblDatos"  var="dis" 
+                                         scrollable="true" scrollRows="6" scrollHeight="264">
+                                <p:column headerText="Nombre" width="200">
+
+                                </p:column>
+                                <p:column headerText="Canditato" width="80" class="centrado">
+
+                                </p:column>
+                                <p:column headerText="# de votos" class="centrado" width="70">
+
+                                </p:column>
+                                <p:column headerText="Porcentaje" class="centrado" width="50">
+
+                                </p:column>
+                            </p:dataTable>
                         </div>
                     </div>
                 </div>
             </div>
-        </h:form>
-    </h:body>
-
-    <h:outputStylesheet name="css/primeicons.css" library="paradise-layout" />
-    <h:outputStylesheet name="css/primeflex.min.css" library="paradise-layout" />
-    <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="paradise-layout" />
-</html>
+        </div>
+    </ui:define>
+</ui:composition>
