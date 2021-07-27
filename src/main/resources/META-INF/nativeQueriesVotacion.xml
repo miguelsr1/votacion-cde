@@ -25,6 +25,22 @@
             ]]>
         </query>    
     </named-native-query>
+    <named-native-query name="Votacion.EntidadEducativaProcesoDto" 
+                        result-class="sv.gob.mined.app.model.dto.EntidadEducativaProcesoDto">
+        <query>
+             <![CDATA[
+                select 
+                    vw.codigo_entidad         as codigoEntidad,
+                    nombre,
+                    iniciales_modalidad       as inicialesModalidad,
+                    nvl(habilitar_Votacion,0) as habilitarVotacion
+                from vw_catalogo_entidad_educativa vw
+                    left outer join proceso_votacion pv on vw.codigo_entidad = pv.codigo_entidad
+                where vw.codigo_departamento = ?1
+             ]]>
+        </query>
+    </named-native-query>
+             
     <named-native-query name="Votacion.DistribucionVotacionFinalDto" 
                         result-class="sv.gob.mined.app.model.dto.DistribucionVotacionDto">
         <query>

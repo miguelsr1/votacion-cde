@@ -26,6 +26,10 @@
 
 
         <h:form id="frmPrincipal" prependId="false" >
+            <p:growl id="messages" escape="false" showDetail="true" showSummary="true" life="60000">
+                <p:autoUpdate />
+            </p:growl>
+            
             <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important;">
                 <div class="login-panel ui-fluid " jsf:id="outPrincipal" style="padding-top: 20vh;" >
                     <div class="card" style="background-color: white !important;" >
@@ -33,7 +37,7 @@
                             <div class="p-col-12 logo-container">
                                 <h:panelGrid columns="2" width="100%">
                                     <p:graphicImage name="logo_mined.jpg" library="images" width="200"/>
-                                    
+
                                     <p:outputLabel style="font-size: 18px;">Elección de Miembros de CDE</p:outputLabel>
                                 </h:panelGrid>
                             </div> 

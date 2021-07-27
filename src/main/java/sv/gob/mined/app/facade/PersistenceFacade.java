@@ -12,6 +12,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import sv.gob.mined.app.model.Anho;
 import sv.gob.mined.app.model.Asistencia;
 import sv.gob.mined.app.model.DetalleVotaUsuario;
 import sv.gob.mined.app.model.ProcesoVotacion;
@@ -50,7 +51,7 @@ public class PersistenceFacade {
             usuario.setDui(dui);
             usuario.setCuentaCorreo(correo);
             usuario.setCodigoEntidad(codigoEntidad);
-            
+
             em.persist(usuario);
 
             idUsuario = usuario.getIdUsuario();
@@ -83,5 +84,25 @@ public class PersistenceFacade {
         q.setParameter("pIdProcesoVotacion", idProcesoVotacion);
         q.setParameter("pIdUsuario", idUsuario);
         return !q.getResultList().isEmpty();
+    }
+
+    public void guardarProcesoVotacion(String codigoEntidad, Integer idAnho, boolean value) {
+        Query q = em.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.codigoEntidad=:pCodEnt and p.idAnho.idAnho=:pIdAnho", ProcesoVotacion.class);
+        q.setParameter("pCodEnt", codigoEntidad);
+        q.setParameter("pIdAnho", idAnho);
+        if (q.getResultList().isEmpty()) {
+            ProcesoVotacion procesoVotacion = new ProcesoVotacion();
+            procesoVotacion.setCodigoEntidad(codigoEntidad);
+            procesoVotacion.setFechaInsercion(new Date());
+            procesoVotacion.setHabilitarResultados((short) 0);
+            procesoVotacion.setHabilitarVotacion((short) 0);
+            procesoVotacion.setIdAnho(em.find(Anho.class, idAnho));
+
+            em.persist(procesoVotacion);
+        } else {
+            ProcesoVotacion procesoVotacion = (ProcesoVotacion) q.getResultList().get(0);
+            procesoVotacion.setHabilitarVotacion((short) (value ? 1 : 0));
+            em.merge(procesoVotacion);
+        }
     }
 }

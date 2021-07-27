@@ -20,48 +20,54 @@
     <ui:define name="content">
         <div class="p-grid">
             <div class="p-col-12">
-                <h5>Resultados de votación</h5>
+                <h5>Filtro de votación </h5>
                 <div class="card">
                     <div class="p-grid ui-fluid">
                         <div class="p-col-12">
                             <div class="p-field p-grid">
                                 <p:outputLabel for="cboMunicipio" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Municipio</p:outputLabel>
                                 <div class="p-col-12 p-md-10">
-                                    <p:selectOneMenu id="cboMunicipio" style="width: 250px;">
+                                    <p:selectOneMenu id="cboMunicipio" style="width: 250px;" value="#{habilitarProcesoView.codigoMunicipio}">
                                         <f:selectItem itemLabel="Seleccione un valor" />
+                                        <f:selectItems value="#{habilitarProcesoView.lstMunicipio}" var="mun" itemLabel="#{mun.nombreMunicipio}" itemValue="#{mun.codigoMunicipio}"/>
                                     </p:selectOneMenu>
                                 </div>
                             </div>
                             <div class="p-field p-grid">
                                 <p:outputLabel for="txtNombreCe" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre C.E.</p:outputLabel>
                                 <div class="p-col-12 p-md-10">
-                                    <p:inputText id="txtNombreCe" />
+                                    <p:inputText id="txtNombreCe" value="#{habilitarProcesoView.nombreCe}"/>
                                 </div>
                             </div>
-                        </div>
-
-
-                        <div class="p-col-12">
-                            <h6>Distribución de votos entre candidatos</h6>
-
-                            <p:dataTable id="tblDatos"  var="dis" 
-                                         scrollable="true" scrollRows="6" scrollHeight="264">
-                                <p:column headerText="Nombre" width="200">
-
-                                </p:column>
-                                <p:column headerText="Canditato" width="80" class="centrado">
-
-                                </p:column>
-                                <p:column headerText="# de votos" class="centrado" width="70">
-
-                                </p:column>
-                                <p:column headerText="Porcentaje" class="centrado" width="50">
-
-                                </p:column>
-                            </p:dataTable>
+                            <div class="p-field p-grid">
+                                <p:commandButton value="Buscar" style="width: 100px" action="#{habilitarProcesoView.buscar()}" process="@this,cboMunicipio,txtNombreCe" update="tblDatos" />
+                            </div>
                         </div>
                     </div>
                 </div>
+            </div>
+
+            <div class="p-col-12">
+                <h6>Listado de Centros Educativos</h6>
+
+                <p:dataTable id="tblDatos" var="ce" value="#{habilitarProcesoView.lstEntidades}" 
+                             rowIndexVar="rowId" rowKey="#{ce.codigoEntidad}"
+                             scrollable="true" scrollRows="6" scrollHeight="264">
+                    <p:column headerText="CodEnt" width="90">
+                        <p:outputLabel value="#{ce.codigoEntidad}"/>
+                    </p:column>
+                    <p:column headerText="Nombre" width="200">
+                        <p:outputLabel value="#{ce.nombre}"/>
+                    </p:column>
+                    <p:column headerText="Moda.Admin" width="80" class="centrado">
+                        <p:outputLabel value="#{ce.inicialesModalidad}"/>
+                    </p:column>
+                    <p:column headerText="Habilitar Config." class="centrado" width="70">
+                        <p:toggleSwitch value="#{ce.habilitado}">
+                            <p:ajax listener="#{habilitarProcesoView.guardarModificacion(ce)}" />
+                        </p:toggleSwitch>
+                    </p:column>
+                </p:dataTable>
             </div>
         </div>
     </ui:define>

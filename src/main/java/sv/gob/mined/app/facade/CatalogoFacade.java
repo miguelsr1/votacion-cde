@@ -26,6 +26,8 @@ import sv.gob.mined.app.model.Usuario;
 import sv.gob.mined.app.model.Asistencia;
 import sv.gob.mined.app.model.VwCatalogoEntidadEducativa;
 import sv.gob.mined.app.model.dto.DistribucionVotacionDto;
+import sv.gob.mined.app.model.dto.EntidadEducativaProcesoDto;
+import sv.gob.mined.app.model.paquetes.Municipio;
 
 /**
  *
@@ -65,20 +67,20 @@ public class CatalogoFacade {
     }
 
     public List<Candidato> findCandidatosByAnhoAndCodigoEntidad(Integer idAnho, String codigoEntidad, Integer idCargo, String nombramiento) {
-        String partialWhere="";
-        if(idCargo != null){
+        String partialWhere = "";
+        if (idCargo != null) {
             partialWhere = "and c.idCargo.idCargo=:pIdCargo ";
         }
-        if(nombramiento != null){
+        if (nombramiento != null) {
             partialWhere += "and c.tipoNombramiento=:pNombramiento ";
         }
-        Query q = emVotacion.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad "+partialWhere+" ORDER BY c.idCargo.idCargo, c.tipoNombramiento", Candidato.class);
+        Query q = emVotacion.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad " + partialWhere + " ORDER BY c.idCargo.idCargo, c.tipoNombramiento", Candidato.class);
         q.setParameter("pIdAnho", idAnho);
         q.setParameter("pCodigoEntidad", codigoEntidad);
-        if(idCargo != null){
+        if (idCargo != null) {
             q.setParameter("pIdCargo", idCargo);
         }
-        if(nombramiento != null){
+        if (nombramiento != null) {
             q.setParameter("pNombramiento", nombramiento);
         }
 
@@ -138,30 +140,42 @@ public class CatalogoFacade {
         Query q = emVotacion.createQuery("SELECT a FROM Anho a WHERE a.activo=1 ", Anho.class);
         return (Anho) q.getResultList().get(0);
     }
-    
-    public List<Usuario> findUsuariosAsistentes(BigDecimal idProcesoVotacion){
+
+    public List<Usuario> findUsuariosAsistentes(BigDecimal idProcesoVotacion) {
         Query q = emVotacion.createQuery("SELECT a.idUsuario FROM Asistencia a WHERE a.idProcesoVotacion.idProcesoVotacion=:pIdProcesoVota ORDER BY a.fechaLogeo", Asistencia.class);
         q.setParameter("pIdProcesoVota", idProcesoVotacion);
         return q.getResultList();
     }
-    
-    public List<DistribucionVotacionDto> getDistribucionVotos(BigDecimal idProcesoVotacion){
+
+    public List<DistribucionVotacionDto> getDistribucionVotos(BigDecimal idProcesoVotacion) {
         Query q = emVotacion.createNamedQuery("Votacion.DistribucionVotacionDto", DistribucionVotacionDto.class);
         q.setParameter(1, idProcesoVotacion);
         return q.getResultList();
     }
-    
-    public List<DistribucionVotacionDto> getDistribucionVotosFinal(BigDecimal idProcesoVotacion){
+
+    public List<DistribucionVotacionDto> getDistribucionVotosFinal(BigDecimal idProcesoVotacion) {
         Query q = emVotacion.createNamedQuery("Votacion.DistribucionVotacionFinalDto", DistribucionVotacionDto.class);
         q.setParameter(1, idProcesoVotacion);
         return q.getResultList();
     }
-    
-    public List<DistribucionVotacionDto> getDistribucionVotosFinalPorcentaje(BigDecimal idProcesoVotacion, Integer idCargo, String tipoNombramiento){
+
+    public List<DistribucionVotacionDto> getDistribucionVotosFinalPorcentaje(BigDecimal idProcesoVotacion, Integer idCargo, String tipoNombramiento) {
         Query q = emVotacion.createNamedQuery("Votacion.DistribucionVotacionFinalPorcentajeDto", DistribucionVotacionDto.class);
         q.setParameter(1, idProcesoVotacion);
         q.setParameter(2, idCargo);
         q.setParameter(3, tipoNombramiento);
+        return q.getResultList();
+    }
+
+    public List<EntidadEducativaProcesoDto> findEntidadesByCodigoDepartamento(String codigoDepartamento) {
+        Query q = emVotacion.createNamedQuery("Votacion.EntidadEducativaProcesoDto", EntidadEducativaProcesoDto.class);
+        q.setParameter(1, codigoDepartamento);
+
+        return q.getResultList();
+    }
+    
+    public List<Municipio> findAllMunicipio(){
+        Query q = emVotacion.createQuery("SELECT m FROM Municipio m ORDER BY m.idMunicipio", Municipio.class);
         return q.getResultList();
     }
 }

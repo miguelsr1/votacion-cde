@@ -13,7 +13,6 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import sv.gob.mined.app.facade.CatalogoFacade;
-import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.facade.siges.CatalogoFacadeSiges;
 import sv.gob.mined.app.model.Usuario;
 import sv.gob.mined.app.model.siges.dto.EstudianteDto;
@@ -168,15 +167,17 @@ public class LoginView implements Serializable {
                 if (correoValido) {*/
                 switch (usuario.getTipoUsuario()) {
                     case "A": //nivel central, departamentales y directores
-                        if (usuario.getCodigoEntidad() != null) { //director
+                        if (usuario.getCodigoEntidad() != null && !desactivarDominio) { //director
                             VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, catalogoFacade.getCodigoEntidadByCorreoDirector(credencialesView.getRemitente()));
                             url = "/app/inicio?faces-redirect=true";
-
-                        } else if (usuario.getCodigoDepartamento() != null) {
+                        } else if (usuario.getCodigoDepartamento() != null && desactivarDominio) { //departamental
                             VarSession.setVariableSession(VarSession.CODIGO_DEPARTAMENTO, usuario.getCodigoDepartamento());
                             url = "/app/inicioDepa?faces-redirect=true";
-                        } else {
+                        } else if(usuario.getCodigoEntidad() == null && usuario.getCodigoDepartamento() == null && !desactivarDominio){//U.T.
                             url = "/app/inicio?faces-redirect=true";
+                        }else{
+                            url = null;
+                            JsfUtil.mensajeError("Este usuario no existe o no pertenece al perfil con el que se desea acceder");
                         }
                         break;
                     case "D":

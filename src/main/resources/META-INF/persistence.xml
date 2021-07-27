@@ -16,6 +16,8 @@
     <class>sv.gob.mined.app.model.Asistencia</class>
     <class>sv.gob.mined.app.model.VwCatalogoEntidadEducativa</class>
     <class>sv.gob.mined.app.model.dto.DistribucionVotacionDto</class>
+    <class>sv.gob.mined.app.model.dto.EntidadEducativaProcesoDto</class>
+    <class>sv.gob.mined.app.model.paquetes.Municipio</class>
     <exclude-unlisted-classes>true</exclude-unlisted-classes>
     <properties>
       <property name="eclipselink.cache.shared.default" value="false"/>
