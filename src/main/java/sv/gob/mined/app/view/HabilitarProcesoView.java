@@ -5,11 +5,9 @@
  */
 package sv.gob.mined.app.view;
 
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
@@ -79,13 +77,28 @@ public class HabilitarProcesoView implements Serializable {
     }
 
     public void buscar() {
-        lstMunicipio = catalogoFacade.findAllMunicipio()
-                .stream()
-                .filter(mun -> {
-                    return (mun.getCodigoDepartamento().compareTo(VarSession.getVariableSession(VarSession.CODIGO_DEPARTAMENTO).toString()) == 0
-                            && mun.getCodigoMunicipio().compareTo(codigoMunicipio) == 0 && mun.getNombreMunicipio().toUpperCase().compareTo(nombreCe) == 0);
-                })
-                .collect(Collectors.toList());
+        if (codigoMunicipio != null && !nombreCe.isEmpty()) {
+            lstEntidades = catalogoFacade.findEntidadesByCodigoDepartamento(VarSession.getVariableSession(VarSession.CODIGO_DEPARTAMENTO).toString())
+                    .stream()
+                    .filter(ce -> {
+                        return (ce.getCodigoMunicipio().compareTo(codigoMunicipio) == 0 && ce.getNombre().toUpperCase().compareTo(nombreCe) == 0);
+                    })
+                    .collect(Collectors.toList());
+        } else if (codigoMunicipio != null && nombreCe.isEmpty()) {
+            lstEntidades = catalogoFacade.findEntidadesByCodigoDepartamento(VarSession.getVariableSession(VarSession.CODIGO_DEPARTAMENTO).toString())
+                    .stream()
+                    .filter(ce -> {
+                        return (ce.getCodigoMunicipio().compareTo(codigoMunicipio) == 0);
+                    })
+                    .collect(Collectors.toList());
+        } else if (codigoMunicipio == null && !nombreCe.isEmpty()) {
+            lstEntidades = catalogoFacade.findEntidadesByCodigoDepartamento(VarSession.getVariableSession(VarSession.CODIGO_DEPARTAMENTO).toString())
+                    .stream()
+                    .filter(ce -> {
+                        return (ce.getNombre().toUpperCase().contains(nombreCe));
+                    })
+                    .collect(Collectors.toList());
+        }
     }
 
     public void guardarModificacion(EntidadEducativaProcesoDto ce) {

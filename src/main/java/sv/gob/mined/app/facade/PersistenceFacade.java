@@ -94,8 +94,8 @@ public class PersistenceFacade {
             ProcesoVotacion procesoVotacion = new ProcesoVotacion();
             procesoVotacion.setCodigoEntidad(codigoEntidad);
             procesoVotacion.setFechaInsercion(new Date());
-            procesoVotacion.setHabilitarResultados((short) 0);
-            procesoVotacion.setHabilitarVotacion((short) 0);
+            procesoVotacion.setHabilitarResultados((short) (value ? 1 : 0));
+            procesoVotacion.setHabilitarVotacion((short) (value ? 1 : 0));
             procesoVotacion.setIdAnho(em.find(Anho.class, idAnho));
 
             em.persist(procesoVotacion);

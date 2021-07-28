@@ -26,6 +26,7 @@ import sv.gob.mined.app.view.util.VarSession;
 public class ParametrosSesionView implements Serializable {
 
     private Boolean showTiempoFinalizado = false;
+    private Boolean mostrarCeUsuario = true;
     private BigDecimal idUsuario;
     private Anho anho;
     private ProcesoVotacion procesoVotacion;
@@ -46,7 +47,7 @@ public class ParametrosSesionView implements Serializable {
         switch (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString()) {
             case "A":
                 if (VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD) == null) {
-
+                    mostrarCeUsuario = false;
                 } else {
                     cargarDatosCe();
                 }
@@ -55,6 +56,10 @@ public class ParametrosSesionView implements Serializable {
                 cargarDatosCe();
                 break;
         }
+    }
+
+    public Boolean getMostrarCeUsuario() {
+        return mostrarCeUsuario;
     }
 
     private void cargarDatosCe() {
@@ -158,5 +163,31 @@ public class ParametrosSesionView implements Serializable {
             }
         }
         return tiempo;
+    }
+
+    public String paginaInicio() {
+        String url = "";
+
+        switch (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString()) {
+            case "A":
+                if (VarSession.isVariableSession(VarSession.CODIGO_ENTIDAD)) {
+                    url = "inicio?faces-redirect=true";
+                } else if (VarSession.isVariableSession(VarSession.CODIGO_DEPARTAMENTO)) {
+                    url = "/app/inicioDepa?faces-redirect=true";
+                } else if (VarSession.isVariableSession(VarSession.CODIGO_ENTIDAD) && VarSession.isVariableSession(VarSession.CODIGO_DEPARTAMENTO)) {
+                    url = "/app/inicio?faces-redirect=true";
+                }
+                break;
+            case "D":
+                url = "inicio?faces-redirect=true";
+                break;
+            case "E":
+                url = "inicio?faces-redirect=true";
+                break;
+            case "P":
+                url = "inicio?faces-redirect=true";
+                break;
+        }
+        return url;
     }
 }

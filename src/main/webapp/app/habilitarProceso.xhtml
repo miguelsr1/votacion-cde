@@ -34,13 +34,15 @@
                                 </div>
                             </div>
                             <div class="p-field p-grid">
-                                <p:outputLabel for="txtNombreCe" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre C.E.</p:outputLabel>
+                                <p:outputLabel for="txtNombreCe" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre C.E. </p:outputLabel>
                                 <div class="p-col-12 p-md-10">
                                     <p:inputText id="txtNombreCe" value="#{habilitarProcesoView.nombreCe}"/>
                                 </div>
                             </div>
                             <div class="p-field p-grid">
-                                <p:commandButton value="Buscar" style="width: 100px" action="#{habilitarProcesoView.buscar()}" process="@this,cboMunicipio,txtNombreCe" update="tblDatos" />
+                                <div class="p-col-12 p-md-11">
+                                    <p:commandButton value="Buscar" style="width: 100px" action="#{habilitarProcesoView.buscar()}" update="tblDatos" />
+                                </div>
                             </div>
                         </div>
                     </div>

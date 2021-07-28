@@ -23,6 +23,7 @@ public class EntidadEducativaProcesoDto implements Serializable {
     private String nombre;
     private String inicialesModalidad;
     private Short habilitarVotacion;
+    private String codigoMunicipio;
 
     @Transient
     private Boolean habilitado;
@@ -66,6 +67,14 @@ public class EntidadEducativaProcesoDto implements Serializable {
     public void setHabilitado(Boolean habilitado) {
         habilitarVotacion = (short) (habilitado ? 1 : 0);
         this.habilitado = habilitado;
+    }
+
+    public String getCodigoMunicipio() {
+        return codigoMunicipio;
+    }
+
+    public void setCodigoMunicipio(String codigoMunicipio) {
+        this.codigoMunicipio = codigoMunicipio;
     }
 
 }
