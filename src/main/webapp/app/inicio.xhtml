@@ -51,7 +51,7 @@
                                 </p:commandLink>
                             </div>
                             <div class="p-col-3" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
-                                <p:commandLink action="#{inicioView.detVotacion()}" disabled="#{inicioView.procesoVotacion.habilitarVotacion eq 0}">
+                                <p:commandLink action="#{inicioView.detVotacion()}" disabled="#{(!parametrosSesionView.showTiempoFinalizado) or (inicioView.procesoVotacion.habilitarVotacion eq 0)}">
                                     <div class="card overview-box"  style="text-align: center !important">
                                         <h5>Emitir voto</h5>
                                         <br/>

@@ -158,6 +158,7 @@ public class LoginView implements Serializable {
                 usuarioNuevoEstudiante = true;
             } else {
                 VarSession.setVariableSession(VarSession.TIPO_USUARIO, usuario.getTipoUsuario());
+                VarSession.setVariableSession(VarSession.ID_USUARIO_SIGES, usuario.getIdPerSiges());
             }
 
             if (usuario != null || usuarioNuevoEstudiante) {

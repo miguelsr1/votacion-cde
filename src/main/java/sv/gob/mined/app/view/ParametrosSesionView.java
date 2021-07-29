@@ -56,6 +56,8 @@ public class ParametrosSesionView implements Serializable {
                 cargarDatosCe();
                 break;
         }
+        
+        calcularTiempoRestante();
     }
 
     public Boolean getMostrarCeUsuario() {
@@ -109,7 +111,6 @@ public class ParametrosSesionView implements Serializable {
     }
 
     public Boolean getShowTiempoFinalizado() {
-        calcularTiempoRestante();
         return showTiempoFinalizado;
     }
 

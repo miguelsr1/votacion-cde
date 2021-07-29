@@ -60,12 +60,18 @@ public class PersistenceFacade {
             idUsuario = usuario.getIdUsuario();
         }
 
-        Asistencia asistencia = new Asistencia();
-        asistencia.setFechaLogeo(new Date());
-        asistencia.setIdProcesoVotacion(em.find(ProcesoVotacion.class, idProcesoVotacion));
-        asistencia.setIdUsuario(usuario);
+        q = em.createQuery("SELECT a FROM Asistencia a WHERE a.idProcesoVotacion.idProcesoVotacion=:pIdProceso and a.idUsuario=:pIdUsuario", Asistencia.class);
+        q.setParameter("pIdProceso", idProcesoVotacion);
+        q.setParameter("pIdUsuario", usuario);
 
-        em.persist(asistencia);
+        if (q.getResultList().isEmpty()) {
+            Asistencia asistencia = new Asistencia();
+            asistencia.setFechaLogeo(new Date());
+            asistencia.setIdProcesoVotacion(em.find(ProcesoVotacion.class, idProcesoVotacion));
+            asistencia.setIdUsuario(usuario);
+
+            em.persist(asistencia);
+        }
 
         return idUsuario;
     }
@@ -101,6 +107,7 @@ public class PersistenceFacade {
             em.persist(procesoVotacion);
         } else {
             ProcesoVotacion procesoVotacion = (ProcesoVotacion) q.getResultList().get(0);
+            procesoVotacion.setHabilitarResultados((short) (value ? 1 : 0));
             procesoVotacion.setHabilitarVotacion((short) (value ? 1 : 0));
             em.merge(procesoVotacion);
         }

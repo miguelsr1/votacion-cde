@@ -54,8 +54,11 @@ public class ParametroVotacionView implements Serializable {
         String cpEst = "";
         String csEst = "";
 
+        deshabilitar = (parametrosSesionView.getProcesoVotacion() != null && parametrosSesionView.getProcesoVotacion().getHabilitarVotacion() == 1
+                && parametrosSesionView.getProcesoVotacion() != null && parametrosSesionView.getProcesoVotacion().getHabilitarResultados() == 1);
+
         for (ParametroVotacion param : lstParam) {
-            deshabilitar = true;
+            //deshabilitar = true;
             switch (param.getIdCargo().getIdCargo()) {
                 case 1:
                 case 2:

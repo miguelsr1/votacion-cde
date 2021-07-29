@@ -31,10 +31,10 @@
                     <div class="p-col-4">
                         <h5>Habilitar</h5>
                         <div class="p-col-12">
-                            <p:selectBooleanCheckbox itemLabel="Interfaz de votación" value="#{habilitarVotacionView.habilitarVotacion}"/>
+                            <p:selectBooleanCheckbox itemLabel="Interfaz de votación" value="#{habilitarVotacionView.habilitarVotacion}" disabled="#{parametroVotacionView.deshabilitar}"/>
                         </div>
                         <div class="p-col-12">
-                            <p:selectBooleanCheckbox itemLabel="Resultados de votación" value="#{habilitarVotacionView.habilitarResultados}"/>
+                            <p:selectBooleanCheckbox itemLabel="Resultados de votación" value="#{habilitarVotacionView.habilitarResultados}" disabled="#{parametroVotacionView.deshabilitar}"/>
                         </div>
                         <div class="p-col-12">
                             <div class="p-field p-grid">
