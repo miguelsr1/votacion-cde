@@ -183,16 +183,17 @@ public class ParametroVotacionView implements Serializable {
     }
 
     public void guardar() {
+
         if (cargoPropietarioDocente.length > 0 || cargoPropietarioEstudiante.length > 0
                 || cargoPropietarioPadre.length > 0 || cargoSuplenteDocente.length > 0
                 || cargoSuplenteEstudiante.length > 0 || cargoSuplentePadre.length > 0) {
-            deshabilitar = true;
             parametrosFacade.guardarParametroVotacionCe(parametrosSesionView.getCodigoEntidad(),
                     parametrosSesionView.getProcesoVotacion().getIdProcesoVotacion(),
                     cargoPropietarioDocente, cargoSuplenteDocente,
                     cargoPropietarioPadre, cargoSuplentePadre,
                     cargoPropietarioEstudiante, cargoSuplenteEstudiante);
             PF.current().executeScript("PF('tbvConfig').select(1)");
+            JsfUtil.mensajeAlerta("Se ha copiado en el portapapeles la dirección web para ser enviada a los docentes.");
         } else {
             JsfUtil.mensajeAlerta("Debe de seleccionar al menos un cargo a cubrir en el proceso de votación");
         }
@@ -200,5 +201,9 @@ public class ParametroVotacionView implements Serializable {
 
     public Boolean getDeshabilitar() {
         return deshabilitar;
+    }
+
+    public void setDeshabilitar(Boolean deshabilitar) {
+        this.deshabilitar = deshabilitar;
     }
 }

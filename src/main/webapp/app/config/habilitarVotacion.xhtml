@@ -1,6 +1,7 @@
 <ui:composition 
     xmlns="http://www.w3.org/1999/xhtml"
     xmlns:p="http://primefaces.org/ui"
+    xmlns:pe="http://primefaces.org/ui/extensions"
     xmlns:f="http://java.sun.com/jsf/core"
     xmlns:ui="http://java.sun.com/jsf/facelets"
     xmlns:h="http://java.sun.com/jsf/html">
@@ -49,6 +50,8 @@
                             <p:commandButton id="btnGuardarParam" value="Guardar" icon="pi pi-save" action="#{habilitarVotacionView.guardar()}" 
                                              style="width: 100px;" update="tbBotones, btnGuardarParam"
                                              disabled="#{parametroVotacionView.deshabilitar}" />
+
+                            <pe:clipboard id="clipCopy" trigger="btnGuardarParam" action="copy" text="http://aplicaciones.mined.gob.sv/votacion-cde/index.mined"/>
                         </div>
 
                     </div>

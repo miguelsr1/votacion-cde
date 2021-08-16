@@ -35,6 +35,8 @@ public class HabilitarVotacionView implements Serializable {
     private PersistenceFacade persistenceFacade;
     @Inject
     private CatalogoFacade catalogoFacade;
+    @Inject
+    private ParametroVotacionView parametroVotacionView;
 
     @PostConstruct
     public void init() {
@@ -92,6 +94,8 @@ public class HabilitarVotacionView implements Serializable {
         }
 
         persistenceFacade.modificar(procesoVotacion);
+        
+        parametroVotacionView.setDeshabilitar(true);
     }
 
     public long getTiempoRestante() {
