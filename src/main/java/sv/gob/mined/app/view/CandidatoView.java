@@ -123,6 +123,11 @@ public class CandidatoView implements java.io.Serializable {
             candidato = persistenceFacade.modificar(candidato);
             JsfUtil.mensajeUpdate();
         }
+        
+        candidato = new Candidato();
+        file = null;
+        idCargo = null;
+        cargarImagen();
     }
 
     public void cancelarEdicion() {

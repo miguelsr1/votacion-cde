@@ -109,7 +109,7 @@
         </p:outputPanel>
         <f:facet name="footer">
             <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" action="#{candidatoView.guardar()}" 
-                             process="@this,cboCargo,txtNombre,txtApellido,txtDui,txtTelefono" oncomplete="PF('dlgDatos').hide();" update="tblCandidatos"/>
+                             process="@this,cboCargo,txtNombre,txtApellido,txtDui,txtTelefono" oncomplete="PF('dlgDatos').hide();" update="tblCandidatos pnlDetalleDatos"/>
             <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="#{candidatoView.cancelarEdicion()}" oncomplete="PF('dlgDatos').hide();"/>
         </f:facet>
 

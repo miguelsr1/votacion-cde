@@ -93,25 +93,23 @@
                 from (select 
                         c.nombres, 
                         c.apellidos, 
-                        ca.descripcion_cargo||decode(c.tipo_nombramiento,'P',' PROPIETARIO','S',' SUPLENTE') as descripcion_cargo, 
+                        ca.descripcion_cargo, 
                         count(v.id_votacion) cantidad, 
                         c.id_cargo,
-                        c.tipo_nombramiento,
                         c.path_imagen
                     from candidato c
                         inner join cargo ca on ca.id_cargo = c.id_cargo
                         inner join votacion v on v.id_candidato = c.id_candidato
-                    where c.id_cargo = ?2 and c.tipo_nombramiento = ?3 and v.id_proceso_votacion = ?1
-                    group by c.nombres, c.apellidos, ca.descripcion_cargo, c.id_cargo,c.tipo_nombramiento, c.path_imagen) tbl1
+                    where c.id_cargo = ?2 and v.id_proceso_votacion = ?1
+                    group by c.nombres, c.apellidos, ca.descripcion_cargo, c.id_cargo, c.path_imagen) tbl1
                 inner join (select 
                                 c.id_cargo, 
-                                c.tipo_nombramiento,
                                 count(v.id_votacion) total_votos
                             from candidato c
                                 inner join cargo ca on ca.id_cargo = c.id_cargo
                                 inner join votacion v on v.id_candidato = c.id_candidato
-                            where c.id_cargo = ?2 and c.tipo_nombramiento = ?3 and v.id_proceso_votacion = ?1
-                            group by c.id_cargo,c.tipo_nombramiento) tbl2 on tbl1.id_cargo = tbl2.id_cargo and tbl1.tipo_nombramiento = tbl2.tipo_nombramiento)
+                            where c.id_cargo = ?2 and v.id_proceso_votacion = ?1
+                            group by c.id_cargo) tbl2 on tbl1.id_cargo = tbl2.id_cargo)
             order by
                 porcentaje desc,
                 cantidad 

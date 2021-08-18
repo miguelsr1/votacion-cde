@@ -49,7 +49,7 @@
                                         <p:selectOneMenu id="cboCargo" value="#{resultadoVotacionView.idCargo}" >
                                             <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
                                             <f:selectItems value="#{resultadoVotacionView.lstCargo}" var="car" itemValue="#{car.idCargo}" itemLabel="#{car.descripcionCargo}"/>
-                                            <p:ajax listener="#{resultadoVotacionView.limpiar}" update="tblDatos"/>
+                                            <p:ajax listener="#{resultadoVotacionView.filtrar()}" update="tblDatos"/>
                                         </p:selectOneMenu>
                                     </div>
                                 </div>

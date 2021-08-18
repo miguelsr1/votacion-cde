@@ -60,7 +60,14 @@ public class PersistenceFacade {
             idUsuario = usuario.getIdUsuario();
         }
 
-        q = em.createQuery("SELECT a FROM Asistencia a WHERE a.idProcesoVotacion.idProcesoVotacion=:pIdProceso and a.idUsuario=:pIdUsuario", Asistencia.class);
+        guardarAsistencia(idProcesoVotacion, usuario);
+
+        return idUsuario;
+    }
+    
+    
+    public void guardarAsistencia(BigDecimal idProcesoVotacion, Usuario usuario){
+        Query q = em.createQuery("SELECT a FROM Asistencia a WHERE a.idProcesoVotacion.idProcesoVotacion=:pIdProceso and a.idUsuario=:pIdUsuario", Asistencia.class);
         q.setParameter("pIdProceso", idProcesoVotacion);
         q.setParameter("pIdUsuario", usuario);
 
@@ -72,8 +79,6 @@ public class PersistenceFacade {
 
             em.persist(asistencia);
         }
-
-        return idUsuario;
     }
 
     public void guardarDetalleVoto(BigDecimal idUsuario, ProcesoVotacion procesoVotacion) {

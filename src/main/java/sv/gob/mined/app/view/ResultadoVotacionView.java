@@ -73,7 +73,7 @@ public class ResultadoVotacionView implements Serializable {
 
     public void filtrar() {
         lstDistribucionFinalPorcentaje.clear();
-        if (idCargo != null && nombramiento != null) {
+        if (idCargo != null) {
             lstDistribucionFinalPorcentaje = catalogoFacade.getDistribucionVotosFinalPorcentaje(procesoVotacion.getIdProcesoVotacion(), idCargo, nombramiento);
         } else {
             JsfUtil.mensajeAlerta("Por favor seleccionar valores válidos");

@@ -20,6 +20,7 @@ import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.model.Usuario;
 import sv.gob.mined.app.model.ProcesoVotacion;
 import sv.gob.mined.app.view.util.VarSession;
+import sv.gob.mined.utils.jsf.JsfUtil;
 
 @Named
 @ViewScoped
@@ -89,12 +90,12 @@ public class HabilitarVotacionView implements Serializable {
     public void guardar() {
         procesoVotacion.setHabilitarResultados((short) (habilitarResultados ? 1 : 0));
         procesoVotacion.setHabilitarVotacion((short) (habilitarVotacion ? 1 : 0));
-        if (procesoVotacion.getFechaInsercion() != null) {
+        if (procesoVotacion.getFechaInsercion() == null) {
             procesoVotacion.setFechaInsercion(new Date());
         }
 
         persistenceFacade.modificar(procesoVotacion);
-        
+        JsfUtil.mensajeAlerta("Se ha copiado en el portapapeles la dirección web para ser enviada a los docentes.");
         parametroVotacionView.setDeshabilitar(true);
     }
 

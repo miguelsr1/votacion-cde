@@ -7,6 +7,7 @@ package sv.gob.mined.app.view;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +19,7 @@ import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.model.ProcesoVotacion;
 import sv.gob.mined.app.model.Anho;
+import sv.gob.mined.app.model.Usuario;
 import sv.gob.mined.app.model.VwCatalogoEntidadEducativa;
 import sv.gob.mined.app.view.util.VarSession;
 
@@ -56,7 +58,7 @@ public class ParametrosSesionView implements Serializable {
                 cargarDatosCe();
                 break;
         }
-        
+
         calcularTiempoRestante();
     }
 
@@ -69,17 +71,33 @@ public class ParametrosSesionView implements Serializable {
         entidadEducativa = catalogoFacade.findEntidadEducativaByCodigo(getCodigoEntidad());
 
         if (VarSession.isVariableSession(VarSession.ID_USUARIO_SIGES)) {
-            idUsuario = persistenceFacade.guardarUsuarioPerSiges(
-                    ((BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO_SIGES)).longValue(),
-                    VarSession.getVariableSession("nombres").toString(),
-                    VarSession.getVariableSession("apellidos").toString(),
-                    VarSession.getVariableSession("dui") == null ? null : VarSession.getVariableSession("dui").toString(),
-                    VarSession.isVariableSession("correo") ? VarSession.getVariableSession("correo").toString() : null,
-                    procesoVotacion.getIdProcesoVotacion(),
-                    VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString(),
-                    VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
-            idUsuario = (BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO);
+
+            try {
+                idUsuario = persistenceFacade.guardarUsuarioPerSiges(
+                        ((BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO_SIGES)).longValue(),
+                        VarSession.getVariableSession("nombres").toString(),
+                        VarSession.getVariableSession("apellidos").toString(),
+                        VarSession.getVariableSession("dui") == null ? null : VarSession.getVariableSession("dui").toString(),
+                        VarSession.isVariableSession("correo") ? VarSession.getVariableSession("correo").toString() : null,
+                        procesoVotacion.getIdProcesoVotacion(),
+                        VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString(),
+                        VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
+            } catch (Exception e) {
+                idUsuario = persistenceFacade.guardarUsuarioPerSiges(
+                        ((BigInteger) VarSession.getVariableSession(VarSession.ID_USUARIO_SIGES)).longValue(),
+                        VarSession.getVariableSession("nombres").toString(),
+                        VarSession.getVariableSession("apellidos").toString(),
+                        VarSession.getVariableSession("dui") == null ? null : VarSession.getVariableSession("dui").toString(),
+                        VarSession.isVariableSession("correo") ? VarSession.getVariableSession("correo").toString() : null,
+                        procesoVotacion.getIdProcesoVotacion(),
+                        VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString(),
+                        VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
+            }
+
+            VarSession.setVariableSession(VarSession.ID_USUARIO, idUsuario);
         } else if (VarSession.isVariableSession(VarSession.ID_USUARIO)) {
+            idUsuario = (BigDecimal) VarSession.getVariableSession(VarSession.ID_USUARIO);
+            persistenceFacade.guardarAsistencia(procesoVotacion.getIdProcesoVotacion(), catalogoFacade.find(Usuario.class, idUsuario));
         }
     }
 

@@ -54,8 +54,9 @@ public class ParametroVotacionView implements Serializable {
         String cpEst = "";
         String csEst = "";
 
-        deshabilitar = (parametrosSesionView.getProcesoVotacion() != null && parametrosSesionView.getProcesoVotacion().getHabilitarVotacion() == 1
-                && parametrosSesionView.getProcesoVotacion() != null && parametrosSesionView.getProcesoVotacion().getHabilitarResultados() == 1);
+        deshabilitar = (parametrosSesionView.getProcesoVotacion() != null
+                && parametrosSesionView.getProcesoVotacion().getHabilitarVotacion() == 1
+                && parametrosSesionView.getProcesoVotacion().getHabilitarResultados() == 1);
 
         for (ParametroVotacion param : lstParam) {
             //deshabilitar = true;
@@ -193,7 +194,6 @@ public class ParametroVotacionView implements Serializable {
                     cargoPropietarioPadre, cargoSuplentePadre,
                     cargoPropietarioEstudiante, cargoSuplenteEstudiante);
             PF.current().executeScript("PF('tbvConfig').select(1)");
-            JsfUtil.mensajeAlerta("Se ha copiado en el portapapeles la dirección web para ser enviada a los docentes.");
         } else {
             JsfUtil.mensajeAlerta("Debe de seleccionar al menos un cargo a cubrir en el proceso de votación");
         }
@@ -205,5 +205,6 @@ public class ParametroVotacionView implements Serializable {
 
     public void setDeshabilitar(Boolean deshabilitar) {
         this.deshabilitar = deshabilitar;
+        parametrosSesionView.init();
     }
 }

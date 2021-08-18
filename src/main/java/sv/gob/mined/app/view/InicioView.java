@@ -13,6 +13,7 @@ import javax.inject.Named;
 import sv.gob.mined.app.facade.CatalogoFacade;
 import sv.gob.mined.app.facade.PersistenceFacade;
 import sv.gob.mined.app.model.ProcesoVotacion;
+
 @Named
 @ViewScoped
 public class InicioView implements Serializable {
@@ -28,6 +29,7 @@ public class InicioView implements Serializable {
     @PostConstruct
     public void init() {
         usuarioVoto = persistenceFacade.isVotoDeUsuario(parametrosSesionView.getIdUsuario(), parametrosSesionView.getProcesoVotacion().getIdProcesoVotacion());
+        parametrosSesionView.calcularTiempoRestante();
     }
 
     public ProcesoVotacion getProcesoVotacion() {
