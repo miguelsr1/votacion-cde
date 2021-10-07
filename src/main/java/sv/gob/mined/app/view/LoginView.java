@@ -161,22 +161,18 @@ public class LoginView implements Serializable {
                 VarSession.setVariableSession(VarSession.ID_USUARIO_SIGES, usuario.getIdPerSiges());
                 VarSession.setVariableSession(VarSession.ID_USUARIO, usuario.getIdUsuario());
             }
-
+            
             if (usuario != null || usuarioNuevoEstudiante) {
-                //credencialesView.validarCredencial();
-
-                /*correoValido = credencialesView.isCorreoValido();
-                if (correoValido) {*/
                 switch (usuario.getTipoUsuario()) {
                     case "A": //nivel central, departamentales y directores
                         if (usuario.getCodigoEntidad() != null && !desactivarDominio) { //director
                             VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, catalogoFacade.getCodigoEntidadByCorreoDirector(credencialesView.getRemitente()));
-                            url = "/app/inicio?faces-redirect=true";
+                            url = "/app/principal?faces-redirect=true";
                         } else if (usuario.getCodigoDepartamento() != null && desactivarDominio) { //departamental
                             VarSession.setVariableSession(VarSession.CODIGO_DEPARTAMENTO, usuario.getCodigoDepartamento());
-                            url = "/app/inicioDepa?faces-redirect=true";
+                            url = "/app/principal?faces-redirect=true";
                         } else if(usuario.getCodigoEntidad() == null && usuario.getCodigoDepartamento() == null && !desactivarDominio){//U.T.
-                            url = "/app/inicio?faces-redirect=true";
+                            url = "/app/principal?faces-redirect=true";
                         }else{
                             url = null;
                             JsfUtil.mensajeError("Este usuario no existe o no pertenece al perfil con el que se desea acceder");
@@ -195,13 +191,44 @@ public class LoginView implements Serializable {
                     default:
                         url = "";
                 }
-
-                /*} else {
-                    JsfUtil.mensajeError("Error en el usuario o  clave de acceso.");
-                }*/
             } else {
                 JsfUtil.mensajeError("Este USUARIO no esta registrado en el sistema.");
             }
+            
+            
+
+//            if (usuario != null || usuarioNuevoEstudiante) {
+//                switch (usuario.getTipoUsuario()) {
+//                    case "A": //nivel central, departamentales y directores
+//                        if (usuario.getCodigoEntidad() != null && !desactivarDominio) { //director
+//                            VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, catalogoFacade.getCodigoEntidadByCorreoDirector(credencialesView.getRemitente()));
+//                            url = "/app/inicio?faces-redirect=true";
+//                        } else if (usuario.getCodigoDepartamento() != null && desactivarDominio) { //departamental
+//                            VarSession.setVariableSession(VarSession.CODIGO_DEPARTAMENTO, usuario.getCodigoDepartamento());
+//                            url = "/app/inicioDepa?faces-redirect=true";
+//                        } else if(usuario.getCodigoEntidad() == null && usuario.getCodigoDepartamento() == null && !desactivarDominio){//U.T.
+//                            url = "/app/inicio?faces-redirect=true";
+//                        }else{
+//                            url = null;
+//                            JsfUtil.mensajeError("Este usuario no existe o no pertenece al perfil con el que se desea acceder");
+//                        }
+//                        break;
+//                    case "D":
+//                    case "E":
+//                    case "P":
+//                        //recuperar el centro educativo
+//                        if (!VarSession.isVariableSession(VarSession.CODIGO_ENTIDAD)) {
+//                            VarSession.setVariableSession(VarSession.CODIGO_ENTIDAD, usuario.getCodigoEntidad());
+//                            VarSession.setVariableSession(VarSession.ID_USUARIO, usuario.getIdUsuario());
+//                        }
+//                        url = "/app/inicio?faces-redirect=true";
+//                        break;
+//                    default:
+//                        url = "";
+//                }
+//            } else {
+//                JsfUtil.mensajeError("Este USUARIO no esta registrado en el sistema.");
+//            }
         }
 
         return url;
@@ -213,7 +240,7 @@ public class LoginView implements Serializable {
             crearVariablesPerSiges(padreSiges, null, VarSession.USUARIO_PAD);
 
             //registrar primer logeo para le proceso de votación.
-            return "app/inicio?faces-redirect=true";
+            return "app/principal?faces-redirect=true";
         } else {
             return "";
         }

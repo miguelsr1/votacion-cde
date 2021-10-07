@@ -7,6 +7,7 @@ package sv.gob.mined.app.facade;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.ejb.Stateless;
 import javax.faces.model.SelectItem;
@@ -66,7 +67,7 @@ public class CatalogoFacade {
         return q.getResultList();
     }
 
-    public List<Candidato> findCandidatosByAnhoAndCodigoEntidad(Integer idAnho, String codigoEntidad, Integer idCargo, String nombramiento) {
+    public List<Candidato> findCandidatosByAnhoAndCodigoEntidad(BigDecimal idProcesoVotacion, String codigoEntidad, Integer idCargo, String nombramiento) {
         String partialWhere = "";
         if (idCargo != null) {
             partialWhere = "and c.idCargo.idCargo=:pIdCargo ";
@@ -74,8 +75,8 @@ public class CatalogoFacade {
         if (nombramiento != null) {
             partialWhere += "and c.tipoNombramiento=:pNombramiento ";
         }
-        Query q = emVotacion.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad " + partialWhere + " ORDER BY c.idCargo.idCargo, c.tipoNombramiento", Candidato.class);
-        q.setParameter("pIdAnho", idAnho);
+        Query q = emVotacion.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idProcesoVotacion=:pIdProcesoV and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad " + partialWhere + " ORDER BY c.idCargo.idCargo, c.tipoNombramiento", Candidato.class);
+        q.setParameter("pIdProcesoV", idProcesoVotacion);
         q.setParameter("pCodigoEntidad", codigoEntidad);
         if (idCargo != null) {
             q.setParameter("pIdCargo", idCargo);
@@ -91,7 +92,7 @@ public class CatalogoFacade {
         Query q = emVotacion.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.idAnho.anho=:pAnho and p.codigoEntidad=:pCodigoEntidad", ProcesoVotacion.class);
         q.setParameter("pAnho", anho);
         q.setParameter("pCodigoEntidad", codigoEntidad);
-
+        
         return q.getResultList().isEmpty() ? null : (ProcesoVotacion) q.getResultList().get(0);
     }
 
@@ -141,6 +142,11 @@ public class CatalogoFacade {
         return (Anho) q.getResultList().get(0);
     }
 
+    public List<Anho> findAllAnho() {
+        Query q = emVotacion.createQuery("SELECT a FROM Anho a ORDER BY a.idAnho", Anho.class);
+        return q.getResultList();
+    }
+
     public List<Usuario> findUsuariosAsistentes(BigDecimal idProcesoVotacion) {
         Query q = emVotacion.createQuery("SELECT a.idUsuario FROM Asistencia a WHERE a.idProcesoVotacion.idProcesoVotacion=:pIdProcesoVota ORDER BY a.fechaLogeo", Asistencia.class);
         q.setParameter("pIdProcesoVota", idProcesoVotacion);
@@ -173,9 +179,32 @@ public class CatalogoFacade {
 
         return q.getResultList();
     }
-    
-    public List<Municipio> findAllMunicipio(){
+
+    public List<Municipio> findAllMunicipio() {
         Query q = emVotacion.createQuery("SELECT m FROM Municipio m ORDER BY m.idMunicipio", Municipio.class);
         return q.getResultList();
+    }
+
+    public List<ProcesoVotacion> findProcesoVotacionByAnhoAndCodigoEntidad(Integer idAnho, String codigoEntidad) {
+        Query q = emVotacion.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.idAnho.idAnho=:pIdAnho AND p.codigoEntidad=:pCodigoEntidad", ProcesoVotacion.class);
+        q.setParameter("pIdAnho", idAnho);
+        q.setParameter("pCodigoEntidad", codigoEntidad);
+        return q.getResultList();
+    }
+
+    public Long getCantidadAsistentes(BigDecimal idProcesoVotacion, String... tipoUsuarios) {
+        Query q = emVotacion.createQuery("select count(distinct a.idAsistencia) from Asistencia a where a.idUsuario.tipoUsuario in :pTiposUsuario and a.idProcesoVotacion.idProcesoVotacion=:pIdProcesoVotacion");
+        q.setParameter("pTiposUsuario", Arrays.asList(tipoUsuarios));
+        q.setParameter("pIdProcesoVotacion", idProcesoVotacion);
+
+        return q.getResultList().isEmpty() ? 0l : (Long) q.getSingleResult();
+    }
+
+    public Long getCantidadVotos(BigDecimal idProcesoVotacion, String... tipoUsuarios) {
+        Query q = emVotacion.createQuery("select count(distinct d.idDetalleVoto) from DetalleVotaUsuario d where d.idUsuario.tipoUsuario in :pTiposUsuario and d.idProcesoVotacion.idProcesoVotacion = :pIdProcesoVotacion");
+        q.setParameter("pTiposUsuario", Arrays.asList(tipoUsuarios));
+        q.setParameter("pIdProcesoVotacion", idProcesoVotacion);
+
+        return q.getResultList().isEmpty() ? 0l : (Long) q.getSingleResult();
     }
 }

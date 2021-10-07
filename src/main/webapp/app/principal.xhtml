@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:jsf="http://xmlns.jcp.org/jsf"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+
+    <h:head>
+        <f:facet name="first">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+            <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+            <meta name="apple-mobile-web-app-capable" content="yes" />
+            <link href="#{request.contextPath}/resources/images/favicon.png" rel="shortcut icon"/>
+        </f:facet>
+        <title>Gestión Educativa - Votación CDE</title>
+
+        <!--link type="text/css" rel="stylesheet" href="/votacion-cde/resources/css/principal.css"/-->
+
+        <style>
+            #outPrincipal{
+                padding-top: 80px; 
+            }
+            @media (max-width: 500px) {
+                #outPrincipal{
+                    padding-top: 0px;
+                }
+            }
+        </style>
+    </h:head>
+
+    <h:body styleClass="login-body">
+        <h:form prependId="false">
+            <p:growl id="growl" escape="false" showDetail="true">
+                <p:autoUpdate />
+            </p:growl>
+
+            <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
+
+                <ui:include src="../resources/template/topbar.xhtml"/>
+
+                <div id="outPrincipal" class="layout-main">
+                    <div class="layout-content ">
+                        <div class="content-section implementation">
+                            <div class="p-grid p-jc-center">
+                                <div class="p-col-12 p-md-8 p-sm-12 ">
+                                    <h5>Procesos de Votación</h5>
+                                    <br/>
+                                    <div class="p-field p-grid">
+                                        <p:outputLabel for="cboAnho" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Año</p:outputLabel>
+                                        <div class="p-col-12 p-md-8 p-sm-12">
+                                            <p:selectOneMenu id="cboAnho" value="#{parametrosSesionView.idAnho}">
+                                                <f:selectItem itemLabel="Seleccione un valor"/>
+                                                <f:selectItems value="#{parametrosSesionView.lstAnho}" var="anho" itemValue="#{anho.idAnho}" itemLabel="#{anho.anho}"/>
+                                                <p:ajax update="tblProcesos" listener="#{parametrosSesionView.findProcesoVotacionByAnhoAndCodigoEntidad()}"/>
+                                            </p:selectOneMenu>
+                                        </div>
+                                    </div>
+                                    <div class="p-field">
+                                        <p:dataTable id="tblProcesos" value="#{parametrosSesionView.lstProcesos}" var="proceso" 
+                                                     rowIndexVar="rowId" reflow="true">
+                                            <f:facet name="header">
+                                                <div class="products-table-header">
+                                                    <span style="font-weight: bold">Listado de Procesos</span>
+                                                    <span class="filter-container ui-input-icon-left">
+                                                        <p:commandButton value="Agregar" icon="pi pi-plus" onclick="PF('dlgSector').show();" update="tblProcesos"
+                                                                         rendered="#{(parametrosSesionView.tipoUsuario eq 'A')}"/>
+                                                    </span>
+                                                </div>
+                                            </f:facet>
+
+                                            <p:column headerText="#" width="20" style="text-align: center;">
+                                                <p:outputLabel value="#{rowId + 1}"/>
+                                            </p:column>
+                                            <p:column headerText="Fecha de Inicio" width="150" style="text-align: center;">
+                                                <p:outputLabel value="#{proceso.fechaInsercion}">
+                                                    <f:convertDateTime pattern="dd/MM/yyyy"/>
+                                                </p:outputLabel>
+                                            </p:column>
+                                            <p:column headerText="Estado" width="100" style="text-align: center;">
+                                                <p:outputLabel value="#{parametrosSesionView.obtenerTiempoRestante(proceso.fechaInsercion, proceso.horas) eq 0 ? 'FINALIZADO' : (parametrosSesionView.obtenerTiempoRestante(proceso.fechaInsercion, proceso.horas) eq -1 ?'NO INICIADO':'EN PROCESO')}"/>
+                                            </p:column>
+                                            <p:column headerText="Ver" width="100" style="text-align: center;">
+                                                <p:commandButton icon="pi pi-eye" 
+                                                                 action ="#{parametrosSesionView.ingrasarAProceso()}"
+                                                                 styleClass="warning-button rounded-button">
+                                                    <f:setPropertyActionListener value="#{proceso}" target="#{parametrosSesionView.procesoVotacion}" />
+                                                </p:commandButton>
+                                            </p:column>
+                                        </p:dataTable>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <p:dialog id="dlgSector" widgetVar="dlgSector" header="Sector">
+                <div class="p-grid p-flex-column">
+                    <div class="p-col">
+                        <div class="box sector">
+                            <h5>Educadores</h5>
+                            <p:graphicImage name="teacher.png" library="images" width="50" styleClass="lock-icon"/>
+                        </div>
+                    </div>
+                    <div class="p-col">
+                        <div class="box sector">
+                            <h5>Padres/Responsables</h5>
+                            <p:graphicImage name="parents.png" library="images" width="50" styleClass="lock-icon"/>
+                        </div>
+                    </div>
+                    <div class="p-col">
+                        <div class="box sector">
+                            <h5>Educadores</h5>
+                            <p:graphicImage name="student.png" library="images" width="50" styleClass="lock-icon"/>
+                        </div>
+                    </div>
+                </div>
+            </p:dialog>
+        </h:form>
+    </h:body>
+
+    <h:outputStylesheet name="principal.css" library="css" />
+    <h:outputStylesheet name="css/primeicons.css" library="paradise-layout" />
+    <h:outputStylesheet name="css/primeflex.min.css" library="paradise-layout" />
+    <h:outputStylesheet name="css/layout-#{guestPreferences.layout}.css" library="paradise-layout" />
+</html>

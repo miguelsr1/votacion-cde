@@ -101,7 +101,7 @@ public class CandidatoView implements java.io.Serializable {
     }
 
     public void cargar() {
-        lstCandidato = catalogoFacade.findCandidatosByAnhoAndCodigoEntidad(1, parametrosSesionView.getCodigoEntidad(), idCargo, nombramiento);
+        lstCandidato = catalogoFacade.findCandidatosByAnhoAndCodigoEntidad(procesoVotacion.getIdProcesoVotacion(), parametrosSesionView.getCodigoEntidad(), idCargo, nombramiento);
         lstCargo = catalogoFacade.findAllCargos(procesoVotacion.getIdProcesoVotacion());
         cargarImagen();
     }
@@ -110,7 +110,7 @@ public class CandidatoView implements java.io.Serializable {
         cargarFoto();
         candidato.setPathImagen(file.getFileName());
         candidato.setIdCargo(catalogoFacade.find(Cargo.class, idCargo));
-        candidato.setTipoNombramiento(nombramiento);
+        //candidato.setTipoNombramiento(nombramiento);
 
         if (candidato.getIdCandidato() == null) {
             candidato.setIdProcesoVotacion(procesoVotacion);
@@ -133,16 +133,14 @@ public class CandidatoView implements java.io.Serializable {
     public void cancelarEdicion() {
         candidato = null;
         idCargo = null;
-        nombramiento = null;
     }
 
     public void editar() {
         idCargo = candidato.getIdCargo().getIdCargo();
-        nombramiento = candidato.getTipoNombramiento();
     }
 
     public void actualizarListado() {
-        lstCandidato = catalogoFacade.findCandidatosByAnhoAndCodigoEntidad(1, parametrosSesionView.getCodigoEntidad(), idCargo, nombramiento);
+        lstCandidato = catalogoFacade.findCandidatosByAnhoAndCodigoEntidad(procesoVotacion.getIdProcesoVotacion(), parametrosSesionView.getCodigoEntidad(), idCargo, nombramiento);
     }
 
     public UploadedFile getFile() {

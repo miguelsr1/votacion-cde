@@ -1,0 +1,111 @@
+#divCaptcha > div {
+    width: 100% !important;
+}
+
+.header-top {
+    width: 960px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.ql-toolbar.ql-snow+.ql-container.ql-snow {
+    border-top: 0;
+    background-color: white !important;
+}
+
+.topbar .topbar-wrapper .topbar-left .topbar-title {
+    font-size: 16px;
+    vertical-align: middle;
+    margin-left: 36px;
+    margin-right: 12px;
+}
+
+.topbar .topbar-wrapper .topbar-left .topbar-title-mobile{
+    display: none;
+}
+
+.pageColumnMid{
+    float : left;
+    vertical-align: middle !important;
+    clear : none;
+    height: 82px;
+    padding-left: 60px;
+}
+
+body .ui-datatable .ui-datatable-header {
+    text-align: left;
+}
+
+.products-table-header {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+.ui-input-icon-left, body .ui-input-icon-right {
+    position: relative;
+    display: inline-block;
+}
+.sector{
+    text-align: center; 
+    border: 1px solid #d8d8d8; 
+    padding: 10px;
+}
+
+.ui-datatable-reflow .ui-datatable-data td[role="gridcell"] .ui-column-title {
+    font-weight: bold;
+    text-align: left !important;
+}
+
+
+@media (max-width: 991px) {
+    .topbar .topbar-wrapper .topbar-left {
+        width: 100% !important;
+    }
+    .topbar .topbar-wrapper .topbar-left .topbar-logo {
+        width: 144px !important;
+        display: block !important;
+        margin: 0 auto !important;
+    }
+    .topbar .topbar-wrapper .topbar-left .topbar-title, .topbar .topbar-wrapper .topbar-left .topbar-user-info {
+        display: none !important;
+    }
+    .topbar .topbar-wrapper .topbar-left .topbar-title-mobile{
+        display: inline;
+    }
+    .topbar .topbar-wrapper .topbar-left #user-display{
+        text-align: right;
+        margin-top: 2px;
+    }
+
+    #topLogin{
+
+    }
+}
+
+#outPrincipal{
+    padding-top: 13vh; 
+}
+
+#lblApp{
+    font-size: 18px;
+}
+@media (max-width: 500px) {
+    #outPrincipal{
+        padding-top: 0vh;
+    }
+    .login-body .login-panel {
+        margin-top: 0px !important;
+        width: 100%;
+    }
+    #imgLogo{
+        width: 100px;
+    }
+    #lblApp{
+        font-size: 18px;
+    }
+}

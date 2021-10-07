@@ -8,8 +8,10 @@ package sv.gob.mined.app.view;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.SessionScoped;
@@ -22,17 +24,24 @@ import sv.gob.mined.app.model.Anho;
 import sv.gob.mined.app.model.Usuario;
 import sv.gob.mined.app.model.VwCatalogoEntidadEducativa;
 import sv.gob.mined.app.view.util.VarSession;
+import sv.gob.mined.utils.jsf.JsfUtil;
 
 @Named
 @SessionScoped
 public class ParametrosSesionView implements Serializable {
 
+    private Integer idAnho;
+
     private Boolean showTiempoFinalizado = false;
     private Boolean mostrarCeUsuario = true;
     private BigDecimal idUsuario;
+    private String estadoProceso = "";
+
     private Anho anho;
     private ProcesoVotacion procesoVotacion;
     private VwCatalogoEntidadEducativa entidadEducativa;
+    private List<ProcesoVotacion> lstProcesos = new ArrayList();
+
     private Date now = new Date();
     private Date limite;
 
@@ -45,6 +54,12 @@ public class ParametrosSesionView implements Serializable {
     @PostConstruct
     public void init() {
         anho = catalogoFacade.findAnhoActivo();
+        idAnho = anho.getIdAnho();
+        findProcesoVotacionByAnhoAndCodigoEntidad();
+    }
+
+    public void cargarDatosProcesoVotacionCe() {
+        anho = catalogoFacade.find(Anho.class, idAnho);
 
         switch (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString()) {
             case "A":
@@ -67,7 +82,9 @@ public class ParametrosSesionView implements Serializable {
     }
 
     private void cargarDatosCe() {
-        procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", getCodigoEntidad());
+        if (procesoVotacion == null) {
+            procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad(anho.getAnho(), getCodigoEntidad());
+        }
         entidadEducativa = catalogoFacade.findEntidadEducativaByCodigo(getCodigoEntidad());
 
         if (VarSession.isVariableSession(VarSession.ID_USUARIO_SIGES)) {
@@ -101,6 +118,10 @@ public class ParametrosSesionView implements Serializable {
         }
     }
 
+    public String getEstadoProceso() {
+        return estadoProceso;
+    }
+
     public String getTipoUsuario() {
         return VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString();
     }
@@ -124,8 +145,35 @@ public class ParametrosSesionView implements Serializable {
         }
     }
 
+    public List<ProcesoVotacion> getLstProcesos() {
+        return lstProcesos;
+    }
+
+    public Integer getIdAnho() {
+        return idAnho;
+    }
+
+    public void setIdAnho(Integer idAnho) {
+        this.idAnho = idAnho;
+    }
+
     public Anho getAnho() {
         return anho;
+    }
+
+    public List<Anho> getLstAnho() {
+        return catalogoFacade.findAllAnho();
+    }
+
+    public void findProcesoVotacionByAnhoAndCodigoEntidad() {
+        anho = catalogoFacade.find(Anho.class, idAnho);
+        lstProcesos = catalogoFacade.findProcesoVotacionByAnhoAndCodigoEntidad(idAnho, VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
+
+        for (ProcesoVotacion proceso : lstProcesos) {
+            if (obtenerTiempoRestante(proceso.getFechaInsercion(), proceso.getHoras()) != 0) {
+                procesoVotacion = proceso;
+            }
+        }
     }
 
     public Boolean getShowTiempoFinalizado() {
@@ -134,6 +182,10 @@ public class ParametrosSesionView implements Serializable {
 
     public ProcesoVotacion getProcesoVotacion() {
         return procesoVotacion;
+    }
+
+    public void setProcesoVotacion(ProcesoVotacion procesoVotacion) {
+        this.procesoVotacion = procesoVotacion;
     }
 
     public String getNombreUsuario() {
@@ -167,7 +219,10 @@ public class ParametrosSesionView implements Serializable {
             limite = calendar.getTime();
 
             showTiempoFinalizado = (limite.getTime() >= (now).getTime());
+
+            estadoProceso = showTiempoFinalizado ? "Tiempo restante:" : "PROCESO FINALIZADO";
         } else {
+            estadoProceso = "PROCESO NO INICIADO";
             showTiempoFinalizado = false;
         }
     }
@@ -208,5 +263,54 @@ public class ParametrosSesionView implements Serializable {
                 break;
         }
         return url;
+    }
+
+    public String ingrasarAProceso() {
+        VarSession.setVariableSession("idProceso", procesoVotacion);
+        if (VarSession.isVariableSession(VarSession.CODIGO_DEPARTAMENTO)) {
+            return "inicioDepa?faces-redirect=true";
+        } else {
+            return "inicio?faces-redirect=true";
+        }
+    }
+
+    public long obtenerTiempoRestante(Date fechaInicio, Integer horas) {
+        long tiempo = -1l;
+        Boolean tiempoFinalizado = false;
+
+        if (fechaInicio != null && horas != null) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(fechaInicio);
+            calendar.add(Calendar.HOUR_OF_DAY, horas);
+
+            Date limiteTiempo = calendar.getTime();
+
+            tiempoFinalizado = (limiteTiempo.getTime() < (new Date()).getTime());
+
+            if (tiempoFinalizado) {
+                tiempo = 0l;
+            } else {
+                long diffInMillies = Math.abs(limiteTiempo.getTime() - (new Date()).getTime());
+                tiempo = TimeUnit.MILLISECONDS.toSeconds(diffInMillies);
+            }
+        }
+        return tiempo;
+    }
+
+    public void agregarProceso() {
+        if (lstProcesos.isEmpty()) {
+            persistenceFacade.guardarProcesoVotacion(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString(), idAnho, false);
+            findProcesoVotacionByAnhoAndCodigoEntidad();
+        } else {
+            lstProcesos.forEach(proceso -> {
+                if (obtenerTiempoRestante(proceso.getFechaInsercion(), proceso.getHoras()) > 0) {
+                    JsfUtil.mensajeAlerta("Todavia existe un proceso no finalizado. No se puede crear otro proceso.");
+                } else if (persistenceFacade.isProcesoSinIniciar(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString(), idAnho)) {
+                    JsfUtil.mensajeAlerta("Todavia existe un proceso no iniciado. No se puede crear otro proceso.");
+                } else {
+                    persistenceFacade.guardarProcesoVotacion(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString(), idAnho, false);
+                }
+            });
+        }
     }
 }

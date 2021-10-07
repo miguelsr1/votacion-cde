@@ -39,7 +39,7 @@
                 <p:commandButton value="Buscar" icon="pi pi-search" style="width: 90px" update="tblCandidatos"/>
             </div>
             <div class="card">
-                <p:dataTable id="tblCandidatos" value="#{candidatoView.lstCandidato}" 
+                <p:dataTable id="tblCandidatos" value="#{candidatoView.lstCandidato}" reflow="true" 
                              var="can" rowIndexVar="rowId" rowKey="#{can.idCandidato}">
 
                     <p:column headerText="Cargo">
@@ -48,9 +48,14 @@
                     <p:column headerText="Nombre">
                         <p:outputLabel value="#{can.nombres} #{can.apellidos}"/>
                     </p:column>
-                    <p:column exportable="false" width="50">
+                    <p:column exportable="false" style="text-align: center;">
                         <p:commandButton icon="pi pi-pencil"  oncomplete="PF('dlgDatos').show()" action="#{candidatoView.editar()}"
-                                         styleClass="edit-button rounded-button ui-button-success" process="@this">
+                                         styleClass="edit-button rounded-button ui-button-success" process="@this" update="pnlDetalleDatos">
+                            <f:setPropertyActionListener value="#{can}" target="#{candidatoView.candidato}" />
+                        </p:commandButton>
+                        <p:spacer width="5"/>
+                        <p:commandButton icon="pi pi-trash" 
+                                         styleClass="ui-button-warning rounded-button" process="@this" update="pnlDetalleDatos">
                             <f:setPropertyActionListener value="#{can}" target="#{candidatoView.candidato}" />
                         </p:commandButton>
                     </p:column>
@@ -60,7 +65,7 @@
     </div>
 
 
-    <p:dialog id="dlgDatos" header="Datos Generales" showEffect="fade" hideEffect="fade" modal="true" widgetVar="dlgDatos" responsive="true" width="900" closable="false" resizable="false" style="position: fixed !important;">
+    <p:dialog id="dlgDatos" header="Datos Generales" showEffect="fade" hideEffect="fade" modal="true" widgetVar="dlgDatos" responsive="true" closable="false" resizable="false" style="position: fixed !important;">
 
         <p:outputPanel id="pnlDetalleDatos" class="ui-fluid" style="text-align: center;">
             <!--<p:graphicImage style="width: 120px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);" value="/DynamicImageServlet?file={candidatoView.candidato.pathImagen}" rendered="{candidatoView.candidato.idCandidato ne null}"/>-->

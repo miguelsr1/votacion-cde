@@ -39,7 +39,7 @@ public class VotacionView implements Serializable {
 
     @PostConstruct
     public void init() {
-        List<ParametroVotacion> lstParam = parametrosFacade.findParametrosByCodigoEntAndAnho(parametrosSesionView.getCodigoEntidad(), parametrosSesionView.getAnho().getAnho());
+        List<ParametroVotacion> lstParam = parametrosFacade.findParametrosByCodigoEntAndAnho(parametrosSesionView.getCodigoEntidad(), parametrosSesionView.getAnho().getAnho(), parametrosSesionView.getProcesoVotacion().getIdProcesoVotacion());
 
         for (ParametroVotacion param : lstParam) {
             switch (param.getIdCargo().getIdCargo()) {

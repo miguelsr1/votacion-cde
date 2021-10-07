@@ -58,15 +58,20 @@ public class ResultadoVotacionView implements Serializable {
         this.nombramiento = nombramiento;
     }
 
-    public List<DistribucionVotacionDto> getLstDistribucionFinalPorcentaje() {
+    public List<DistribucionVotacionDto> lstDistribucionFinalPorcentaje(Integer idCargo) {
+        lstDistribucionFinalPorcentaje.clear();
+        if (idCargo != null) {
+            lstDistribucionFinalPorcentaje = catalogoFacade.getDistribucionVotosFinalPorcentaje(procesoVotacion.getIdProcesoVotacion(), idCargo, nombramiento);
+        }
+
         return lstDistribucionFinalPorcentaje;
     }
 
     public List<Cargo> getLstCargo() {
         return catalogoFacade.findAllCargos(procesoVotacion.getIdProcesoVotacion());
     }
-    
-    public void limpiar(){
+
+    public void limpiar() {
         lstDistribucionFinalPorcentaje.clear();
         nombramiento = null;
     }

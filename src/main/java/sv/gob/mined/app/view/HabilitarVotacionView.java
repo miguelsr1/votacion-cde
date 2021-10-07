@@ -6,12 +6,14 @@
 package sv.gob.mined.app.view;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.annotation.PostConstruct;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -29,6 +31,10 @@ public class HabilitarVotacionView implements Serializable {
     private Boolean habilitarVotacion;
     private Boolean habilitarResultados;
     private Boolean tiempoFinalizado = false;
+
+    private Long cantidadAsistentes = 0l;
+    private Long cantidadVotos = 0l;
+
     private ProcesoVotacion procesoVotacion;
     private List<Usuario> lstUsuarios = new ArrayList();
 
@@ -38,13 +44,40 @@ public class HabilitarVotacionView implements Serializable {
     private CatalogoFacade catalogoFacade;
     @Inject
     private ParametroVotacionView parametroVotacionView;
+    @Inject
+    private ParametrosSesionView parametrosSesionView;
 
     @PostConstruct
     public void init() {
-        procesoVotacion = catalogoFacade.findProcesoByAnhoAndCodigoEntidad("2021", VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
+        procesoVotacion = parametrosSesionView.getProcesoVotacion();
         habilitarResultados = (procesoVotacion.getHabilitarResultados() == 1);
         habilitarVotacion = (procesoVotacion.getHabilitarVotacion() == 1);
         lstUsuarios = catalogoFacade.findUsuariosAsistentes(procesoVotacion.getIdProcesoVotacion());
+
+        if (FacesContext.getCurrentInstance().getViewRoot().getViewId().contains("presentacionResultados")) {
+            switch (parametrosSesionView.getTipoUsuario()) {
+                case "A":
+                case "D":
+                    cantidadAsistentes = catalogoFacade.getCantidadAsistentes(procesoVotacion.getIdProcesoVotacion(), "A", "D");
+                    cantidadVotos = catalogoFacade.getCantidadVotos(procesoVotacion.getIdProcesoVotacion(), "A", "D");
+                    break;
+                case "E":
+                    cantidadAsistentes = catalogoFacade.getCantidadAsistentes(procesoVotacion.getIdProcesoVotacion(), "E");
+                    cantidadVotos = catalogoFacade.getCantidadVotos(procesoVotacion.getIdProcesoVotacion(), "E");
+                    break;
+                case "P":
+                    cantidadVotos = catalogoFacade.getCantidadVotos(procesoVotacion.getIdProcesoVotacion(), "P");;
+                    break;
+            }
+        }
+    }
+
+    public Long getCantidadAsistentes() {
+        return cantidadAsistentes;
+    }
+
+    public Long getCantidadVotos() {
+        return cantidadVotos;
     }
 
     public ProcesoVotacion getProcesoVotacion() {
@@ -114,7 +147,7 @@ public class HabilitarVotacionView implements Serializable {
             } else {
                 long diffInMillies = Math.abs(limite.getTime() - (new Date()).getTime());
                 tiempo = TimeUnit.MILLISECONDS.toSeconds(diffInMillies);
-}
+            }
         }
         return tiempo;
     }

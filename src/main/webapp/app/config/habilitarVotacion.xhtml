@@ -42,7 +42,11 @@
 
                                 <p:outputLabel value="Tiempo habilitado para votación:" styleClass="p-col-12 p-mb-8 p-md-8 p-mb-md-0"/>
                                 <div class="p-col-12 p-md-4">
-                                    <p:inputNumber value="#{habilitarVotacionView.procesoVotacion.horas}" inputStyle="text-align: right" decimalPlaces="0" maxValue="16"  />
+                                    <p:outputPanel>
+                                        <p:inputNumber value="#{habilitarVotacionView.procesoVotacion.horas}" inputStyle="text-align: right" decimalPlaces="0" maxValue="16" size="3"/>
+                                        <p:spacer width="5"/>
+                                        <p:outputLabel value="(HORAS)"/>
+                                    </p:outputPanel>
                                 </div>
                             </div>
                         </div>

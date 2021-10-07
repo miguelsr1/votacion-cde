@@ -54,6 +54,11 @@ public class ProcesoVotacion implements Serializable {
     @Column(name = "FECHA_INSERCION")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaInsercion;
+    @Column(name = "FECHA_FIN")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date fechaFin;
+    @Column(name = "ESTADO")
+    private String estado;
     @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
     private List<Votacion> votacionList;
     @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
@@ -190,15 +195,28 @@ public class ProcesoVotacion implements Serializable {
             return false;
         }
         ProcesoVotacion other = (ProcesoVotacion) object;
-        if ((this.idProcesoVotacion == null && other.idProcesoVotacion != null) || (this.idProcesoVotacion != null && !this.idProcesoVotacion.equals(other.idProcesoVotacion))) {
-            return false;
-        }
-        return true;
+        return !((this.idProcesoVotacion == null && other.idProcesoVotacion != null) || (this.idProcesoVotacion != null && !this.idProcesoVotacion.equals(other.idProcesoVotacion)));
     }
 
     @Override
     public String toString() {
         return "sv.gob.mined.app.model.ProcesoVotacion[ idProcesoVotacion=" + idProcesoVotacion + " ]";
+    }
+
+    public Date getFechaFin() {
+        return fechaFin;
+    }
+
+    public void setFechaFin(Date fechaFin) {
+        this.fechaFin = fechaFin;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
     
 }

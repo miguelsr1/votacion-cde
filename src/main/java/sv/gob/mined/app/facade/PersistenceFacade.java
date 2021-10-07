@@ -64,9 +64,8 @@ public class PersistenceFacade {
 
         return idUsuario;
     }
-    
-    
-    public void guardarAsistencia(BigDecimal idProcesoVotacion, Usuario usuario){
+
+    public void guardarAsistencia(BigDecimal idProcesoVotacion, Usuario usuario) {
         Query q = em.createQuery("SELECT a FROM Asistencia a WHERE a.idProcesoVotacion.idProcesoVotacion=:pIdProceso and a.idUsuario=:pIdUsuario", Asistencia.class);
         q.setParameter("pIdProceso", idProcesoVotacion);
         q.setParameter("pIdUsuario", usuario);
@@ -98,7 +97,7 @@ public class PersistenceFacade {
     }
 
     public void guardarProcesoVotacion(String codigoEntidad, Integer idAnho, boolean value) {
-        Query q = em.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.codigoEntidad=:pCodEnt and p.idAnho.idAnho=:pIdAnho", ProcesoVotacion.class);
+        Query q = em.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.codigoEntidad=:pCodEnt and p.idAnho.idAnho=:pIdAnho and p.horas is null", ProcesoVotacion.class);
         q.setParameter("pCodEnt", codigoEntidad);
         q.setParameter("pIdAnho", idAnho);
         if (q.getResultList().isEmpty()) {
@@ -108,13 +107,22 @@ public class PersistenceFacade {
             procesoVotacion.setHabilitarResultados((short) (value ? 1 : 0));
             procesoVotacion.setHabilitarVotacion((short) (value ? 1 : 0));
             procesoVotacion.setIdAnho(em.find(Anho.class, idAnho));
+            procesoVotacion.setEstado("N");
 
             em.persist(procesoVotacion);
         } else {
             ProcesoVotacion procesoVotacion = (ProcesoVotacion) q.getResultList().get(0);
             procesoVotacion.setHabilitarResultados((short) (value ? 1 : 0));
             procesoVotacion.setHabilitarVotacion((short) (value ? 1 : 0));
+            procesoVotacion.setEstado(value ? "E" : "N");
             em.merge(procesoVotacion);
         }
+    }
+
+    public boolean isProcesoSinIniciar(String codigoEntidad, Integer idAnho) {
+        Query q = em.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.codigoEntidad=:pCodEnt and p.idAnho.idAnho=:pIdAnho and p.horas is null", ProcesoVotacion.class);
+        q.setParameter("pCodEnt", codigoEntidad);
+        q.setParameter("pIdAnho", idAnho);
+        return !q.getResultList().isEmpty();
     }
 }

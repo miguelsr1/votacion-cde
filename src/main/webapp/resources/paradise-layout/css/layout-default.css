@@ -1227,7 +1227,7 @@ p:last-child {
     background-color: #ffffff;
 }
 .login-body .login-panel .p-col-12 {
-    padding: 5px 30px;
+    /*padding: 5px 30px;*/
 }
 .login-body .login-panel .p-col-12.logo-container {
     padding: 3px 50px 16px 50px;
@@ -1295,7 +1295,7 @@ p:last-child {
         width: 100%;
     }
     .login-body .login-panel .p-col-12 {
-        padding: 15px 50px;
+        /*padding: 15px 50px;*/
     }
 }
 .exception-body {
