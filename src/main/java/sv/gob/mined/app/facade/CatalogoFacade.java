@@ -58,11 +58,12 @@ public class CatalogoFacade {
         return query.getResultList();
     }
 
-    public List<Candidato> findCandidatosByAnhoAndCodigoEntidadAndCargo(Integer idAnho, String codigoEntidad, Integer idCargo) {
-        Query q = emVotacion.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad and c.idCargo.idCargo=:pIdCargo", Candidato.class);
+    public List<Candidato> findCandidatosByAnhoAndCodigoEntidadAndCargo(Integer idAnho, String codigoEntidad, Integer idCargo, BigDecimal idProcesoVotacion) {
+        Query q = emVotacion.createQuery("SELECT c FROM Candidato c WHERE c.idProcesoVotacion.idAnho.idAnho=:pIdAnho and c.idProcesoVotacion.codigoEntidad=:pCodigoEntidad and c.idCargo.idCargo=:pIdCargo and c.idProcesoVotacion.idProcesoVotacion=:pIdPro", Candidato.class);
         q.setParameter("pIdAnho", idAnho);
         q.setParameter("pCodigoEntidad", codigoEntidad);
         q.setParameter("pIdCargo", idCargo);
+        q.setParameter("pIdPro", idProcesoVotacion);
 
         return q.getResultList();
     }

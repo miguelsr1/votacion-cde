@@ -59,6 +59,8 @@ public class ProcesoVotacion implements Serializable {
     private Date fechaFin;
     @Column(name = "ESTADO")
     private String estado;
+    @Column(name = "SECTOR")
+    private String sector;
     @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
     private List<Votacion> votacionList;
     @OneToMany(mappedBy = "idProcesoVotacion", fetch = FetchType.LAZY)
@@ -74,6 +76,14 @@ public class ProcesoVotacion implements Serializable {
     private List<DetalleVotaUsuario> detalleVotaUsuarioList;
 
     public ProcesoVotacion() {
+    }
+
+    public String getSector() {
+        return sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
     public ProcesoVotacion(BigDecimal idProcesoVotacion) {

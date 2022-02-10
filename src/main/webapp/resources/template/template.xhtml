@@ -19,9 +19,11 @@
         <h:outputScript name="js/layout.js" library="paradise-layout"/>
         <h:outputScript name="js/prism.js" library="paradise-layout"/>
         <h:outputScript name="funciones.js" library="js" />
+        <h:outputScript name="chartjs-plugin-labels.js" library="js"/>
+        <h:outputScript name="Chart.bundle.min.js" library="js"/>
         
         
-        <link type="text/css" rel="stylesheet" href="/votacion-cde/resources/css/principal.css">
+        <link type="text/css" rel="stylesheet" href="/votacion-cde/resources/css/principal.css"></link>
             
         <ui:insert name="head"/>
 
@@ -95,6 +97,7 @@
         <h:form id="frmPrincipal" prependId="false" >
             <div class="layout-wrapper #{guestPreferences.menuMode} " style="background-color: white !important">
                 <ui:include src="./topbar.xhtml" />
+                
 
 
                 <!--                <div id="layout-config" class="layout-config">

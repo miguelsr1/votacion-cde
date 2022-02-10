@@ -20,7 +20,7 @@
 
         <style>
             #outPrincipal{
-                padding-top: 80px; 
+                padding-top: 80px;
             }
             @media (max-width: 500px) {
                 #outPrincipal{
@@ -78,6 +78,9 @@
                                                     <f:convertDateTime pattern="dd/MM/yyyy"/>
                                                 </p:outputLabel>
                                             </p:column>
+                                            <p:column headerText="Sector" width="100" style="text-align: center;">
+                                                <p:outputLabel value="#{proceso.sector eq 'D' ? 'Docente' : (proceso.sector eq 'P' ?'Padres/Responsable':'Estudiante')}"/>
+                                            </p:column>
                                             <p:column headerText="Estado" width="100" style="text-align: center;">
                                                 <p:outputLabel value="#{parametrosSesionView.obtenerTiempoRestante(proceso.fechaInsercion, proceso.horas) eq 0 ? 'FINALIZADO' : (parametrosSesionView.obtenerTiempoRestante(proceso.fechaInsercion, proceso.horas) eq -1 ?'NO INICIADO':'EN PROCESO')}"/>
                                             </p:column>
@@ -101,20 +104,29 @@
                 <div class="p-grid p-flex-column">
                     <div class="p-col">
                         <div class="box sector">
-                            <h5>Educadores</h5>
-                            <p:graphicImage name="teacher.png" library="images" width="50" styleClass="lock-icon"/>
+                            <p:commandLink onclick="PF('dlgSector').hide();" action="#{parametrosSesionView.agregarProceso()}" update="tblProcesos">
+                                <h5>Educadores</h5>
+                                <p:graphicImage name="teacher.png" library="images" width="50" styleClass="lock-icon"/>
+                                <f:setPropertyActionListener target="#{parametrosSesionView.sector}" value="D" />
+                            </p:commandLink>
                         </div>
                     </div>
                     <div class="p-col">
                         <div class="box sector">
-                            <h5>Padres/Responsables</h5>
-                            <p:graphicImage name="parents.png" library="images" width="50" styleClass="lock-icon"/>
+                            <p:commandLink onclick="PF('dlgSector').hide();" action="#{parametrosSesionView.agregarProceso()}" update="tblProcesos">
+                                <h5>Padres/Responsables</h5>
+                                <p:graphicImage name="parents.png" library="images" width="50" styleClass="lock-icon"/>
+                                <f:setPropertyActionListener target="#{parametrosSesionView.sector}" value="P" />
+                            </p:commandLink>
                         </div>
                     </div>
                     <div class="p-col">
                         <div class="box sector">
-                            <h5>Educadores</h5>
-                            <p:graphicImage name="student.png" library="images" width="50" styleClass="lock-icon"/>
+                            <p:commandLink onclick="PF('dlgSector').hide();" action="#{parametrosSesionView.agregarProceso()}" update="tblProcesos">
+                                <h5>Estudiantes</h5>
+                                <p:graphicImage name="student.png" library="images" width="50" styleClass="lock-icon"/>
+                                <f:setPropertyActionListener target="#{parametrosSesionView.sector}" value="E" />
+                            </p:commandLink>
                         </div>
                     </div>
                 </div>

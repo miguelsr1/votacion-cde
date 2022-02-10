@@ -102,7 +102,7 @@ public class HabilitarProcesoView implements Serializable {
     }
 
     public void guardarModificacion(EntidadEducativaProcesoDto ce) {
-        persistenceFacade.guardarProcesoVotacion(ce.getCodigoEntidad(), parametrosSesionView.getAnho().getIdAnho(), ce.getHabilitado());
+        persistenceFacade.guardarProcesoVotacion(ce.getCodigoEntidad(), parametrosSesionView.getAnho().getIdAnho(), ce.getHabilitado(), null);
         JsfUtil.mensajeInformacion("Centro educativo actualizado");
     }
 }

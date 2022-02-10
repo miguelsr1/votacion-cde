@@ -16,10 +16,10 @@
             <p:toolbar id="tbBotones" styleClass="p-mb-4">
                 <p:toolbarGroup>
                     <p:commandButton value="Nuevo" action="#{candidatoView.nuevo()}" icon="pi pi-plus" oncomplete="PF('dlgDatos').show();" 
-                                     styleClass="ui-button-success" style="margin-right: .5rem" process="@this" 
+                                     styleClass="ui-button-success" style="margin-right: .5rem" process="@this" update="pnlDetalleDatos"
                                      disabled="#{habilitarVotacionView.habilitarVotacion}"/>
                     <p:commandButton value="Importar de SIGES" icon="pi pi-cloud-download" style=" width: 150px"  
-                                     disabled="#{habilitarVotacionView.habilitarVotacion}"/>
+                                     disabled="true"/>
                 </p:toolbarGroup>
             </p:toolbar>
 
@@ -68,8 +68,8 @@
     <p:dialog id="dlgDatos" header="Datos Generales" showEffect="fade" hideEffect="fade" modal="true" widgetVar="dlgDatos" responsive="true" closable="false" resizable="false" style="position: fixed !important;">
 
         <p:outputPanel id="pnlDetalleDatos" class="ui-fluid" style="text-align: center;">
-            <!--<p:graphicImage style="width: 120px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);" value="/DynamicImageServlet?file={candidatoView.candidato.pathImagen}" rendered="{candidatoView.candidato.idCandidato ne null}"/>-->
-            <p:graphicImage id="imgUpload" style="width: 120px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);" value="#{candidatoView.imagen}" stream="false" cache="false" />
+            <p:graphicImage style="width: 120px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);" value="/DynamicImageServlet?file=#{candidatoView.candidato.pathImagen}" rendered="#{candidatoView.candidato.idCandidato ne null}"/>
+            <p:graphicImage id="imgUpload" style="width: 120px; box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);" value="#{candidatoView.imagen}" stream="false" cache="false" rendered="#{candidatoView.candidato.idCandidato eq null}"/>
 
 
             <h:form enctype="multipart/form-data" prependId="false">
@@ -84,17 +84,17 @@
                 <div class="p-field p-grid">
                     <p:outputLabel for="txtNombre" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Nombre</p:outputLabel>
                     <div class="p-col-12 p-md-4">
-                        <p:inputText id="txtNombre" value="#{candidatoView.candidato.nombres}"/>
+                        <p:inputText id="txtNombre" value="#{candidatoView.candidato.nombres}" required="true" requiredMessage="Debe de agregar un nombre"/>
                     </div>
                     <p:outputLabel for="txtApellido" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Apellido</p:outputLabel>
                     <div class="p-col-12 p-md-4">
-                        <p:inputText id="txtApellido" value="#{candidatoView.candidato.apellidos}"/>
+                        <p:inputText id="txtApellido" value="#{candidatoView.candidato.apellidos}" required="true" requiredMessage="Debe de agregar un apellido"/>
                     </div>
                 </div>
                 <div class="p-field p-grid">
                     <p:outputLabel for="txtDui" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">DUI</p:outputLabel>
                     <div class="p-col-12 p-md-4">
-                        <p:inputMask id="txtDui" mask="99999999-9" value="#{candidatoView.candidato.dui}"/>
+                        <p:inputMask id="txtDui" mask="99999999-9" value="#{candidatoView.candidato.dui}" required="true" requiredMessage="Debe de agregar el DUI"/>
                     </div>
                     <p:outputLabel for="txtTelefono" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Teléfono</p:outputLabel>
                     <div class="p-col-12 p-md-4">
@@ -104,7 +104,7 @@
                 <div class="p-field p-grid">
                     <p:outputLabel for="cboCargo" styleClass="p-col-12 p-mb-2 p-md-2 p-mb-md-0">Cargo </p:outputLabel>
                     <div class="p-col-12 p-md-10">
-                        <p:selectOneMenu id="cboCargo" value="#{candidatoView.idCargo}" >
+                        <p:selectOneMenu id="cboCargo" value="#{candidatoView.idCargo}" required="true" requiredMessage="Debe de seleccionar un cargo">
                             <f:selectItem itemLabel="Seleccione un valor" noSelectionOption="true"/>
                             <f:selectItems value="#{candidatoView.lstCargo}" var="car" itemValue="#{car.idCargo}" itemLabel="#{car.descripcionCargo}"/>
                         </p:selectOneMenu>
@@ -113,9 +113,9 @@
             </div>
         </p:outputPanel>
         <f:facet name="footer">
-            <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" action="#{candidatoView.guardar()}" 
+            <p:commandButton value="Guardar" icon="pi pi-save" style=" width: 100px" action="#{candidatoView.guardar()}" validateClient="true"
                              process="@this,cboCargo,txtNombre,txtApellido,txtDui,txtTelefono" oncomplete="PF('dlgDatos').hide();" update="tblCandidatos pnlDetalleDatos"/>
-            <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="#{candidatoView.cancelarEdicion()}" oncomplete="PF('dlgDatos').hide();"/>
+            <p:commandButton value="Cancelar" icon="pi pi-times" style="width: 100px" action="#{candidatoView.cancelarEdicion()}" oncomplete="PF('dlgDatos').hide();" process="@this"/>
         </f:facet>
 
     </p:dialog>

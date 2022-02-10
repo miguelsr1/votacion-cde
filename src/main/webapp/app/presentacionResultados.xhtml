@@ -60,7 +60,7 @@
                 font-weight: 700;
                 font-size: 12px;
                 letter-spacing: .3px;
-            }            
+            }
             .p-p-5 {
                 padding: 2rem !important;
             }
@@ -109,23 +109,26 @@
                             <p:repeat value="#{resultadoVotacionView.lstCargo}" var="cargo" id="repetidor">
                                 <p:outputLabel value="#{cargo.descripcionCargo}"/><br/>
 
-                                <p:repeat value="#{resultadoVotacionView.lstDistribucionFinalPorcentaje(cargo.idCargo)}" var="dis">
+                                <p:barChart model="#{resultadoVotacionView.hbarModel(cargo.idCargo, cargo.descripcionCargo)}" style="width: 100%; height: 500px;"/>
+
+
+                                <!--p:repeat value="{resultadoVotacionView.lstDistribucionFinalPorcentaje(cargo.idCargo)}" var="dis">
                                     <div class="product">
                                         <div class="product-list-item border-1 p-p-5">
-                                            <p:graphicImage id="img_proSec" value="/DynamicImageServlet?file=#{dis.pathImagen}" width="80px"/> 
+                                            <p:graphicImage id="img_proSec" value="/DynamicImageServlet?file={dis.pathImagen}" width="80px"/> 
                                             <div class="product-list-detail">
-                                                <div class="product-name">#{dis.nombres} #{dis.apellidos}</div>
+                                                <div class="product-name">{dis.nombres} {dis.apellidos}</div>
                                             </div>
                                             <div class="product-list-action">
-                                                <h:outputText value="#{dis.cantidad}" styleClass="product-price">
+                                                <h:outputText value="{dis.cantidad}" styleClass="product-price">
                                                     <f:convertNumber currencySymbol="$" type="currency"/>
                                                 </h:outputText>
 
-                                                <span class="product-badge">#{dis.porcentaje}</span>
+                                                <span class="product-badge">{dis.porcentaje}</span>
                                             </div>
                                         </div>
                                     </div>
-                                </p:repeat>
+                                </p:repeat-->
                             </p:repeat>
                         </div>
                     </div>

@@ -54,21 +54,21 @@
                                         </div>
                                     </p:commandLink>
                                 </div>
-                                <div class="p-col-12 p-md-3" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
+                                <div class="p-col-12 p-md-3" >
                                     <p:commandLink action="#{inicioView.detVotacion()}" disabled="#{(!parametrosSesionView.showTiempoFinalizado) or (inicioView.procesoVotacion.habilitarVotacion eq 0)}">
                                         <div class="card overview-box"  style="text-align: center !important">
                                             <h5>Emitir voto</h5>
                                             <br/>
-                                            <p:graphicImage name="vote.png" library="images" width="80" style="filter: grayscale(#{(inicioView.procesoVotacion.habilitarVotacion eq 1)?'0%':'200%'});"/>
+                                            <p:graphicImage name="vote.png" library="images" width="80" style="filter: grayscale(#{(inicioView.procesoVotacion.habilitarVotacion eq 1)?'200%':'0%'});"/>
                                         </div>
                                     </p:commandLink>
                                 </div>
-                                <div class="p-col-12 p-md-3" style="display: #{(parametrosSesionView.tipoUsuarioVotante)?'none':'block'}">
+                                <div class="p-col-12 p-md-3" >
                                     <p:commandLink action="presentacionResultados.mined" disabled="#{inicioView.procesoVotacion.habilitarResultados eq 0}">
                                         <div class="card overview-box" style="text-align: center !important">
                                             <h5>Resultados</h5>
                                             <br/>
-                                            <p:graphicImage name="presentation.png" library="images" width="80" style="filter: grayscale(#{(inicioView.procesoVotacion.habilitarResultados eq 1)?'0%':'200%'});"/>
+                                            <p:graphicImage name="presentation.png" library="images" width="80" style="filter: grayscale(#{(inicioView.procesoVotacion.habilitarResultados eq 1)?'200%':'0%'});"/>
                                         </div>
                                     </p:commandLink>
                                 </div>

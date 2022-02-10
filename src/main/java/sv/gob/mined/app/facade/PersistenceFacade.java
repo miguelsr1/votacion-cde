@@ -96,13 +96,14 @@ public class PersistenceFacade {
         return !q.getResultList().isEmpty();
     }
 
-    public void guardarProcesoVotacion(String codigoEntidad, Integer idAnho, boolean value) {
+    public void guardarProcesoVotacion(String codigoEntidad, Integer idAnho, boolean value, String sector) {
         Query q = em.createQuery("SELECT p FROM ProcesoVotacion p WHERE p.codigoEntidad=:pCodEnt and p.idAnho.idAnho=:pIdAnho and p.horas is null", ProcesoVotacion.class);
         q.setParameter("pCodEnt", codigoEntidad);
         q.setParameter("pIdAnho", idAnho);
         if (q.getResultList().isEmpty()) {
             ProcesoVotacion procesoVotacion = new ProcesoVotacion();
             procesoVotacion.setCodigoEntidad(codigoEntidad);
+            procesoVotacion.setSector(sector);
             procesoVotacion.setFechaInsercion(new Date());
             procesoVotacion.setHabilitarResultados((short) (value ? 1 : 0));
             procesoVotacion.setHabilitarVotacion((short) (value ? 1 : 0));

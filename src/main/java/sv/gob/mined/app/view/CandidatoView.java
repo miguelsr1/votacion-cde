@@ -123,7 +123,7 @@ public class CandidatoView implements java.io.Serializable {
             candidato = persistenceFacade.modificar(candidato);
             JsfUtil.mensajeUpdate();
         }
-        
+
         candidato = new Candidato();
         file = null;
         idCargo = null;
@@ -192,7 +192,7 @@ public class CandidatoView implements java.io.Serializable {
                             return new FileInputStream(pathImg + File.separator + path);
                         } else {
                             byteImagen = file.getContent();
-                            
+
                             return file.getInputStream();
                         }
                     } catch (IOException e) {

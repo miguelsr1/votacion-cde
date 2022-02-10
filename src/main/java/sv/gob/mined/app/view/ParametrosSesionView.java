@@ -36,6 +36,7 @@ public class ParametrosSesionView implements Serializable {
     private Boolean mostrarCeUsuario = true;
     private BigDecimal idUsuario;
     private String estadoProceso = "";
+    private String sector;
 
     private Anho anho;
     private ProcesoVotacion procesoVotacion;
@@ -75,6 +76,14 @@ public class ParametrosSesionView implements Serializable {
         }
 
         calcularTiempoRestante();
+    }
+
+    public String getSector() {
+        return sector;
+    }
+
+    public void setSector(String sector) {
+        this.sector = sector;
     }
 
     public Boolean getMostrarCeUsuario() {
@@ -127,7 +136,7 @@ public class ParametrosSesionView implements Serializable {
     }
 
     public Boolean getTipoUsuarioVotante() {
-        switch (VarSession.TIPO_USUARIO) {
+        switch (VarSession.getVariableSession(VarSession.TIPO_USUARIO).toString()) {
             case "D":
             case "E":
             case "P":
@@ -299,7 +308,7 @@ public class ParametrosSesionView implements Serializable {
 
     public void agregarProceso() {
         if (lstProcesos.isEmpty()) {
-            persistenceFacade.guardarProcesoVotacion(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString(), idAnho, false);
+            persistenceFacade.guardarProcesoVotacion(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString(), idAnho, false, sector);
             findProcesoVotacionByAnhoAndCodigoEntidad();
         } else {
             lstProcesos.forEach(proceso -> {
@@ -308,9 +317,11 @@ public class ParametrosSesionView implements Serializable {
                 } else if (persistenceFacade.isProcesoSinIniciar(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString(), idAnho)) {
                     JsfUtil.mensajeAlerta("Todavia existe un proceso no iniciado. No se puede crear otro proceso.");
                 } else {
-                    persistenceFacade.guardarProcesoVotacion(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString(), idAnho, false);
+                    persistenceFacade.guardarProcesoVotacion(VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString(), idAnho, false, sector);
                 }
             });
+            
+            lstProcesos = catalogoFacade.findProcesoVotacionByAnhoAndCodigoEntidad(idAnho, VarSession.getVariableSession(VarSession.CODIGO_ENTIDAD).toString());
         }
     }
 }

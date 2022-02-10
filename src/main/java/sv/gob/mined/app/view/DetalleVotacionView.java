@@ -122,56 +122,56 @@ public class DetalleVotacionView implements Serializable {
                 case 1:
                 case 2:
                     if (showSecretario) {
-                        lstPropietarioSecretario = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 1);
-                        lstSuplenteSecretario = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 2);
+                        lstPropietarioSecretario = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 1, procesoVotacion.getIdProcesoVotacion());
+                        lstSuplenteSecretario = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 2, procesoVotacion.getIdProcesoVotacion());
                     }
                     showSecretario = !(lstPropietarioSecretario.isEmpty() && lstSuplenteSecretario.isEmpty());
                     break;
                 case 3:
                 case 4:
                     if (showConsejalDoc) {
-                        lstPropietarioConsejalDoc = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 3);
-                        lstSuplenteConsejalDoc = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 4);
+                        lstPropietarioConsejalDoc = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 3, procesoVotacion.getIdProcesoVotacion());
+                        lstSuplenteConsejalDoc = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 4, procesoVotacion.getIdProcesoVotacion());
                     }
                     showConsejalDoc = !(lstPropietarioConsejalDoc.isEmpty() && lstSuplenteConsejalDoc.isEmpty());
                     break;
                 case 5:
                 case 6:
                     if (showTesorero) {
-                        lstPropietarioTesorero = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 5);
-                        lstSuplenteTesorero = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 6);
+                        lstPropietarioTesorero = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 5, procesoVotacion.getIdProcesoVotacion());
+                        lstSuplenteTesorero = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 6, procesoVotacion.getIdProcesoVotacion());
                     }
                     showTesorero = !(lstPropietarioTesorero.isEmpty() && lstSuplenteTesorero.isEmpty());
                     break;
                 case 7:
                 case 8:
                     if (showConcejal1) {
-                        lstPropietarioConsejal1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 7);
-                        lstSuplenteConsejal1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 8);
+                        lstPropietarioConsejal1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 7, procesoVotacion.getIdProcesoVotacion());
+                        lstSuplenteConsejal1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 8, procesoVotacion.getIdProcesoVotacion());
                     }
                     showConcejal1 = !(lstPropietarioConsejal1.isEmpty() && lstSuplenteConsejal1.isEmpty());
                     break;
                 case 9:
                 case 10:
                     if (showConcejal2) {
-                        lstPropietarioConsejal2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 9);
-                        lstSuplenteConsejal2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 10);
+                        lstPropietarioConsejal2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 9, procesoVotacion.getIdProcesoVotacion());
+                        lstSuplenteConsejal2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 10, procesoVotacion.getIdProcesoVotacion());
                     }
                     showConcejal2 = !(lstPropietarioConsejal2.isEmpty() && lstSuplenteConsejal2.isEmpty());
                     break;
                 case 11:
                 case 12:
                     if (showRepresentante1) {
-                        lstPropietarioRepresentante1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 11);
-                        lstSuplenteRepresentante1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 12);
+                        lstPropietarioRepresentante1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 11, procesoVotacion.getIdProcesoVotacion());
+                        lstSuplenteRepresentante1 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 12, procesoVotacion.getIdProcesoVotacion());
                     }
                     showRepresentante1 = !(lstPropietarioRepresentante1.isEmpty() && lstSuplenteRepresentante1.isEmpty());
                     break;
                 case 13:
                 case 14:
                     if (showRepresentante2) {
-                        lstPropietarioRepresentante2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 13);
-                        lstSuplenteRepresentante2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 14);
+                        lstPropietarioRepresentante2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 13, procesoVotacion.getIdProcesoVotacion());
+                        lstSuplenteRepresentante2 = catalogoFacade.findCandidatosByAnhoAndCodigoEntidadAndCargo(parametrosSesionView.getAnho().getIdAnho(), parametrosSesionView.getCodigoEntidad(), 14, procesoVotacion.getIdProcesoVotacion());
                     }
                     showRepresentante2 = !(lstPropietarioRepresentante2.isEmpty() && lstSuplenteRepresentante2.isEmpty());
                     break;
